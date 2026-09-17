@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maria Demenko — Product Designer, UX/UI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F3F2EE;
+    --surface:#FFFFFF;
+    --surface-alt:#EAE8E1;
+    --border:#DDDAD1;
+    --border-strong:#C6C2B6;
+    --ink:#1A1917;
+    --muted:#65625A;
+    --accent:#867A64;
+    --accent-ink:#4A4335;
+    --accent-soft:#ECE8DE;
+    --invert-bg:#1A1917;
+    --invert-text:#F3F2EE;
+    --invert-muted:#A5A199;
+    --grad:linear-gradient(135deg, #2E2C27 0%, #121110 100%);
+    --serif:'IBM Plex Serif', Georgia, serif;
+    --sans:'IBM Plex Sans', Arial, sans-serif;
+    --mono:'IBM Plex Mono', 'Courier New', monospace;
+    --r-lg:20px;
+    --r-md:14px;
+    --r-sm:9px;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F0E0C;
+    --surface:#1A1917;
+    --surface-alt:#211F1C;
+    --border:#302E29;
+    --border-strong:#433F38;
+    --ink:#F1EFE9;
+    --muted:#A5A199;
+    --accent:#C9BEA6;
+    --accent-ink:#E7E0D2;
+    --accent-soft:#26241E;
+    --invert-bg:#F1EFE9;
+    --invert-text:#1A1917;
+    --invert-muted:#65625A;
+    --grad:linear-gradient(135deg, #4A463D 0%, #201E19 100%);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]):not([data-theme="dark"]){
+      --bg:#0F0E0C;
+      --surface:#1A1917;
+      --surface-alt:#211F1C;
+      --border:#302E29;
+      --border-strong:#433F38;
+      --ink:#F1EFE9;
+      --muted:#A5A199;
+      --accent:#C9BEA6;
+      --accent-ink:#E7E0D2;
+      --accent-soft:#26241E;
+      --invert-bg:#F1EFE9;
+      --invert-text:#1A1917;
+      --invert-muted:#65625A;
+      --grad:linear-gradient(135deg, #4A463D 0%, #201E19 100%);
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  .page{max-width:none; margin:0 auto; padding:14px clamp(24px, 5vw, 96px) 64px;}
+
+  .site-header{
+    position:sticky; top:0; z-index:30;
+    background:var(--bg); border-bottom:1px solid var(--border);
+    transition:transform .25s ease;
+  }
+  .site-header.is-hidden{transform:translateY(-100%);}
+  .site-header-inner{
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    max-width:none; margin:0 auto;
+    padding:14px clamp(24px, 5vw, 96px);
+  }
+  .logo-mark{
+    width:34px; height:34px; flex-shrink:0;
+    color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    transition:color .15s ease, transform .15s ease;
+  }
+  .logo-mark:hover{color:var(--accent); transform:translateY(-1px);}
+  .logo-mark svg{width:100%; height:100%;}
+  .site-nav{
+    display:flex; gap:26px; font-family:var(--mono); font-size:0.83rem;
+    color:var(--muted); flex:1; justify-content:center;
+  }
+  .site-nav a:hover{color:var(--accent);}
+
+  h1,h2,h3{font-family:var(--serif); font-weight:500; margin:0; letter-spacing:-0.01em; text-wrap:balance;}
+
+  .icon{width:18px; height:18px; display:inline-block; vertical-align:-4px; flex-shrink:0;}
+  .icon svg{width:100%; height:100%;}
+
+  /* ---- top controls ---- */
+  .topbar{display:flex; gap:8px; flex-shrink:0;}
+  .pill-btn{
+    font-family:var(--mono); font-size:0.76rem; letter-spacing:0.02em;
+    background:var(--surface); border:1px solid var(--border-strong); color:var(--muted);
+    padding:7px 12px; border-radius:100px; cursor:pointer; line-height:1.2;
+    display:flex; align-items:center; gap:6px;
+  }
+  .pill-btn:hover{border-color:var(--accent); color:var(--accent);}
+  .pill-btn[aria-pressed="true"]{background:var(--invert-bg); border-color:var(--invert-bg); color:var(--invert-text);}
+  .theme-toggle .icon{width:15px; height:15px; vertical-align:-3px;}
+  .theme-toggle [hidden]{display:none;}
+
+  /* ---- language + copy ---- */
+  [data-lang="en"] .t-ru{display:none;}
+  [data-lang="ru"] .t-en{display:none;}
+
+  /* ---- bento grid ---- */
+  .bento{display:grid; grid-template-columns:repeat(12, 1fr); gap:14px; align-items:stretch;}
+  .bento.align-top{align-items:start;}
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns:5fr 3fr 4fr;
+    grid-template-areas:
+      "intro   photo    exp"
+      "tools   photo    exp"
+      "skills  contact  exp";
+    gap:14px;
+    align-items:stretch;
+  }
+  .area-intro{grid-area:intro;}
+  .area-tools{grid-area:tools;}
+  .area-skills{grid-area:skills;}
+  .area-photo{grid-area:photo;}
+  .area-contact{grid-area:contact;}
+  .area-exp{grid-area:exp; min-width:0;}
+  .tile{
+    border:1px solid var(--border);
+    border-radius:var(--r-lg);
+    background:var(--surface);
+    padding:28px;
+    display:flex; flex-direction:column;
+    min-width:0;
+  }
+  .tile.alt{background:var(--surface-alt);}
+  .tile.accent{background:var(--accent-soft); border-color:transparent;}
+  .tile.invert{background:var(--invert-bg); color:var(--invert-text); border-color:transparent;}
+  .tile.invert .muted{color:var(--invert-muted);}
+  .tile.invert .hero-lede{color:var(--invert-muted);}
+  .tile.invert .role{color:var(--invert-text); opacity:0.75;}
+  .tile.invert .status-chip{border-color:rgba(127,127,127,0.4); color:var(--invert-muted);}
+  .tile.gradient{background:var(--grad); border-color:transparent; color:#fff;}
+  .tile.gradient .muted{color:rgba(255,255,255,0.72);}
+  .tile.no-pad{padding:0; overflow:hidden;}
+  .tile.dashed{border-style:dashed; background:transparent;}
+
+  .c-3{grid-column:span 3;} .c-4{grid-column:span 4;} .c-5{grid-column:span 5;}
+  .c-6{grid-column:span 6;} .c-7{grid-column:span 7;} .c-8{grid-column:span 8;}
+  .c-9{grid-column:span 9;} .c-12{grid-column:1/-1;}
+
+  .muted{color:var(--muted);}
+  p{margin:0; color:var(--ink);}
+  .tile p.muted{max-width:66ch;}
+  .tile p.muted + p.muted{margin-top:10px;}
+
+  .eyebrow{
+    font-family:var(--mono); font-size:0.74rem; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:14px;
+  }
+  .tile.invert .eyebrow{color:var(--invert-muted);}
+  .tile.gradient .eyebrow{color:rgba(255,255,255,0.75);}
+
+  section{padding:64px 0 0;}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; gap:24px; margin-bottom:24px;}
+  .section-head h2{font-size:1.45rem;}
+  .section-note{font-family:var(--mono); font-size:0.78rem; color:var(--muted); white-space:nowrap;}
+
+  /* ---- hero ---- */
+  .intro-tile{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:start;
+    column-gap:16px;
+  }
+  .intro-tile .hero-top-row{grid-column:2; grid-row:1;}
+  .intro-tile .hero-name{grid-column:1; grid-row:1; min-width:0;}
+  .intro-tile .hero-lede{grid-column:1/-1;}
+  .hero-top-row{display:flex; align-items:flex-start;}
+  .status-chip{
+    font-family:var(--mono); font-size:0.75rem; color:var(--muted);
+    border:1px solid var(--border-strong); border-radius:100px; padding:5px 11px;
+    display:flex; align-items:center; gap:9px; white-space:nowrap;
+  }
+  .status-dot{
+    position:relative; width:7px; height:7px; border-radius:50%;
+    background:#33C77A; flex-shrink:0;
+  }
+  .status-dot::before{
+    content:""; position:absolute; inset:-3px; border-radius:50%;
+    background:#33C77A; opacity:0.55;
+    animation:status-pulse 2s ease-out infinite;
+  }
+  @keyframes status-pulse{
+    0%{transform:scale(0.5); opacity:0.55;}
+    100%{transform:scale(1.9); opacity:0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .status-dot::before{animation:none; display:none;}
+  }
+  .hero-name h1{font-size:clamp(1.9rem, 3.6vw, 2.5rem); line-height:1.08;}
+  .role{font-family:var(--mono); font-size:0.9rem; color:var(--accent); margin:12px 0 16px;}
+  .hero-lede{color:var(--muted); max-width:50ch;}
+
+  .badge-group-label{
+    font-family:var(--mono); font-size:0.74rem; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--muted); margin-top:22px; margin-bottom:10px;
+  }
+  .skill-badges{display:flex; flex-wrap:wrap; gap:8px;}
+  .badge{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--mono); font-size:0.78rem; font-weight:500;
+    border-radius:100px; padding:7px 13px 7px 11px;
+    box-shadow:0 2px 12px -3px var(--glow, transparent);
+  }
+  .badge-dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+  .badge-amber{--glow:rgba(201,122,0,0.4); background:#FBE4C4; color:#7A4A00;}
+  .badge-amber .badge-dot{background:#C97A00;}
+  .badge-teal{--glow:rgba(15,143,121,0.4); background:#C9EEE6; color:#0B5F51;}
+  .badge-teal .badge-dot{background:#0F8F79;}
+  .badge-purple{--glow:rgba(139,61,224,0.35); background:#EBDBFB; color:#5B21A6;}
+  .badge-purple .badge-dot{background:#8B3DE0;}
+  .badge-pink{--glow:rgba(224,53,127,0.35); background:#FBDEEA; color:#9A1259;}
+  .badge-pink .badge-dot{background:#E0357F;}
+  .badge-sky{--glow:rgba(30,155,215,0.35); background:#D3EEFC; color:#0A5A85;}
+  .badge-sky .badge-dot{background:#1E9BD7;}
+  .badge-indigo{--glow:rgba(83,71,214,0.35); background:#DFE0FB; color:#33299B;}
+  .badge-indigo .badge-dot{background:#5347D6;}
+  .badge-blue{--glow:rgba(37,99,235,0.35); background:#DCEAFB; color:#0D3E8C;}
+  .badge-blue .badge-dot{background:#2563EB;}
+  .badge-ink{--glow:rgba(0,0,0,0.3); background:#1E1D1A; color:#F1EFE9;}
+  .badge-ink .badge-dot{background:#F1EFE9;}
+  .badge-ink-light{--glow:rgba(0,0,0,0.25); background:#EEEBE2; color:#26251F;}
+  .badge-ink-light .badge-dot{background:#26251F;}
+
+  .icon-stage{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-start;
+    gap:14px;
+  }
+  .tool-icon{
+    position:relative;
+    width:64px; height:64px; border-radius:16px; flex-shrink:0;
+    background:#2E2B26;
+    box-shadow:0 6px 12px -4px rgba(0,0,0,0.4);
+    display:flex; align-items:center; justify-content:center;
+    padding:14px;
+    transition:transform .22s cubic-bezier(.25,.8,.35,1), box-shadow .22s ease;
+  }
+  .tool-icon:hover{
+    transform:translateY(-7px);
+    box-shadow:0 16px 22px -8px rgba(0,0,0,0.5);
+  }
+  .tool-icon svg{width:100%; height:100%;}
+  .tool-tip{
+    position:absolute; top:calc(100% + 10px); left:50%;
+    transform:translate(-50%, -4px);
+    background:#141310; color:#F1EFE9;
+    font-family:var(--mono); font-size:0.72rem; white-space:nowrap;
+    padding:5px 11px; border-radius:8px;
+    opacity:0; pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+    z-index:5;
+  }
+  .tool-icon:hover .tool-tip{opacity:1; transform:translate(-50%, 0);}
+  @media (prefers-reduced-motion: reduce){
+    .tool-icon, .tool-tip{transition:none;}
+  }
+
+  .photo-tile{width:100%;}
+  .contact-fill{min-height:0;}
+  .portrait{width:100%; height:100%; object-fit:cover; object-position:50% 20%; display:block;}
+
+  .contact-icons{margin-top:0;}
+
+  /* ---- domains / tags ---- */
+  .tags{display:flex; flex-wrap:wrap; gap:8px; align-content:flex-start;}
+  .tag{
+    font-family:var(--mono); font-size:0.78rem; color:var(--accent-ink);
+    background:var(--surface); border:1px solid var(--border-strong);
+    border-radius:100px; padding:6px 12px;
+  }
+
+  .method-name{font-family:var(--mono); font-size:0.92rem; margin-bottom:8px;}
+
+  .spec-number{font-family:var(--mono); font-size:2.3rem; line-height:1;}
+  .spec-caption{font-family:var(--mono); font-size:0.78rem; margin-top:10px; max-width:22ch;}
+
+  /* ---- experience ---- */
+  .role-list{display:flex; flex-direction:column; flex:1; margin-top:6px;}
+  .role-entry{padding:18px 0;}
+  .role-entry:first-child{padding-top:0;}
+  .role-entry:not(:first-child){border-top:1px solid var(--border);}
+  .role-entry .role-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px;}
+  .role-entry h4{font-family:var(--serif); font-weight:500; font-size:1rem; margin:0;}
+  .role-entry .t-dates{font-family:var(--mono); font-size:0.72rem; color:var(--muted); white-space:nowrap;}
+  .role-entry p{color:var(--muted); font-size:0.86rem; line-height:1.5; margin-top:8px;}
+  .role-entry a{
+    display:inline-block; margin-top:8px; font-family:var(--mono); font-size:0.78rem;
+    text-decoration:underline; text-decoration-style:dotted; text-underline-offset:3px;
+  }
+  .role-entry a:hover{color:var(--accent);}
+
+  /* ---- projects ---- */
+  .project-featured{position:relative;}
+  .project-metric-badge{
+    display:inline-flex; align-items:baseline; gap:6px; font-family:var(--mono);
+    background:rgba(255,255,255,0.14); border-radius:100px; padding:6px 12px; font-size:0.82rem;
+    margin-bottom:18px; align-self:flex-start;
+  }
+  .project-featured .arrow-link{
+    margin-top:auto; padding-top:20px; display:flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:0.85rem;
+  }
+  .project-featured .arrow-link .icon{transition:transform .15s ease;}
+  .project-featured:hover .arrow-link .icon{transform:translate(2px,-2px);}
+
+  .empty-slot{align-items:center; justify-content:center; text-align:center; gap:10px; min-height:150px; color:var(--muted);}
+  .empty-slot .icon{width:22px; height:22px; color:var(--border-strong);}
+  .empty-slot span{font-family:var(--mono); font-size:0.8rem;}
+
+  /* ---- case study detail ---- */
+  .case-lede{font-family:var(--serif); font-size:1.15rem; line-height:1.55; max-width:70ch;}
+  .metric-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:12px;}
+  .metric{border:1px solid var(--border); border-radius:var(--r-md); background:var(--surface); padding:18px 18px;}
+  .metric.standout{background:var(--invert-bg); color:var(--invert-text); border-color:transparent;}
+  .metric.standout .metric-label{color:var(--invert-muted);}
+  .metric-value{font-family:var(--mono); font-size:1.35rem;}
+  .metric-label{color:var(--muted); font-size:0.82rem; margin-top:6px; line-height:1.4;}
+
+  .btn{
+    font-family:var(--mono); font-size:0.85rem; padding:11px 18px;
+    border:1px solid var(--border-strong); border-radius:var(--r-md); color:var(--ink);
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent);}
+  .btn.primary{background:var(--invert-bg); color:var(--invert-text); border-color:var(--invert-bg);}
+  .btn.primary:hover{opacity:0.88; color:var(--invert-text);}
+
+  /* ---- footer cta ---- */
+  footer{padding:64px 0 8px;}
+  .cta-tile{align-items:flex-start;}
+  .cta-tile h2{font-size:1.6rem; color:#fff; margin-bottom:10px;}
+  .cta-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:22px;}
+  .cta-actions .btn{background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.3);}
+  .cta-actions .btn:hover{background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.5); color:#fff;}
+  .footline{color:var(--muted); font-size:0.85rem; text-align:center; margin-top:40px;}
+
+  @media (max-width:860px){
+    .page{padding:14px 16px 48px;}
+    .bento{grid-template-columns:1fr;}
+    .c-3,.c-4,.c-5,.c-6,.c-7,.c-8,.c-9,.c-12{grid-column:1/-1;}
+    .hero-grid{
+      grid-template-columns:150px 1fr;
+      grid-template-areas:
+        "intro   intro"
+        "photo   contact"
+        "tools   tools"
+        "skills  skills"
+        "exp     exp";
+    }
+    .photo-tile{width:100%;}
+    .contact-icons{justify-content:flex-start;}
+    .icon-stage{justify-content:flex-start;}
+    .tags{justify-content:flex-start;}
+    .tile{padding:22px;}
+    .section-head{flex-direction:column; align-items:flex-start; gap:6px;}
+    .site-nav{display:none;}
+    .site-header-inner{padding:12px 16px;}
+  }
+  @media (max-width:520px){
+    .hero-grid{
+      grid-template-columns:1fr;
+      grid-template-areas:
+        "intro"
+        "photo"
+        "contact"
+        "tools"
+        "skills"
+        "exp";
+    }
+    .intro-tile{grid-template-columns:1fr;}
+    .intro-tile .hero-top-row{grid-column:1; grid-row:1; margin-bottom:16px;}
+    .intro-tile .hero-name{grid-column:1; grid-row:2;}
+    .intro-tile .hero-lede{grid-row:3;}
+    .photo-tile{width:100%; max-width:220px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="#top" class="logo-mark" aria-label="Maria Demenko">
+      <svg viewBox="0 0 34 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 26 4 8 11.5 19 19 8 19 26 A11 9 0 0 1 19 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
+    <nav class="site-nav">
+      <a href="#experience" class="t-en">Experience</a>
+      <a href="#experience" class="t-ru">Опыт</a>
+      <a href="#projects" class="t-en">Projects</a>
+      <a href="#projects" class="t-ru">Проекты</a>
+    </nav>
+
+    <div class="topbar">
+      <button type="button" class="pill-btn theme-toggle" id="theme-toggle" aria-pressed="false">
+        <span class="icon icon-sun" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>
+        <span class="icon icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></span>
+      </button>
+      <button type="button" class="pill-btn lang-btn" data-set-lang="en">EN</button>
+      <button type="button" class="pill-btn lang-btn" data-set-lang="ru">RU</button>
+    </div>
+  </div>
+</header>
+
+<div class="page" id="top">
+
+  <section class="about" id="about">
+    <div class="hero-grid">
+      <div class="tile intro-tile area-intro">
+        <div class="hero-top-row">
+          <span class="status-chip"><span class="status-dot"></span><span class="t-en">Open to work</span><span class="t-ru">Открыта к работе</span></span>
+        </div>
+        <div class="hero-name">
+          <h1>Maria Demenko</h1>
+          <p class="role t-en">Product designer — UX/UI</p>
+          <p class="role t-ru">Продуктовый дизайнер — UX/UI</p>
+        </div>
+        <p class="hero-lede t-en">Designing complex software for teams that plan, manage, and ship work: SaaS platforms, resource management tools, back-office systems, marketplaces, POS and mobile apps.</p>
+        <p class="hero-lede t-ru">Проектирую сложные интерфейсы для команд, которые планируют, ведут и выпускают работу: SaaS-платформы, системы управления ресурсами, бэк-офисные системы, маркетплейсы, POS и мобильные приложения.</p>
+      </div>
+
+      <div class="tile area-tools">
+        <div class="eyebrow t-en">Tools I use</div>
+        <div class="eyebrow t-ru">Мои инструменты</div>
+        <div class="icon-stage">
+          <span class="tool-icon" aria-label="Claude">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="hsl(14.8, 63.1%, 59.6%)"><path d="m19.6 66.5 19.7-11 .3-1-.3-.5h-1l-3.3-.2-11.2-.3L14 53l-9.5-.5-2.4-.5L0 49l.2-1.5 2-1.3 2.9.2 6.3.5 9.5.6 6.9.4L38 49.1h1.6l.2-.7-.5-.4-.4-.4L29 41l-10.6-7-5.6-4.1-3-2-1.5-2-.6-4.2 2.7-3 3.7.3.9.2 3.7 2.9 8 6.1L37 36l1.5 1.2.6-.4.1-.3-.7-1.1L33 25l-6-10.4-2.7-4.3-.7-2.6c-.3-1-.4-2-.4-3l3-4.2L28 0l4.2.6L33.8 2l2.6 6 4.1 9.3L47 29.9l2 3.8 1 3.4.3 1h.7v-.5l.5-7.2 1-8.7 1-11.2.3-3.2 1.6-3.8 3-2L61 2.6l2 2.9-.3 1.8-1.1 7.7L59 27.1l-1.5 8.2h.9l1-1.1 4.1-5.4 6.9-8.6 3-3.5L77 13l2.3-1.8h4.3l3.1 4.7-1.4 4.9-4.4 5.6-3.7 4.7-5.3 7.1-3.2 5.7.3.4h.7l12-2.6 6.4-1.1 7.6-1.3 3.5 1.6.4 1.6-1.4 3.4-8.2 2-9.6 2-14.3 3.3-.2.1.2.3 6.4.6 2.8.2h6.8l12.6 1 3.3 2 1.9 2.7-.3 2-5.1 2.6-6.8-1.6-16-3.8-5.4-1.3h-.8v.4l4.6 4.5 8.3 7.5L89 80.1l.5 2.4-1.3 2-1.4-.2-9.2-7-3.6-3-8-6.8h-.5v.7l1.8 2.7 9.8 14.7.5 4.5-.7 1.4-2.6 1-2.7-.6-5.8-8-6-9-4.7-8.2-.5.4-2.9 30.2-1.3 1.5-3 1.2-2.5-2-1.4-3 1.4-6.2 1.6-8 1.3-6.4 1.2-7.9.7-2.6v-.2H49L43 72l-9 12.3-7.2 7.6-1.7.7-3-1.5.3-2.8L24 86l10-12.8 6-7.9 4-4.6-.1-.5h-.3L17.2 77.4l-4.7.6-2-2 .2-3 1-1 8-5.5Z"></path></svg>
+            <span class="tool-tip">Claude</span>
+          </span>
+          <span class="tool-icon" aria-label="ChatGPT">
+            <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" fill="#EDEAE1"><path d="m297.06 130.97c7.26-21.79 4.76-45.66-6.85-65.48-17.46-30.4-52.56-46.04-86.84-38.68-15.25-17.18-37.16-26.95-60.13-26.81-35.04-.08-66.13 22.48-76.91 55.82-22.51 4.61-41.94 18.7-53.31 38.67-17.59 30.32-13.58 68.54 9.92 94.54-7.26 21.79-4.76 45.66 6.85 65.48 17.46 30.4 52.56 46.04 86.84 38.68 15.24 17.18 37.16 26.95 60.13 26.8 35.06.09 66.16-22.49 76.94-55.86 22.51-4.61 41.94-18.7 53.31-38.67 17.57-30.32 13.55-68.51-9.94-94.51zm-120.28 168.11c-14.03.02-27.62-4.89-38.39-13.88.49-.26 1.34-.73 1.89-1.07l63.72-36.8c3.26-1.85 5.26-5.32 5.24-9.07v-89.83l26.93 15.55c.29.14.48.42.52.74v74.39c-.04 33.08-26.83 59.9-59.91 59.97zm-128.84-55.03c-7.03-12.14-9.56-26.37-7.15-40.18.47.28 1.3.79 1.89 1.13l63.72 36.8c3.23 1.89 7.23 1.89 10.47 0l77.79-44.92v31.1c.02.32-.13.63-.38.83l-64.41 37.19c-28.69 16.52-65.33 6.7-81.92-21.95zm-16.77-139.09c7-12.16 18.05-21.46 31.21-26.29 0 .55-.03 1.52-.03 2.2v73.61c-.02 3.74 1.98 7.21 5.23 9.06l77.79 44.91-26.93 15.55c-.27.18-.61.21-.91.08l-64.42-37.22c-28.63-16.58-38.45-53.21-21.95-81.89zm221.26 51.49-77.79-44.92 26.93-15.54c.27-.18.61-.21.91-.08l64.42 37.19c28.68 16.57 38.51 53.26 21.94 81.94-7.01 12.14-18.05 21.44-31.2 26.28v-75.81c.03-3.74-1.96-7.2-5.2-9.06zm26.8-40.34c-.47-.29-1.3-.79-1.89-1.13l-63.72-36.8c-3.23-1.89-7.23-1.89-10.47 0l-77.79 44.92v-31.1c-.02-.32.13-.63.38-.83l64.41-37.16c28.69-16.55 65.37-6.7 81.91 22 6.99 12.12 9.52 26.31 7.15 40.1zm-168.51 55.43-26.94-15.55c-.29-.14-.48-.42-.52-.74v-74.39c.02-33.12 26.89-59.96 60.01-59.94 14.01 0 27.57 4.92 38.34 13.88-.49.26-1.33.73-1.89 1.07l-63.72 36.8c-3.26 1.85-5.26 5.31-5.24 9.06l-.04 89.79zm14.63-31.54 34.65-20.01 34.65 20v40.01l-34.65 20-34.65-20z"></path></svg>
+            <span class="tool-tip">ChatGPT</span>
+          </span>
+          <span class="tool-icon" aria-label="Perplexity">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#22B8CD"><path d="M19.785 0v7.272H22.5V17.62h-2.935V24l-7.037-6.194v6.145h-1.091v-6.152L4.392 24v-6.465H1.5V7.188h2.884V0l7.053 6.494V.19h1.09v6.49L19.786 0zm-7.257 9.044v7.319l5.946 5.234V14.44l-5.946-5.397zm-1.099-.08l-5.946 5.398v7.235l5.946-5.234V8.965zm8.136 7.58h1.844V8.349H13.46l6.105 5.54v2.655zm-8.982-8.28H2.59v8.195h1.8v-2.576l6.192-5.62zM5.475 2.476v4.71h5.115l-5.115-4.71zm13.219 0l-5.115 4.71h5.115v-4.71z" fill-rule="nonzero"></path></svg>
+            <span class="tool-tip">Perplexity</span>
+          </span>
+          <span class="tool-icon" aria-label="Cursor">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#EDEAE1" fill-rule="evenodd"><path d="M22.106 5.68L12.5.135a.998.998 0 00-.998 0L1.893 5.68a.84.84 0 00-.419.726v11.186c0 .3.16.577.42.727l9.607 5.547a.999.999 0 00.998 0l9.608-5.547a.84.84 0 00.42-.727V6.407a.84.84 0 00-.42-.726zm-.603 1.176L12.228 22.92c-.063.108-.228.064-.228-.061V12.34a.59.59 0 00-.295-.51l-9.11-5.26c-.107-.062-.063-.228.062-.228h18.55c.264 0 .428.286.296.514z"></path></svg>
+            <span class="tool-tip">Cursor</span>
+          </span>
+          <span class="tool-icon" aria-label="GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#EDEAE1" stroke="none" d="M 10.226 17.284 C 7.261 16.924 5.172 14.791 5.172 12.028 C 5.172 10.905 5.576 9.692 6.25 8.884 C 5.958 8.143 6.003 6.57 6.34 5.919 C 7.238 5.807 8.451 6.279 9.17 6.929 C 10.023 6.66 10.921999 6.525 12.023001 6.525 C 13.123 6.525 14.022 6.66 14.829999 6.9070005 C 15.526001 6.278 16.762 5.807 17.66 5.919 C 17.975 6.525 18.02 8.098 17.727 8.861 C 18.447 9.715 18.828 10.861 18.828 12.028 C 18.828 14.791 16.739 16.88 13.73 17.262 C 14.493 17.756 15.01 18.834 15.01 20.069 L 15.01 22.404999 C 15.01 23.079002 15.571 23.461 16.245 23.191 C 20.311 21.641 23.500002 17.576 23.500002 12.545 C 23.500002 6.188 18.334 1 11.978 1 C 5.62 1 0.5 6.188 0.5 12.545 C 0.5 17.531 3.667 21.665 7.9349995 23.214 C 8.541 23.439 9.125 23.033998 9.125 22.428 L 9.125 20.63 C 8.783268 20.772821 8.41734 20.848858 8.047 20.854 C 6.564 20.854 5.688 20.046 5.06 18.541 C 4.813 17.934 4.543 17.575 4.026 17.508 C 3.756 17.485 3.667 17.373 3.667 17.238 C 3.667 16.968 4.117 16.767 4.565 16.767 C 5.217 16.767 5.778 17.171 6.362 18.002 C 6.812 18.653 7.2829995 18.945 7.845 18.945 C 8.406 18.945 8.765 18.743 9.282 18.226 C 9.664 17.845 9.956 17.508 10.226 17.283"/></svg>
+            <span class="tool-tip">GitHub</span>
+          </span>
+          <span class="tool-icon" aria-label="Figma">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 20a4 4 0 014-4h4v4a4 4 0 01-8 0z" fill="#24CB71"></path><path d="M12 0v8h4a4 4 0 000-8h-4z" fill="#FF7237"></path><path d="M15.967 16a4 4 0 100-8 4 4 0 000 8z" fill="#00B6FF"></path><path d="M4 4a4 4 0 004 4h4V0H8a4 4 0 00-4 4z" fill="#FF3737"></path><path d="M4 12a4 4 0 004 4h4V8H8a4 4 0 00-4 4z" fill="#874FFF"></path></svg>
+            <span class="tool-tip">Figma</span>
+          </span>
+          <span class="tool-icon" aria-label="Jira">
+            <svg width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#1868db" stroke="none" d="M 41.318 36.567 L 25.44 4.813 C 25.128 4.125 24.815002 4 24.44 4 C 24.128 4 23.752 4.125 23.377 4.75 C 21.127 8.313 20.127 12.439 20.127 16.752 C 20.127 22.752 23.19 28.379 27.691 37.442 C 28.191 38.442 28.566 38.63 29.441002 38.63 L 40.442 38.63 C 41.255 38.63 41.692 38.318 41.692 37.692 C 41.692 37.38 41.63 37.192 41.318 36.567 M 18.252 21.565 C 17.002 19.69 16.626 19.565 16.314 19.565 C 16.002 19.565 15.814001 19.69 15.251 20.815 L 7.313 36.692 C 7.063 37.192 7 37.38 7 37.63 C 7 38.13 7.438 38.63 8.375 38.63 L 19.565 38.63 C 20.315 38.63 20.877 38.005 21.189 36.817 C 21.565 35.317 21.689 34.004 21.689 32.442 C 21.689 28.066 19.752 23.815002 18.252 21.565"/></svg>
+            <span class="tool-tip">Jira</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="tile area-skills">
+        <div class="eyebrow t-en">Skills</div>
+        <div class="eyebrow t-ru">Навыки</div>
+        <div class="tags">
+          <span class="tag t-en">Product design</span><span class="tag t-ru">Продуктовый дизайн</span>
+          <span class="tag">UX/UI</span>
+          <span class="tag">SaaS</span>
+          <span class="tag">E-commerce</span>
+          <span class="tag t-en">App design</span><span class="tag t-ru">Дизайн приложений</span>
+          <span class="tag">Web/iOS/Android</span>
+          <span class="tag t-en">Back-office</span><span class="tag t-ru">Бэк-офис</span>
+          <span class="tag t-en">Design systems</span><span class="tag t-ru">Дизайн-системы</span>
+        </div>
+      </div>
+
+      <div class="tile no-pad photo-tile area-photo">
+        <img class="portrait" src="data:image/webp;base64,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" alt="">
+      </div>
+
+      <div class="tile contact-fill area-contact">
+        <div class="eyebrow t-en">Contact</div>
+        <div class="eyebrow t-ru">Контакты</div>
+        <div class="icon-stage contact-icons">
+          <a class="tool-icon" href="mailto:m.demenko11@gmail.com" aria-label="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><path fill="url(#a)" d="M146 44h38v110c0 6.627-5.373 12-12 12h-20a6 6 0 0 1-6-6z"/><path fill="#fc413d" d="M46 44H8v110c0 6.627 5.373 12 12 12h20a6 6 0 0 0 6-6z"/><path fill="url(#b)" d="M39.226 30.456c-8.033-6.752-20.018-5.714-26.77 2.319-6.752 8.032-5.714 20.017 2.319 26.77l76.078 63.949a8 8 0 0 0 10.295 0l76.078-63.95c8.032-6.752 9.07-18.737 2.318-26.77-6.752-8.032-18.737-9.07-26.769-2.318L96 78.18z"/><defs><linearGradient id="a" x1="165" x2="165" y1="44" y2="166" gradientUnits="userSpaceOnUse"><stop stop-color="#60d673"/><stop offset=".17" stop-color="#42c868"/><stop offset=".39" stop-color="#0ebc5f"/><stop offset=".62" stop-color="#00a9bb"/><stop offset=".86" stop-color="#3c90ff"/><stop offset="1" stop-color="#3186ff"/></linearGradient><linearGradient id="b" x1="8" x2="184" y1="46.13" y2="46.13" gradientUnits="userSpaceOnUse"><stop offset=".08" stop-color="#ff63a0"/><stop offset=".3" stop-color="#fc413d"/><stop offset=".5" stop-color="#fc413d"/><stop offset=".65" stop-color="#fc413d"/><stop offset=".72" stop-color="#fc5c30"/><stop offset=".86" stop-color="#feb10c"/><stop offset=".91" stop-color="#fec700"/><stop offset=".96" stop-color="#ffdb0f"/></linearGradient></defs></svg>
+            <span class="tool-tip">Email</span>
+          </a>
+          <a class="tool-icon" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 122.31"><path fill-rule="evenodd" fill="#0a66c2" d="M27.75,0H95.13a27.83,27.83,0,0,1,27.75,27.75V94.57a27.83,27.83,0,0,1-27.75,27.74H27.75A27.83,27.83,0,0,1,0,94.57V27.75A27.83,27.83,0,0,1,27.75,0Z"/><path fill-rule="evenodd" fill="#fff" d="M49.19,47.41H64.72v8h.22c2.17-3.88,7.45-8,15.34-8,16.39,0,19.42,10.2,19.42,23.47V98.94H83.51V74c0-5.71-.12-13.06-8.42-13.06s-9.72,6.21-9.72,12.65v25.4H49.19V47.41ZM40,31.79a8.42,8.42,0,1,1-8.42-8.42A8.43,8.43,0,0,1,40,31.79ZM23.18,47.41H40V98.94H23.18V47.41Z"/></svg>
+            <span class="tool-tip">LinkedIn</span>
+          </a>
+          <a class="tool-icon" href="https://t.me/mariademn" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="tg" gradientUnits="userSpaceOnUse" x1="256" y1="3.84" x2="256" y2="512"><stop offset="0" stop-color="#2AABEE"/><stop offset="1" stop-color="#229ED9"/></linearGradient></defs><circle fill="url(#tg)" cx="256" cy="256" r="256"/><path fill="#fff" d="M115.88 253.3c74.63-32.52 124.39-53.95 149.29-64.31 71.1-29.57 85.87-34.71 95.5-34.88 2.12-.03 6.85.49 9.92 2.98 2.59 2.1 3.3 4.94 3.64 6.93.34 2 .77 6.53.43 10.08-3.85 40.48-20.52 138.71-29 184.05-3.59 19.19-10.66 25.62-17.5 26.25-14.86 1.37-26.15-9.83-40.55-19.27-22.53-14.76-35.26-23.96-57.13-38.37-25.28-16.66-8.89-25.81 5.51-40.77 3.77-3.92 69.27-63.5 70.54-68.9.16-.68.31-3.2-1.19-4.53s-3.71-.87-5.3-.51c-2.26.51-38.25 24.3-107.98 71.37-10.22 7.02-19.48 10.43-27.77 10.26-9.14-.2-26.72-5.17-39.79-9.42-16.03-5.21-28.77-7.97-27.66-16.82.57-4.61 6.92-9.32 19.04-14.14z"/></svg>
+            <span class="tool-tip">Telegram</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="tile area-exp" id="experience">
+        <div class="eyebrow t-en">Experience</div>
+        <div class="eyebrow t-ru">Опыт работы</div>
+        <div class="role-list">
+          <div class="role-entry">
+            <div class="role-head">
+              <h4>Synesis</h4>
+              <span class="t-dates">2024 – 2026</span>
+            </div>
+            <p class="t-en">AI-assisted design and vibe-coding — building rapid interactive prototypes, maintaining design systems, and preparing specs for development.</p>
+            <p class="t-ru">AI-дизайн и вайб-кодинг — быстрые интерактивные прототипы, поддержка дизайн-системы и подготовка спецификаций для разработки.</p>
+            <a href="https://frisbee.ms" target="_blank" rel="noopener">frisbee.ms</a>
+          </div>
+          <div class="role-entry">
+            <div class="role-head">
+              <h4>Birdview PSA</h4>
+              <span class="t-dates">2023 – 2024</span>
+            </div>
+            <p class="t-en">Product design for a resource-planning tool — new features, a full visual redesign, and ongoing design system upkeep.</p>
+            <p class="t-ru">Продуктовый дизайн инструмента управления ресурсами — новые функции, визуальный редизайн и поддержка дизайн-системы.</p>
+            <a href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com</a>
+          </div>
+          <div class="role-entry">
+            <div class="role-head">
+              <h4>Telesphor Software</h4>
+              <span class="t-dates">2019 – 2022</span>
+            </div>
+            <p class="t-en">Redesigned and maintained web and mobile products across IndicaOnline and Sweede, including POS and driver apps.</p>
+            <p class="t-ru">Редизайн и поддержка веб- и мобильных продуктов IndicaOnline и Sweede, включая POS и приложение для водителей.</p>
+            <a href="https://indicaonline.com" target="_blank" rel="noopener">indicaonline.com</a>
+          </div>
+          <div class="role-entry">
+            <div class="role-head">
+              <h4>Aterise</h4>
+              <span class="t-dates">2022</span>
+            </div>
+            <p class="t-en">Part-time product design support.</p>
+            <p class="t-ru">Продуктовый дизайн на частичной занятости.</p>
+            <a href="https://aterise.com" target="_blank" rel="noopener">aterise.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects" id="projects">
+    <div class="section-head">
+      <h2 class="t-en">Projects</h2>
+      <h2 class="t-ru">Проекты</h2>
+      <span class="section-note t-en">1 published · more in progress</span>
+      <span class="section-note t-ru">1 опубликован · остальные готовятся</span>
+    </div>
+
+    <div class="bento">
+      <a class="tile invert project-featured c-8" href="#case-study">
+        <div class="eyebrow t-en">Featured case study</div>
+        <div class="eyebrow t-ru">Разобранный кейс</div>
+        <h3 style="font-size:1.35rem; margin-bottom:10px;">Birdview — resource planning</h3>
+        <p class="muted t-en">A new resource-planning module built to become a clear differentiator in sales and deepen engagement among existing clients.</p>
+        <p class="muted t-ru">Новый модуль планирования ресурсов, созданный как заметное преимущество в продажах и инструмент вовлечения текущих клиентов.</p>
+        <span class="project-metric-badge">
+          <span style="font-weight:500;">100%</span>
+          <span class="t-en" style="opacity:.8;">of new clients use it</span>
+          <span class="t-ru" style="opacity:.8;">новых клиентов используют его</span>
+        </span>
+        <span class="arrow-link">
+          <span class="t-en">View full case study</span><span class="t-ru">Смотреть кейс полностью</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </span>
+      </a>
+
+      <div class="tile dashed empty-slot c-4">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg></span>
+        <span>Telesphor Software</span>
+        <span class="t-en" style="font-size:0.75rem;">Case study coming soon</span>
+        <span class="t-ru" style="font-size:0.75rem;">Кейс скоро появится</span>
+      </div>
+
+      <div class="tile dashed empty-slot c-4">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg></span>
+        <span>Aterise</span>
+        <span class="t-en" style="font-size:0.75rem;">Case study coming soon</span>
+        <span class="t-ru" style="font-size:0.75rem;">Кейс скоро появится</span>
+      </div>
+
+      <div class="tile dashed empty-slot c-4">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg></span>
+        <span>Synesis</span>
+        <span class="t-en" style="font-size:0.75rem;">Case study coming soon</span>
+        <span class="t-ru" style="font-size:0.75rem;">Кейс скоро появится</span>
+      </div>
+
+      <div class="tile dashed empty-slot c-4">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>
+        <span class="t-en">Add a new project</span>
+        <span class="t-ru">Добавить проект</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-study" id="case-study">
+    <div class="section-head">
+      <h2 class="t-en">Case study: Birdview resource planning</h2>
+      <h2 class="t-ru">Кейс: планирование ресурсов в Birdview</h2>
+    </div>
+
+    <div class="bento" style="margin-bottom:14px;">
+      <div class="tile c-12">
+        <p class="case-lede t-en">Birdview is a project and resource management platform that helps organizations plan, manage, and forecast projects, resources, and finances in one place — giving teams and clients complete visibility and oversight.</p>
+        <p class="case-lede t-ru">Birdview — платформа управления проектами и ресурсами: позволяет компаниям планировать, вести и прогнозировать проекты, ресурсы и финансы в одном месте, давая командам и клиентам полную прозрачность.</p>
+      </div>
+    </div>
+
+    <div class="bento" style="margin-bottom:14px;">
+      <div class="tile accent c-4">
+        <div class="eyebrow t-en">Goal</div>
+        <div class="eyebrow t-ru">Цель</div>
+        <p class="t-en" style="color:var(--accent-ink);">Position the new resource-planning module as a clear differentiator in sales conversations, improving deal success against competitors, while deepening engagement among existing clients.</p>
+        <p class="t-ru" style="color:var(--accent-ink);">Сделать новый модуль планирования ресурсов заметным преимуществом в продажах, повысив успешность сделок на фоне конкурентов, и одновременно усилить вовлечённость текущих клиентов.</p>
+      </div>
+      <div class="c-8" style="display:contents;">
+        <div class="metric-grid" style="grid-column:span 8;">
+          <div class="metric">
+            <div class="metric-value">12%</div>
+            <div class="metric-label t-en">of paid accounts enabled the feature during the feature-lab rollout</div>
+            <div class="metric-label t-ru">платных аккаунтов включили фичу на этапе feature lab</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">4%</div>
+            <div class="metric-label t-en">adoption rate across paid accounts</div>
+            <div class="metric-label t-ru">adoption rate среди платных аккаунтов</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">10%</div>
+            <div class="metric-label t-en">feature retention</div>
+            <div class="metric-label t-ru">retention фичи</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1.67 → 2.78%</div>
+            <div class="metric-label t-en">growth in sales-assisted to paid conversion</div>
+            <div class="metric-label t-ru">рост конверсии sales-assisted в платящих</div>
+          </div>
+          <div class="metric standout">
+            <div class="metric-value">100%</div>
+            <div class="metric-label t-en">of new clients use the new resource-planning module</div>
+            <div class="metric-label t-ru">новых клиентов используют новый модуль планирования ресурсов</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-actions" style="display:flex; gap:14px; flex-wrap:wrap;">
+      <a class="btn primary" href="https://www.figma.com/design/RYyFgZM48P8RdCz3SBcHcw/Maria?node-id=0-1&t=qRnmYrkMIZp5cxZF-1" target="_blank" rel="noopener">
+        <span class="t-en">View prototype in Figma</span><span class="t-ru">Смотреть прототип в Figma</span>
+      </a>
+      <a class="btn" href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com</a>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="bento">
+      <div class="tile gradient cta-tile c-12">
+        <div class="eyebrow t-en">Let's talk</div>
+        <div class="eyebrow t-ru">Давайте знакомиться</div>
+        <h2 class="t-en">Have a product to design?</h2>
+        <h2 class="t-ru">Есть продукт, который нужно спроектировать?</h2>
+        <p class="muted t-en">Open to new product design roles and collaborations.</p>
+        <p class="muted t-ru">Открыта к новым проектам и предложениям по продуктовому дизайну.</p>
+        <div class="cta-actions">
+          <a class="btn" href="mailto:m.demenko11@gmail.com">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 7l9 6 9-6"/></svg></span>
+            m.demenko11@gmail.com
+          </a>
+          <a class="btn" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3.5"/><path d="M7.5 10v6.5M7.5 7.2v.1M12 16.5V13a2.2 2.2 0 0 1 4.4 0v3.5M12 13v3.5"/></svg></span>
+            LinkedIn
+          </a>
+          <a class="btn" href="https://t.me/mariademn" target="_blank" rel="noopener">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4.5L2.8 11.6c-.9.35-.9 1.7.1 1.98l4.2 1.2 1.6 5.1c.28.9 1.4 1.1 2 .4l2.3-2.6 4.4 3.3c.8.6 1.9.15 2.1-.8L21.6 5.4c.2-.9-.7-1.6-1.6-1.2z"/><path d="M8.9 14.7L18 7.5"/></svg></span>
+            Telegram
+          </a>
+        </div>
+      </div>
+    </div>
+    <p class="footline t-en">Bridging design, product, and engineering — one design system at a time.</p>
+    <p class="footline t-ru">Соединяю дизайн, продукт и инженерию — одну дизайн-систему за раз.</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+
+  var header = document.querySelector('.site-header');
+  var lastY = window.scrollY;
+  var ticking = false;
+  function onScroll(){
+    var y = window.scrollY;
+    if (y > lastY && y > header.offsetHeight){
+      header.classList.add('is-hidden');
+    } else {
+      header.classList.remove('is-hidden');
+    }
+    lastY = y;
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){
+      window.requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, {passive:true});
+
+  var langButtons = document.querySelectorAll('.lang-btn');
+  function setLang(l){
+    root.setAttribute('data-lang', l);
+    root.setAttribute('lang', l);
+    for (var i=0;i<langButtons.length;i++){
+      langButtons[i].setAttribute('aria-pressed', langButtons[i].getAttribute('data-set-lang') === l);
+    }
+    try{ localStorage.setItem('md-lang', l); }catch(e){}
+  }
+  for (var i=0;i<langButtons.length;i++){
+    (function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-set-lang')); }); })(langButtons[i]);
+  }
+  var storedLang;
+  try{ storedLang = localStorage.getItem('md-lang'); }catch(e){}
+  var navLang = (navigator.language || 'en').slice(0,2);
+  setLang(storedLang || (navLang === 'ru' ? 'ru' : 'en'));
+
+  var themeBtn = document.getElementById('theme-toggle');
+  var sunIcon = themeBtn.querySelector('.icon-sun');
+  var moonIcon = themeBtn.querySelector('.icon-moon');
+  var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function isDarkNow(){
+    var current = root.getAttribute('data-theme');
+    return current ? current === 'dark' : systemDark.matches;
+  }
+  function syncToggle(){
+    var dark = isDarkNow();
+    themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    sunIcon.hidden = !dark;
+    moonIcon.hidden = dark;
+  }
+  function applyTheme(t){
+    if (t){ root.setAttribute('data-theme', t); }
+    else { root.removeAttribute('data-theme'); }
+    syncToggle();
+  }
+
+  var storedTheme;
+  try{ storedTheme = localStorage.getItem('md-theme'); }catch(e){}
+  if (storedTheme){ root.setAttribute('data-theme', storedTheme); }
+  syncToggle();
+  systemDark.addEventListener('change', function(){ if (!root.getAttribute('data-theme')) syncToggle(); });
+
+  themeBtn.addEventListener('click', function(){
+    var next = isDarkNow() ? 'light' : 'dark';
+    applyTheme(next);
+    try{ localStorage.setItem('md-theme', next); }catch(e){}
+  });
+})();
+</script>
+
+</body>
+</html>
