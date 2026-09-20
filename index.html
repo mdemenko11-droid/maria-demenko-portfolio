@@ -14,30 +14,33 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EDEDED;
+    --bg:#F3F3F4;
     --surface:#FFFFFF;
-    --surface-alt:#E5E5E5;
-    --border:#DBDBDB;
-    --border-strong:#C1C1C1;
-    --ink:#141414;
-    --muted:#5F5F5F;
-    --accent:#6B6B6B;
+    --surface-alt:#F7F7F8;
+    --border:#E4E4E7;
+    --border-strong:#D6D6DA;
+    --ink:#0F0F10;
+    --muted:#66666C;
+    --accent:#7A7A80;
     --accent-ink:#3D3D3D;
-    --accent-soft:#E8E8E8;
+    --accent-soft:#F4F4F5;
     --invert-bg:#141414;
     --invert-text:#F2F2F2;
     --invert-muted:#9C9C9C;
     --grad:linear-gradient(135deg, #333333 0%, #121212 100%);
-    --card-grad:linear-gradient(140deg, #FFFFFF 0%, #F7F7F7 38%, #EDEDED 70%, #DFDFDF 100%);
-    --icon-tile:#17171A;
-    --icon-tile-edge:rgba(255,255,255,0.10);
-    --glass-edge:rgba(255,255,255,0.75);
-    --shadow-card:0 1px 2px rgba(0,0,0,0.05), 0 10px 30px -12px rgba(0,0,0,0.18);
-    --shadow-card-hover:0 2px 4px rgba(0,0,0,0.07), 0 18px 40px -14px rgba(0,0,0,0.26);
+    --card-grad:linear-gradient(140deg, #FFFFFF 0%, #FFFFFF 50%, #FAFAFB 100%);
+    --icon-tile:#F5F5F6;
+    --icon-tile-edge:rgba(0,0,0,0.06);
+    --icon-mono:#141414;
+    --icon-shadow:0 1px 2px rgba(0,0,0,0.04), 0 4px 10px -4px rgba(0,0,0,0.10);
+    --glass-edge:rgba(0,0,0,0.07);
+    --shadow-card:0 1px 2px rgba(0,0,0,0.03), 0 6px 18px -8px rgba(0,0,0,0.07);
+    --shadow-card-hover:0 2px 5px rgba(0,0,0,0.06), 0 14px 30px -12px rgba(0,0,0,0.16);
     --serif:'IBM Plex Serif', Georgia, serif;
     --sans:'IBM Plex Sans', Arial, sans-serif;
     --mono:'IBM Plex Mono', 'Courier New', monospace;
     --photo-bg:#0B0B0B;
+    --photo-edge:#EDEDED;
     --page-x:clamp(24px, 5vw, 96px);
     --r-lg:20px;
     --r-md:14px;
@@ -61,7 +64,10 @@
     --card-grad:linear-gradient(140deg, #2A2A2A 0%, #202020 38%, #171717 70%, #0E0E0E 100%);
     --icon-tile:#3A3A3A;
     --icon-tile-edge:rgba(255,255,255,0.18);
-    --glass-edge:rgba(255,255,255,0.06);
+    --icon-mono:#EDEAE1;
+    --icon-shadow:0 6px 12px -4px rgba(0,0,0,0.45);
+    --photo-edge:rgba(255,255,255,0.12);
+    --glass-edge:rgba(255,255,255,0.12);
     --shadow-card:0 1px 2px rgba(0,0,0,0.45), 0 14px 34px -12px rgba(0,0,0,0.65);
     --shadow-card-hover:0 2px 6px rgba(0,0,0,0.5), 0 22px 46px -14px rgba(0,0,0,0.75);
   }
@@ -84,7 +90,10 @@
       --card-grad:linear-gradient(140deg, #2A2A2A 0%, #202020 38%, #171717 70%, #0E0E0E 100%);
       --icon-tile:#3A3A3A;
       --icon-tile-edge:rgba(255,255,255,0.18);
-      --glass-edge:rgba(255,255,255,0.06);
+      --icon-mono:#EDEAE1;
+      --icon-shadow:0 6px 12px -4px rgba(0,0,0,0.45);
+      --photo-edge:rgba(255,255,255,0.12);
+      --glass-edge:rgba(255,255,255,0.12);
       --shadow-card:0 1px 2px rgba(0,0,0,0.45), 0 14px 34px -12px rgba(0,0,0,0.65);
       --shadow-card-hover:0 2px 6px rgba(0,0,0,0.5), 0 22px 46px -14px rgba(0,0,0,0.75);
     }
@@ -298,7 +307,7 @@
     width:64px; height:64px; border-radius:16px; flex-shrink:0;
     background:var(--icon-tile);
     border:1px solid var(--icon-tile-edge);
-    box-shadow:0 6px 12px -4px rgba(0,0,0,0.45);
+    box-shadow:var(--icon-shadow);
     display:flex; align-items:center; justify-content:center;
     padding:14px;
     transition:transform .22s cubic-bezier(.25,.8,.35,1), box-shadow .22s ease;
@@ -309,6 +318,8 @@
     z-index:10;
   }
   .tool-icon svg{width:100%; height:100%;}
+  .tool-icon [fill="#EDEAE1"]{fill:var(--icon-mono);}
+  .tool-icon img{width:100%; height:100%; border-radius:22%; display:block;}
   .tool-tip{
     position:absolute; top:calc(100% + 10px); left:50%;
     transform:translate(-50%, -4px);
@@ -324,7 +335,9 @@
     .tool-icon, .tool-tip{transition:none;}
   }
 
-  .photo-tile{width:100%; padding:0; overflow:hidden; background:var(--photo-bg);}
+  .photo-tile{width:100%; padding:0; overflow:hidden; background:var(--photo-bg);
+    /* dark surface in both themes: its edge is matched to how the other cards' edge renders */
+    border-color:var(--photo-edge);}
   .contact-fill{min-height:0;}
   .photo-wrap{position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;}
   .portrait{width:100%; height:100%; object-fit:cover; object-position:50% 12%; display:block; position:relative; z-index:1;}
@@ -403,11 +416,28 @@
   .cta-actions .btn:hover{background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.5); color:#fff;}
   .footline{color:var(--muted); font-size:0.85rem; text-align:center; margin-top:40px;}
 
-  @media (max-width:860px){
-    :root{--page-x:16px;}
-    .page{padding:0 var(--page-x) 48px;}
+  /* below full width the bento reflows into three bands:
+     name + photo + contacts, then tools + skills, then experience */
+  @media (max-width:1400px){
     .bento{grid-template-columns:1fr;}
     .c-3,.c-4,.c-5,.c-6,.c-7,.c-8,.c-9,.c-12{grid-column:1/-1;}
+    .hero-grid{
+      grid-template-columns:repeat(4, 1fr);
+      grid-template-areas:
+        "intro  intro  photo   contact"
+        "tools  tools  skills  skills"
+        "exp    exp    exp     exp";
+    }
+    .photo-tile{width:100%;}
+    .contact-icons{justify-content:flex-start;}
+    .icon-stage{justify-content:flex-start;}
+    .tags{justify-content:flex-start;}
+    .section-head{flex-direction:column; align-items:flex-start; gap:6px;}
+  }
+
+  /* phone-sized: single narrow column, tighter gutters, no nav */
+  @media (max-width:860px){
+    :root{--page-x:16px;}
     .hero-grid{
       grid-template-columns:150px 1fr;
       grid-template-areas:
@@ -417,13 +447,9 @@
         "skills  skills"
         "exp     exp";
     }
-    .photo-tile{width:100%;}
-    .contact-icons{justify-content:flex-start;}
-    .icon-stage{justify-content:flex-start;}
-    .tags{justify-content:flex-start;}
+    .page{padding:0 var(--page-x) 48px;}
     .tile{padding:22px;}
     .photo-tile{padding:0;}
-    .section-head{flex-direction:column; align-items:flex-start; gap:6px;}
     .site-nav{display:none;}
     .site-header-inner{padding:12px 16px;}
   }
@@ -483,15 +509,15 @@
     <div class="hero-grid">
       <div class="tile intro-tile area-intro">
         <div class="hero-top-row">
-          <span class="status-chip"><span class="status-dot"></span><span class="t-en">Open to work</span><span class="t-ru">Открыта к работе</span></span>
+          <span class="status-chip"><span class="status-dot"></span><span class="t-en">Open to work</span><span class="t-ru">Ищу работу</span></span>
         </div>
         <div class="hero-name">
           <h1>Maria Demenko</h1>
           <p class="role t-en">Product designer — UX/UI</p>
           <p class="role t-ru">Продуктовый дизайнер — UX/UI</p>
         </div>
-        <p class="hero-lede t-en">Designing complex software for teams that plan, manage, and ship work: SaaS platforms, resource management tools, back-office systems, marketplaces, POS and mobile apps.</p>
-        <p class="hero-lede t-ru">Проектирую сложные интерфейсы для команд, которые планируют, ведут и выпускают работу: SaaS-платформы, системы управления ресурсами, бэк-офисные системы, маркетплейсы, POS и мобильные приложения.</p>
+        <p class="hero-lede t-en">Product designer for complex, data-heavy software: SaaS platforms, resource planning, back-office systems, marketplaces and POS. Seven years spent making dense workflows feel obvious — and working close enough to engineering that the design reaches release intact.</p>
+        <p class="hero-lede t-ru">Продуктовый дизайнер для сложных систем с большими данными: SaaS-платформы, планирование ресурсов, бэк-офис, маркетплейсы и POS. Семь лет делаю перегруженные сценарии понятными и работаю достаточно близко к разработке, чтобы дизайн доходил до релиза без потерь.</p>
       </div>
 
       <div class="tile area-tools">
@@ -525,6 +551,10 @@
           <span class="tool-icon" aria-label="Jira">
             <svg width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#1868db" stroke="none" d="M 41.318 36.567 L 25.44 4.813 C 25.128 4.125 24.815002 4 24.44 4 C 24.128 4 23.752 4.125 23.377 4.75 C 21.127 8.313 20.127 12.439 20.127 16.752 C 20.127 22.752 23.19 28.379 27.691 37.442 C 28.191 38.442 28.566 38.63 29.441002 38.63 L 40.442 38.63 C 41.255 38.63 41.692 38.318 41.692 37.692 C 41.692 37.38 41.63 37.192 41.318 36.567 M 18.252 21.565 C 17.002 19.69 16.626 19.565 16.314 19.565 C 16.002 19.565 15.814001 19.69 15.251 20.815 L 7.313 36.692 C 7.063 37.192 7 37.38 7 37.63 C 7 38.13 7.438 38.63 8.375 38.63 L 19.565 38.63 C 20.315 38.63 20.877 38.005 21.189 36.817 C 21.565 35.317 21.689 34.004 21.689 32.442 C 21.689 28.066 19.752 23.815002 18.252 21.565"/></svg>
             <span class="tool-tip">Jira</span>
+          </span>
+          <span class="tool-icon" aria-label="Jitter">
+            <img src="assets/jitter.png" alt="">
+            <span class="tool-tip">Jitter</span>
           </span>
         </div>
       </div>
@@ -578,8 +608,8 @@
               <h4>Synesis</h4>
               <span class="t-dates">2024 – 2026</span>
             </div>
-            <p class="t-en">AI-assisted design and vibe-coding — building rapid interactive prototypes, maintaining design systems, and preparing specs for development.</p>
-            <p class="t-ru">AI-дизайн и вайб-кодинг — быстрые интерактивные прототипы, поддержка дизайн-системы и подготовка спецификаций для разработки.</p>
+            <p class="t-en">AI-assisted design and vibe-coding: interactive prototypes in days rather than weeks, a design system that keeps releases consistent, and specs ready to hand straight to engineering.</p>
+            <p class="t-ru">AI-дизайн и вайб-кодинг: интерактивные прототипы за дни, а не недели, дизайн-система, которая держит релизы в одном стиле, и спецификации, готовые к передаче в разработку.</p>
             <a href="https://frisbee.ms" target="_blank" rel="noopener">frisbee.ms</a>
           </div>
           <div class="role-entry">
@@ -587,8 +617,8 @@
               <h4>Birdview PSA</h4>
               <span class="t-dates">2023 – 2024</span>
             </div>
-            <p class="t-en">Product design for a resource-planning tool — new features, a full visual redesign, and ongoing design system upkeep.</p>
-            <p class="t-ru">Продуктовый дизайн инструмента управления ресурсами — новые функции, визуальный редизайн и поддержка дизайн-системы.</p>
+            <p class="t-en">Designed the resource-planning module that turned into a sales argument: 100% of new clients use it, and sales-assisted conversion grew from 1.67% to 2.78%. Also ran a full visual redesign and kept the design system current.</p>
+            <p class="t-ru">Спроектировала модуль планирования ресурсов, который стал аргументом в продажах: им пользуются 100% новых клиентов, а конверсия в оплату с участием сейлзов выросла с 1,67% до 2,78%. Плюс полный визуальный редизайн и поддержка дизайн-системы.</p>
             <a href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com</a>
           </div>
           <div class="role-entry">
@@ -596,8 +626,8 @@
               <h4>Telesphor Software</h4>
               <span class="t-dates">2019 – 2022</span>
             </div>
-            <p class="t-en">Redesigned and maintained web and mobile products across IndicaOnline and Sweede, including POS and driver apps.</p>
-            <p class="t-ru">Редизайн и поддержка веб- и мобильных продуктов IndicaOnline и Sweede, включая POS и приложение для водителей.</p>
+            <p class="t-en">Three years on retail and delivery software — POS, back-office and driver apps for IndicaOnline and Sweede, designed for staff who work at speed and cannot stop to figure out the screen.</p>
+            <p class="t-ru">Три года в ритейле и доставке — POS, бэк-офис и приложение для водителей IndicaOnline и Sweede. Интерфейсы для сотрудников, которые работают на скорости и не могут останавливаться, чтобы разобраться в экране.</p>
             <a href="https://indicaonline.com" target="_blank" rel="noopener">indicaonline.com</a>
           </div>
           <div class="role-entry">
@@ -605,8 +635,8 @@
               <h4>Aterise</h4>
               <span class="t-dates">2022</span>
             </div>
-            <p class="t-en">Part-time product design support.</p>
-            <p class="t-ru">Продуктовый дизайн на частичной занятости.</p>
+            <p class="t-en">Part-time design support alongside the main role — feature work and interface upkeep for a small product team.</p>
+            <p class="t-ru">Дизайн на частичной занятости параллельно с основной работой — новые функции и поддержка интерфейсов небольшой продуктовой команды.</p>
             <a href="https://aterise.com" target="_blank" rel="noopener">aterise.com</a>
           </div>
         </div>
