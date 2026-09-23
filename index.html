@@ -12,468 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#F3F3F4;
-    --surface:#FFFFFF;
-    --surface-alt:#F7F7F8;
-    --border:#E4E4E7;
-    --border-strong:#D6D6DA;
-    --ink:#0F0F10;
-    --muted:#66666C;
-    --accent:#7A7A80;
-    --accent-ink:#3D3D3D;
-    --accent-soft:#F4F4F5;
-    --invert-bg:#141414;
-    --invert-text:#F2F2F2;
-    --invert-muted:#9C9C9C;
-    --grad:linear-gradient(135deg, #333333 0%, #121212 100%);
-    --card-grad:linear-gradient(140deg, #FFFFFF 0%, #FFFFFF 50%, #FAFAFB 100%);
-    --icon-tile:#F5F5F6;
-    --icon-tile-edge:rgba(0,0,0,0.06);
-    --icon-mono:#141414;
-    --icon-shadow:0 1px 2px rgba(0,0,0,0.04), 0 4px 10px -4px rgba(0,0,0,0.10);
-    --glass-edge:rgba(0,0,0,0.07);
-    --shadow-card:0 1px 2px rgba(0,0,0,0.03), 0 6px 18px -8px rgba(0,0,0,0.07);
-    --shadow-card-hover:0 2px 5px rgba(0,0,0,0.06), 0 14px 30px -12px rgba(0,0,0,0.16);
-    --serif:'IBM Plex Serif', Georgia, serif;
-    --sans:'IBM Plex Sans', Arial, sans-serif;
-    --mono:'IBM Plex Mono', 'Courier New', monospace;
-    --photo-bg:#0B0B0B;
-    --photo-edge:#EDEDED;
-    --page-x:clamp(24px, 5vw, 96px);
-    --r-lg:20px;
-    --r-md:14px;
-    --r-sm:9px;
-  }
-  :root[data-theme="dark"]{
-    --bg:#050505;
-    --surface:#141414;
-    --surface-alt:#1B1B1B;
-    --border:#272727;
-    --border-strong:#3B3B3B;
-    --ink:#ECECEC;
-    --muted:#9B9B9B;
-    --accent:#B0B0B0;
-    --accent-ink:#D2D2D2;
-    --accent-soft:#1C1C1C;
-    --invert-bg:#ECECEC;
-    --invert-text:#141414;
-    --invert-muted:#5F5F5F;
-    --grad:linear-gradient(135deg, #3C3C3C 0%, #171717 100%);
-    --card-grad:linear-gradient(140deg, #2A2A2A 0%, #202020 38%, #171717 70%, #0E0E0E 100%);
-    --icon-tile:#3A3A3A;
-    --icon-tile-edge:rgba(255,255,255,0.18);
-    --icon-mono:#EDEAE1;
-    --icon-shadow:0 6px 12px -4px rgba(0,0,0,0.45);
-    --photo-edge:rgba(255,255,255,0.12);
-    --glass-edge:rgba(255,255,255,0.12);
-    --shadow-card:0 1px 2px rgba(0,0,0,0.45), 0 14px 34px -12px rgba(0,0,0,0.65);
-    --shadow-card-hover:0 2px 6px rgba(0,0,0,0.5), 0 22px 46px -14px rgba(0,0,0,0.75);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]):not([data-theme="dark"]){
-      --bg:#050505;
-      --surface:#141414;
-      --surface-alt:#1B1B1B;
-      --border:#272727;
-      --border-strong:#3B3B3B;
-      --ink:#ECECEC;
-      --muted:#9B9B9B;
-      --accent:#B0B0B0;
-      --accent-ink:#D2D2D2;
-      --accent-soft:#1C1C1C;
-      --invert-bg:#ECECEC;
-      --invert-text:#141414;
-      --invert-muted:#5F5F5F;
-      --grad:linear-gradient(135deg, #3C3C3C 0%, #171717 100%);
-      --card-grad:linear-gradient(140deg, #2A2A2A 0%, #202020 38%, #171717 70%, #0E0E0E 100%);
-      --icon-tile:#3A3A3A;
-      --icon-tile-edge:rgba(255,255,255,0.18);
-      --icon-mono:#EDEAE1;
-      --icon-shadow:0 6px 12px -4px rgba(0,0,0,0.45);
-      --photo-edge:rgba(255,255,255,0.12);
-      --glass-edge:rgba(255,255,255,0.12);
-      --shadow-card:0 1px 2px rgba(0,0,0,0.45), 0 14px 34px -12px rgba(0,0,0,0.65);
-      --shadow-card-hover:0 2px 6px rgba(0,0,0,0.5), 0 22px 46px -14px rgba(0,0,0,0.75);
-    }
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--sans);
-    font-size:16px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:inherit; text-decoration:none;}
-  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
-
-  .page{max-width:none; margin:0 auto; padding:0 var(--page-x) 64px;}
-
-  .site-header{
-    position:sticky; top:0; z-index:30;
-    background:var(--bg);
-    padding:14px var(--page-x) 0;
-    transition:transform .25s ease;
-  }
-  .site-header.is-hidden{transform:translateY(-110%);}
-  .site-header-inner{
-    display:flex; align-items:center; justify-content:space-between; gap:24px;
-    border:1px solid var(--glass-edge);
-    border-radius:var(--r-lg);
-    background:var(--card-grad) fixed;
-    box-shadow:var(--shadow-card);
-    padding:12px 22px;
-  }
-  .logo-mark{
-    width:34px; height:34px; flex-shrink:0;
-    color:var(--ink);
-    display:flex; align-items:center; justify-content:center;
-    transition:color .15s ease, transform .15s ease;
-  }
-  .logo-mark:hover{color:var(--accent); transform:translateY(-1px);}
-  .logo-mark svg{width:100%; height:100%;}
-  .site-nav{
-    display:flex; gap:26px; font-family:var(--mono); font-size:0.83rem;
-    color:var(--muted); flex:1; justify-content:center;
-  }
-  .site-nav a:hover{color:var(--accent);}
-
-  h1,h2,h3{font-family:var(--serif); font-weight:500; margin:0; letter-spacing:-0.01em; text-wrap:balance;}
-
-  .icon{width:18px; height:18px; display:inline-block; vertical-align:-4px; flex-shrink:0;}
-  .icon svg{width:100%; height:100%;}
-
-  /* ---- top controls ---- */
-  .topbar{display:flex; gap:8px; flex-shrink:0;}
-  .pill-btn{
-    font-family:var(--mono); font-size:0.76rem; letter-spacing:0.02em;
-    background:var(--surface); border:1px solid var(--border-strong); color:var(--muted);
-    padding:7px 12px; border-radius:100px; cursor:pointer; line-height:1.2;
-    display:flex; align-items:center; gap:6px;
-  }
-  .pill-btn:hover{border-color:var(--accent); color:var(--accent);}
-  .pill-btn[aria-pressed="true"]{background:var(--invert-bg); border-color:var(--invert-bg); color:var(--invert-text);}
-  .theme-toggle .icon{width:15px; height:15px; vertical-align:-3px;}
-  .theme-toggle [hidden]{display:none;}
-
-  /* ---- language + copy ---- */
-  [data-lang="en"] .t-ru{display:none;}
-  [data-lang="ru"] .t-en{display:none;}
-
-  /* ---- bento grid ---- */
-  .bento{display:grid; grid-template-columns:repeat(12, 1fr); gap:14px; align-items:stretch;}
-  .bento.align-top{align-items:start;}
-
-  .hero-grid{
-    display:grid;
-    grid-template-columns:5fr 3fr 4fr;
-    grid-template-areas:
-      "intro   photo    exp"
-      "tools   photo    exp"
-      "skills  contact  exp";
-    gap:14px;
-    align-items:stretch;
-  }
-  .area-intro{grid-area:intro;}
-  .area-tools{grid-area:tools;}
-  .area-skills{grid-area:skills;}
-  .area-photo{grid-area:photo;}
-  .area-contact{grid-area:contact;}
-  .area-exp{grid-area:exp; min-width:0;}
-  .tile{
-    border:1px solid var(--glass-edge);
-    border-radius:var(--r-lg);
-    /* one gradient shared by every card: fixed attachment anchors it to the viewport */
-    background:var(--card-grad) fixed;
-    box-shadow:var(--shadow-card);
-    padding:28px;
-    display:flex; flex-direction:column;
-    min-width:0;
-  }
-  .tile.alt{background:var(--surface-alt);}
-  .tile.accent{background:var(--accent-soft); border-color:var(--glass-edge);}
-  .tile.invert{background:var(--invert-bg); color:var(--invert-text); border-color:rgba(255,255,255,0.10);}
-  .tile.invert .muted{color:var(--invert-muted);}
-  .tile.invert .hero-lede{color:var(--invert-muted);}
-  .tile.invert .role{color:var(--invert-text); opacity:0.75;}
-  .tile.invert .status-chip{border-color:rgba(127,127,127,0.4); color:var(--invert-muted);}
-  .tile.gradient{background:var(--grad); border-color:rgba(255,255,255,0.10); color:#fff;}
-  .tile.gradient .muted{color:rgba(255,255,255,0.72);}
-  .tile.no-pad{padding:0; overflow:hidden;}
-  .tile.dashed{border:1px dashed var(--border); background:transparent; box-shadow:none;}
-
-  .c-3{grid-column:span 3;} .c-4{grid-column:span 4;} .c-5{grid-column:span 5;}
-  .c-6{grid-column:span 6;} .c-7{grid-column:span 7;} .c-8{grid-column:span 8;}
-  .c-9{grid-column:span 9;} .c-12{grid-column:1/-1;}
-
-  .muted{color:var(--muted);}
-  p{margin:0; color:var(--ink);}
-  .tile p.muted{max-width:66ch;}
-  .tile p.muted + p.muted{margin-top:10px;}
-
-  .eyebrow{
-    font-family:var(--mono); font-size:0.74rem; letter-spacing:0.04em; text-transform:uppercase;
-    color:var(--accent); margin-bottom:14px;
-  }
-  .tile.invert .eyebrow{color:var(--invert-muted);}
-  .tile.gradient .eyebrow{color:rgba(255,255,255,0.75);}
-
-  section{padding:64px 0 0;}
-  /* first section sets the gap under the sticky header */
-  .about{padding-top:14px;}
-  .section-head{display:flex; align-items:baseline; justify-content:space-between; gap:24px; margin-bottom:24px;}
-  .section-head h2{font-size:1.45rem;}
-  .section-note{font-family:var(--mono); font-size:0.78rem; color:var(--muted); white-space:nowrap;}
-
-  /* ---- hero ---- */
-  .intro-tile{
-    display:grid;
-    grid-template-columns:1fr auto;
-    align-items:start;
-    column-gap:16px;
-  }
-  .intro-tile .hero-top-row{grid-column:2; grid-row:1;}
-  .intro-tile .hero-name{grid-column:1; grid-row:1; min-width:0;}
-  .intro-tile .hero-lede{grid-column:1/-1;}
-  .hero-top-row{display:flex; align-items:flex-start;}
-  .status-chip{
-    font-family:var(--mono); font-size:0.75rem; color:var(--muted);
-    border:1px solid var(--border-strong); border-radius:100px; padding:5px 11px;
-    display:flex; align-items:center; gap:9px; white-space:nowrap;
-  }
-  .status-dot{
-    position:relative; width:7px; height:7px; border-radius:50%;
-    background:#33C77A; flex-shrink:0;
-  }
-  .status-dot::before{
-    content:""; position:absolute; inset:-3px; border-radius:50%;
-    background:#33C77A; opacity:0.55;
-    animation:status-pulse 2s ease-out infinite;
-  }
-  @keyframes status-pulse{
-    0%{transform:scale(0.5); opacity:0.55;}
-    100%{transform:scale(1.9); opacity:0;}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .status-dot::before{animation:none; display:none;}
-  }
-  .hero-name h1{font-size:clamp(1.9rem, 3.6vw, 2.5rem); line-height:1.08;}
-  .role{font-family:var(--mono); font-size:0.9rem; color:var(--accent); margin:12px 0 16px;}
-  .hero-lede{color:var(--muted); max-width:50ch;}
-
-  .badge-group-label{
-    font-family:var(--mono); font-size:0.74rem; letter-spacing:0.04em; text-transform:uppercase;
-    color:var(--muted); margin-top:22px; margin-bottom:10px;
-  }
-  .skill-badges{display:flex; flex-wrap:wrap; gap:8px;}
-  .badge{
-    display:inline-flex; align-items:center; gap:7px;
-    font-family:var(--mono); font-size:0.78rem; font-weight:500;
-    border-radius:100px; padding:7px 13px 7px 11px;
-    box-shadow:0 2px 12px -3px var(--glow, transparent);
-  }
-  .badge-dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
-  .badge-amber{--glow:rgba(201,122,0,0.4); background:#FBE4C4; color:#7A4A00;}
-  .badge-amber .badge-dot{background:#C97A00;}
-  .badge-teal{--glow:rgba(15,143,121,0.4); background:#C9EEE6; color:#0B5F51;}
-  .badge-teal .badge-dot{background:#0F8F79;}
-  .badge-purple{--glow:rgba(139,61,224,0.35); background:#EBDBFB; color:#5B21A6;}
-  .badge-purple .badge-dot{background:#8B3DE0;}
-  .badge-pink{--glow:rgba(224,53,127,0.35); background:#FBDEEA; color:#9A1259;}
-  .badge-pink .badge-dot{background:#E0357F;}
-  .badge-sky{--glow:rgba(30,155,215,0.35); background:#D3EEFC; color:#0A5A85;}
-  .badge-sky .badge-dot{background:#1E9BD7;}
-  .badge-indigo{--glow:rgba(83,71,214,0.35); background:#DFE0FB; color:#33299B;}
-  .badge-indigo .badge-dot{background:#5347D6;}
-  .badge-blue{--glow:rgba(37,99,235,0.35); background:#DCEAFB; color:#0D3E8C;}
-  .badge-blue .badge-dot{background:#2563EB;}
-  .badge-ink{--glow:rgba(0,0,0,0.3); background:#1A1A1A; color:#ECECEC;}
-  .badge-ink .badge-dot{background:#ECECEC;}
-  .badge-ink-light{--glow:rgba(0,0,0,0.25); background:#E8E8E8; color:#1F1F1F;}
-  .badge-ink-light .badge-dot{background:#1F1F1F;}
-
-  .icon-stage{
-    display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-start;
-    gap:14px;
-  }
-  .tool-icon{
-    position:relative;
-    width:64px; height:64px; border-radius:16px; flex-shrink:0;
-    background:var(--icon-tile);
-    border:1px solid var(--icon-tile-edge);
-    box-shadow:var(--icon-shadow);
-    display:flex; align-items:center; justify-content:center;
-    padding:14px;
-    transition:transform .22s cubic-bezier(.25,.8,.35,1), box-shadow .22s ease;
-  }
-  .tool-icon:hover{
-    transform:translateY(-7px);
-    box-shadow:0 16px 22px -8px rgba(0,0,0,0.5);
-    z-index:10;
-  }
-  .tool-icon svg{width:100%; height:100%;}
-  .tool-icon [fill="#EDEAE1"]{fill:var(--icon-mono);}
-  .tool-icon img{width:100%; height:100%; border-radius:22%; display:block;}
-  .tool-tip{
-    position:absolute; top:calc(100% + 10px); left:50%;
-    transform:translate(-50%, -4px);
-    background:#111111; color:#ECECEC;
-    font-family:var(--mono); font-size:0.72rem; white-space:nowrap;
-    padding:5px 11px; border-radius:8px;
-    opacity:0; pointer-events:none;
-    transition:opacity .18s ease, transform .18s ease;
-    z-index:5;
-  }
-  .tool-icon:hover .tool-tip{opacity:1; transform:translate(-50%, 0);}
-  @media (prefers-reduced-motion: reduce){
-    .tool-icon, .tool-tip{transition:none;}
-  }
-
-  .photo-tile{width:100%; padding:0; overflow:hidden; background:var(--photo-bg);
-    /* dark surface in both themes: its edge is matched to how the other cards' edge renders */
-    border-color:var(--photo-edge);}
-  .contact-fill{min-height:0;}
-  .photo-wrap{position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;}
-  .portrait{width:100%; height:100%; object-fit:cover; object-position:50% 12%; display:block; position:relative; z-index:1;}
-  .contact-icons{margin-top:0;}
-
-  /* ---- domains / tags ---- */
-  .tags{display:flex; flex-wrap:wrap; gap:8px; align-content:flex-start;}
-  .tag{
-    font-family:var(--mono); font-size:0.78rem; color:var(--accent-ink);
-    background:var(--surface); border:1px solid var(--border-strong);
-    border-radius:100px; padding:6px 12px;
-  }
-
-  .method-name{font-family:var(--mono); font-size:0.92rem; margin-bottom:8px;}
-
-  .spec-number{font-family:var(--mono); font-size:2.3rem; line-height:1;}
-  .spec-caption{font-family:var(--mono); font-size:0.78rem; margin-top:10px; max-width:22ch;}
-
-  /* ---- experience ---- */
-  .role-list{display:flex; flex-direction:column; flex:1; margin-top:6px;}
-  .role-entry{padding:18px 0;}
-  .role-entry:first-child{padding-top:0;}
-  .role-entry:not(:first-child){border-top:1px solid var(--border);}
-  .role-entry .role-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px;}
-  .role-entry h4{font-family:var(--serif); font-weight:500; font-size:1rem; margin:0;}
-  .role-entry .t-dates{font-family:var(--mono); font-size:0.72rem; color:var(--muted); white-space:nowrap;}
-  .role-entry p{color:var(--muted); font-size:0.86rem; line-height:1.5; margin-top:8px;}
-  .role-entry a{
-    display:inline-block; margin-top:8px; font-family:var(--mono); font-size:0.78rem;
-    text-decoration:underline; text-decoration-style:dotted; text-underline-offset:3px;
-  }
-  .role-entry a:hover{color:var(--accent);}
-
-  /* ---- projects ---- */
-  .project-featured{position:relative;}
-  .project-metric-badge{
-    display:inline-flex; align-items:baseline; gap:6px; font-family:var(--mono);
-    background:rgba(255,255,255,0.14); border-radius:100px; padding:6px 12px; font-size:0.82rem;
-    margin-bottom:18px; align-self:flex-start;
-  }
-  .project-featured .arrow-link{
-    margin-top:auto; padding-top:20px; display:flex; align-items:center; gap:6px;
-    font-family:var(--mono); font-size:0.85rem;
-  }
-  .project-featured .arrow-link .icon{transition:transform .15s ease;}
-  .project-featured:hover .arrow-link .icon{transform:translate(2px,-2px);}
-
-  .empty-slot{align-items:center; justify-content:center; text-align:center; gap:10px; min-height:150px; color:var(--muted);}
-  .empty-slot .icon{width:22px; height:22px; color:var(--border-strong);}
-  .empty-slot span{font-family:var(--mono); font-size:0.8rem;}
-
-  /* ---- case study detail ---- */
-  .case-lede{font-family:var(--serif); font-size:1.15rem; line-height:1.55; max-width:70ch;}
-  .metric-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:12px;}
-  .metric{border:1px solid var(--glass-edge); border-radius:var(--r-md); background:var(--card-grad) fixed; box-shadow:var(--shadow-card); padding:18px 18px;}
-  .metric.standout{background:var(--invert-bg); color:var(--invert-text); border-color:transparent;}
-  .metric.standout .metric-label{color:var(--invert-muted);}
-  .metric-value{font-family:var(--mono); font-size:1.35rem;}
-  .metric-label{color:var(--muted); font-size:0.82rem; margin-top:6px; line-height:1.4;}
-
-  .btn{
-    font-family:var(--mono); font-size:0.85rem; padding:11px 18px;
-    border:1px solid var(--border-strong); border-radius:var(--r-md); color:var(--ink);
-    display:inline-flex; align-items:center; gap:8px;
-  }
-  .btn:hover{border-color:var(--accent); color:var(--accent);}
-  .btn.primary{background:var(--invert-bg); color:var(--invert-text); border-color:var(--invert-bg);}
-  .btn.primary:hover{opacity:0.88; color:var(--invert-text);}
-
-  /* ---- footer cta ---- */
-  footer{padding:64px 0 8px;}
-  .cta-tile{align-items:flex-start;}
-  .cta-tile h2{font-size:1.6rem; color:#fff; margin-bottom:10px;}
-  .cta-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:22px;}
-  .cta-actions .btn{background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.3);}
-  .cta-actions .btn:hover{background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.5); color:#fff;}
-  .footline{color:var(--muted); font-size:0.85rem; text-align:center; margin-top:40px;}
-
-  /* below full width the bento reflows into three bands:
-     name + photo + contacts, then tools + skills, then experience */
-  @media (max-width:1400px){
-    .bento{grid-template-columns:1fr;}
-    .c-3,.c-4,.c-5,.c-6,.c-7,.c-8,.c-9,.c-12{grid-column:1/-1;}
-    .hero-grid{
-      grid-template-columns:repeat(4, 1fr);
-      grid-template-areas:
-        "intro  intro  photo   contact"
-        "tools  tools  skills  skills"
-        "exp    exp    exp     exp";
-    }
-    .photo-tile{width:100%;}
-    .contact-icons{justify-content:flex-start;}
-    .icon-stage{justify-content:flex-start;}
-    .tags{justify-content:flex-start;}
-    .section-head{flex-direction:column; align-items:flex-start; gap:6px;}
-  }
-
-  /* phone-sized: single narrow column, tighter gutters, no nav */
-  @media (max-width:860px){
-    :root{--page-x:16px;}
-    .hero-grid{
-      grid-template-columns:150px 1fr;
-      grid-template-areas:
-        "intro   intro"
-        "photo   contact"
-        "tools   tools"
-        "skills  skills"
-        "exp     exp";
-    }
-    .page{padding:0 var(--page-x) 48px;}
-    .tile{padding:22px;}
-    .photo-tile{padding:0;}
-    .site-nav{display:none;}
-    .site-header-inner{padding:12px 16px;}
-  }
-  @media (max-width:520px){
-    .hero-grid{
-      grid-template-columns:1fr;
-      grid-template-areas:
-        "intro"
-        "photo"
-        "contact"
-        "tools"
-        "skills"
-        "exp";
-    }
-    .intro-tile{grid-template-columns:1fr;}
-    .intro-tile .hero-top-row{grid-column:1; grid-row:1; margin-bottom:16px;}
-    .intro-tile .hero-name{grid-column:1; grid-row:2;}
-    .intro-tile .hero-lede{grid-row:3;}
-    .photo-tile{width:100%; max-width:none;}
-    .photo-wrap{aspect-ratio:1/1; height:auto;}
-  }
-
-  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
-</style>
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
@@ -488,8 +27,8 @@
     <nav class="site-nav">
       <a href="#experience" class="t-en">Experience</a>
       <a href="#experience" class="t-ru">Опыт</a>
-      <a href="#projects" class="t-en">Projects</a>
-      <a href="#projects" class="t-ru">Проекты</a>
+      <a href="#cases" class="t-en">Cases</a>
+      <a href="#cases" class="t-ru">Кейсы</a>
     </nav>
 
     <div class="topbar">
@@ -644,119 +183,87 @@
     </div>
   </section>
 
-  <section class="projects" id="projects">
+  <section class="cases" id="cases">
     <div class="section-head">
-      <h2 class="t-en">Projects</h2>
-      <h2 class="t-ru">Проекты</h2>
+      <h2 class="t-en">Cases</h2>
+      <h2 class="t-ru">Кейсы</h2>
       <span class="section-note t-en">1 published · more in progress</span>
       <span class="section-note t-ru">1 опубликован · остальные готовятся</span>
     </div>
 
-    <div class="bento">
-      <a class="tile invert project-featured c-8" href="#case-study">
-        <div class="eyebrow t-en">Featured case study</div>
-        <div class="eyebrow t-ru">Разобранный кейс</div>
-        <h3 style="font-size:1.35rem; margin-bottom:10px;">Birdview — resource planning</h3>
-        <p class="muted t-en">A new resource-planning module built to become a clear differentiator in sales and deepen engagement among existing clients.</p>
-        <p class="muted t-ru">Новый модуль планирования ресурсов, созданный как заметное преимущество в продажах и инструмент вовлечения текущих клиентов.</p>
-        <span class="project-metric-badge">
-          <span style="font-weight:500;">100%</span>
-          <span class="t-en" style="opacity:.8;">of new clients use it</span>
-          <span class="t-ru" style="opacity:.8;">новых клиентов используют его</span>
-        </span>
-        <span class="arrow-link">
-          <span class="t-en">View full case study</span><span class="t-ru">Смотреть кейс полностью</span>
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
-        </span>
-      </a>
-
-      <div class="tile dashed empty-slot c-4">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg></span>
-        <span>Telesphor Software</span>
-        <span class="t-en" style="font-size:0.75rem;">Case study coming soon</span>
-        <span class="t-ru" style="font-size:0.75rem;">Кейс скоро появится</span>
-      </div>
-
-      <div class="tile dashed empty-slot c-4">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg></span>
-        <span>Aterise</span>
-        <span class="t-en" style="font-size:0.75rem;">Case study coming soon</span>
-        <span class="t-ru" style="font-size:0.75rem;">Кейс скоро появится</span>
-      </div>
-
-      <div class="tile dashed empty-slot c-4">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg></span>
-        <span>Synesis</span>
-        <span class="t-en" style="font-size:0.75rem;">Case study coming soon</span>
-        <span class="t-ru" style="font-size:0.75rem;">Кейс скоро появится</span>
-      </div>
-
-      <div class="tile dashed empty-slot c-4">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>
-        <span class="t-en">Add a new project</span>
-        <span class="t-ru">Добавить проект</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="case-study" id="case-study">
-    <div class="section-head">
-      <h2 class="t-en">Case study: Birdview resource planning</h2>
-      <h2 class="t-ru">Кейс: планирование ресурсов в Birdview</h2>
-    </div>
-
-    <div class="bento" style="margin-bottom:14px;">
-      <div class="tile c-12">
-        <p class="case-lede t-en">Birdview is a project and resource management platform that helps organizations plan, manage, and forecast projects, resources, and finances in one place — giving teams and clients complete visibility and oversight.</p>
-        <p class="case-lede t-ru">Birdview — платформа управления проектами и ресурсами: позволяет компаниям планировать, вести и прогнозировать проекты, ресурсы и финансы в одном месте, давая командам и клиентам полную прозрачность.</p>
-      </div>
-    </div>
-
-    <div class="bento" style="margin-bottom:14px;">
-      <div class="tile accent c-4">
-        <div class="eyebrow t-en">Goal</div>
-        <div class="eyebrow t-ru">Цель</div>
-        <p class="t-en" style="color:var(--accent-ink);">Position the new resource-planning module as a clear differentiator in sales conversations, improving deal success against competitors, while deepening engagement among existing clients.</p>
-        <p class="t-ru" style="color:var(--accent-ink);">Сделать новый модуль планирования ресурсов заметным преимуществом в продажах, повысив успешность сделок на фоне конкурентов, и одновременно усилить вовлечённость текущих клиентов.</p>
-      </div>
-      <div class="c-8" style="display:contents;">
-        <div class="metric-grid" style="grid-column:span 8;">
-          <div class="metric">
-            <div class="metric-value">12%</div>
-            <div class="metric-label t-en">of paid accounts enabled the feature during the feature-lab rollout</div>
-            <div class="metric-label t-ru">платных аккаунтов включили фичу на этапе feature lab</div>
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-body">
+          <div class="case-tags">
+            <span class="case-tag">B2B</span>
+            <span class="case-tag">SaaS</span>
+            <span class="case-tag">2024</span>
           </div>
-          <div class="metric">
-            <div class="metric-value">4%</div>
-            <div class="metric-label t-en">adoption rate across paid accounts</div>
-            <div class="metric-label t-ru">adoption rate среди платных аккаунтов</div>
+          <h3 class="case-title t-en">Resource planning in Birdview</h3>
+          <h3 class="case-title t-ru">Планирование ресурсов в Birdview</h3>
+          <p class="case-desc t-en">I designed the module that distributes people across projects: the workload of a whole company on one screen, conflicts resolved where they appear, and candidates matched to roles automatically.</p>
+          <p class="case-desc t-ru">Спроектировала модуль, который распределяет людей по проектам: загрузка всей компании на одном экране, конфликты решаются там же, где возникли, а кандидаты подбираются к ролям автоматически.</p>
+          <div class="case-stats">
+            <span class="stat-chip"><b>100%</b> <span class="t-en">of new clients use it</span><span class="t-ru">новых клиентов используют</span></span>
+            <span class="stat-chip"><b>1.67 → 2.78%</b> <span class="t-en">sales-assisted conversion</span><span class="t-ru">конверсия с сейлзом</span></span>
           </div>
-          <div class="metric">
-            <div class="metric-value">10%</div>
-            <div class="metric-label t-en">feature retention</div>
-            <div class="metric-label t-ru">retention фичи</div>
-          </div>
-          <div class="metric">
-            <div class="metric-value">1.67 → 2.78%</div>
-            <div class="metric-label t-en">growth in sales-assisted to paid conversion</div>
-            <div class="metric-label t-ru">рост конверсии sales-assisted в платящих</div>
-          </div>
-          <div class="metric standout">
-            <div class="metric-value">100%</div>
-            <div class="metric-label t-en">of new clients use the new resource-planning module</div>
-            <div class="metric-label t-ru">новых клиентов используют новый модуль планирования ресурсов</div>
+          <a class="case-cta" href="case-birdview.html">
+            <span class="t-en">Read the case</span><span class="t-ru">Смотреть кейс</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="case-visual">
+          <div class="carousel" data-carousel>
+            <div class="carousel-track">
+              <img class="carousel-slide is-active" src="assets/case-birdview-planning-card.jpg" alt="Planning screen in Birdview" loading="lazy">
+              <img class="carousel-slide" src="assets/case-birdview-workload-card.jpg" alt="Workload screen in Birdview" loading="lazy">
+            </div>
+            <div class="carousel-dots">
+              <button type="button" class="carousel-dot is-active" aria-label="Planning"></button>
+              <button type="button" class="carousel-dot" aria-label="Workload"></button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="case-actions" style="display:flex; gap:14px; flex-wrap:wrap;">
-      <a class="btn primary" href="https://www.figma.com/design/RYyFgZM48P8RdCz3SBcHcw/Maria?node-id=0-1&t=qRnmYrkMIZp5cxZF-1" target="_blank" rel="noopener">
-        <span class="t-en">View prototype in Figma</span><span class="t-ru">Смотреть прототип в Figma</span>
-      </a>
-      <a class="btn" href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com</a>
+      <div class="case-card is-soon">
+        <div class="case-body">
+          <div class="case-tags">
+            <span class="case-tag">B2B</span>
+            <span class="case-tag">POS</span>
+            <span class="case-tag">2022</span>
+          </div>
+          <h3 class="case-title t-en">POS and driver apps</h3>
+          <h3 class="case-title t-ru">POS и приложение для водителей</h3>
+          <p class="case-desc t-en">Three years of retail and delivery software for IndicaOnline and Sweede — interfaces for staff who work at speed and cannot stop to figure out the screen.</p>
+          <p class="case-desc t-ru">Три года в ритейле и доставке для IndicaOnline и Sweede — интерфейсы для сотрудников, которые работают на скорости и не могут останавливаться, чтобы разобраться в экране.</p>
+          <span class="case-cta"><span class="t-en">Case in progress</span><span class="t-ru">Кейс готовится</span></span>
+        </div>
+        <div class="case-visual">
+          <div class="ph"><span class="t-en">POS and driver app screens</span><span class="t-ru">Экраны POS и приложения водителя</span></div>
+        </div>
+      </div>
+
+      <div class="case-card is-soon">
+        <div class="case-body">
+          <div class="case-tags">
+            <span class="case-tag">AI</span>
+            <span class="case-tag">WEB</span>
+            <span class="case-tag">2026</span>
+          </div>
+          <h3 class="case-title t-en">AI-assisted prototyping</h3>
+          <h3 class="case-title t-ru">Прототипы с AI и вайб-кодингом</h3>
+          <p class="case-desc t-en">Interactive prototypes in days rather than weeks, a design system that keeps releases consistent, and specs ready to hand straight to engineering.</p>
+          <p class="case-desc t-ru">Интерактивные прототипы за дни, а не недели, дизайн-система, которая держит релизы в одном стиле, и спецификации, готовые к передаче в разработку.</p>
+          <span class="case-cta"><span class="t-en">Case in progress</span><span class="t-ru">Кейс готовится</span></span>
+        </div>
+        <div class="case-visual">
+          <div class="ph"><span class="t-en">Prototype screens</span><span class="t-ru">Экраны прототипов</span></div>
+        </div>
+      </div>
     </div>
   </section>
+
 
   <footer id="contact">
     <div class="bento">
@@ -789,87 +296,7 @@
 
 </div>
 
-<script>
-(function(){
-  var root = document.documentElement;
-
-  var header = document.querySelector('.site-header');
-  var lastY = window.scrollY;
-  var ticking = false;
-  function onScroll(){
-    var y = window.scrollY;
-    if (y > lastY && y > header.offsetHeight){
-      header.classList.add('is-hidden');
-    } else {
-      header.classList.remove('is-hidden');
-    }
-    lastY = y;
-    ticking = false;
-  }
-  window.addEventListener('scroll', function(){
-    if (!ticking){
-      window.requestAnimationFrame(onScroll);
-      ticking = true;
-    }
-  }, {passive:true});
-
-  // the #top anchor sits below the sticky header, so scroll to the real top instead
-  document.querySelector('.logo-mark').addEventListener('click', function(e){
-    e.preventDefault();
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
-
-  var langButtons = document.querySelectorAll('.lang-btn');
-  function setLang(l){
-    root.setAttribute('data-lang', l);
-    root.setAttribute('lang', l);
-    for (var i=0;i<langButtons.length;i++){
-      langButtons[i].setAttribute('aria-pressed', langButtons[i].getAttribute('data-set-lang') === l);
-    }
-    try{ localStorage.setItem('md-lang', l); }catch(e){}
-  }
-  for (var i=0;i<langButtons.length;i++){
-    (function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-set-lang')); }); })(langButtons[i]);
-  }
-  var storedLang;
-  try{ storedLang = localStorage.getItem('md-lang'); }catch(e){}
-  var navLang = (navigator.language || 'en').slice(0,2);
-  setLang(storedLang || (navLang === 'ru' ? 'ru' : 'en'));
-
-  var themeBtn = document.getElementById('theme-toggle');
-  var sunIcon = themeBtn.querySelector('.icon-sun');
-  var moonIcon = themeBtn.querySelector('.icon-moon');
-  var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-  function isDarkNow(){
-    var current = root.getAttribute('data-theme');
-    return current ? current === 'dark' : systemDark.matches;
-  }
-  function syncToggle(){
-    var dark = isDarkNow();
-    themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
-    sunIcon.hidden = !dark;
-    moonIcon.hidden = dark;
-  }
-  function applyTheme(t){
-    if (t){ root.setAttribute('data-theme', t); }
-    else { root.removeAttribute('data-theme'); }
-    syncToggle();
-  }
-
-  var storedTheme;
-  try{ storedTheme = localStorage.getItem('md-theme'); }catch(e){}
-  if (storedTheme){ root.setAttribute('data-theme', storedTheme); }
-  syncToggle();
-  systemDark.addEventListener('change', function(){ if (!root.getAttribute('data-theme')) syncToggle(); });
-
-  themeBtn.addEventListener('click', function(){
-    var next = isDarkNow() ? 'light' : 'dark';
-    applyTheme(next);
-    try{ localStorage.setItem('md-theme', next); }catch(e){}
-  });
-})();
-</script>
+<script src="assets/app.js"></script>
 
 </body>
 </html>
