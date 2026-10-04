@@ -104,3 +104,91 @@ document.querySelectorAll('[data-carousel]').forEach(function(root){
   track.addEventListener('click', function(){ goTo(index + 1); });
   play();
 });
+
+/* tools marquee: clone the track until it covers twice the viewport, then
+   scroll it by exactly one track + one gap so the loop is seamless */
+document.querySelectorAll('[data-marquee]').forEach(function(mq){
+  var row = mq.querySelector('.marquee-row');
+  var track = mq.querySelector('.marquee-track');
+  if (!row || !track) return;
+
+  function build(){
+    row.querySelectorAll('.marquee-track[aria-hidden]').forEach(function(t){ t.remove(); });
+    var gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+    var one = track.getBoundingClientRect().width;
+    if (!one) return;
+    var copies = Math.max(2, Math.ceil((mq.offsetWidth * 2) / (one + gap)));
+    for (var i = 1; i < copies; i++){
+      var clone = track.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      row.appendChild(clone);
+    }
+    row.style.setProperty('--mq-shift', (one + gap) + 'px');
+    row.style.setProperty('--mq-dur', ((one + gap) / 55) + 's');   /* ~55px per second */
+  }
+
+  build();
+  window.addEventListener('resize', function(){
+    clearTimeout(mq._t);
+    mq._t = setTimeout(build, 200);
+  });
+});
+
+/* headline typewriter: the sentence after "designer" cycles through a few
+   phrasings. One typer per language span, so switching EN/RU keeps working.
+   The heading is height-locked to its tallest phrase first, so the hero never
+   reflows while the text types. */
+(function(){
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var typers = [].slice.call(document.querySelectorAll('.hero-title .type'));
+  if (!typers.length) return;
+
+  function lockHeight(el){
+    var title = el.closest('.hero-title');
+    if (!title || el.offsetParent === null) return;
+    var words = el.dataset.words.split('|');
+    var keep = el.textContent;
+    title.style.minHeight = '';
+    var tallest = 0;
+    words.forEach(function(w){
+      el.textContent = w;
+      tallest = Math.max(tallest, title.offsetHeight);
+    });
+    el.textContent = keep;
+    title.style.minHeight = tallest + 'px';
+  }
+
+  function lockVisible(){
+    typers.forEach(function(el){ if (el.offsetParent !== null) lockHeight(el); });
+  }
+
+  typers.forEach(function(el){
+    var words = el.dataset.words.split('|');
+    if (still) { el.textContent = words[0]; return; }
+
+    var word = 0, char = 0, erasing = false;
+    (function step(){
+      var target = words[word];
+      char += erasing ? -1 : 1;
+      el.textContent = target.slice(0, char);
+
+      var delay = erasing ? 28 : 55;
+      if (!erasing && char === target.length) { erasing = true; delay = 1900; }
+      else if (erasing && char === 0) { erasing = false; word = (word + 1) % words.length; delay = 360; }
+      setTimeout(step, delay);
+    })();
+  });
+
+  lockVisible();
+
+  var t;
+  window.addEventListener('resize', function(){
+    clearTimeout(t);
+    t = setTimeout(lockVisible, 200);
+  });
+
+  /* the language buttons swap which span is visible, so re-measure after them */
+  document.querySelectorAll('[data-set-lang]').forEach(function(b){
+    b.addEventListener('click', function(){ setTimeout(lockVisible, 50); });
+  });
+})();
