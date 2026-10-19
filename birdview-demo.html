@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birdview — interactive prototype · Maria Demenko</title>
+<meta name="description" content="A clickable prototype of the Birdview resource-planning module: plan, resolve overloads, staff roles and test scenarios on sample data.">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/demo-birdview.css?v=72c39e15">
+</head>
+<body>
+
+<div class="demo-strip">
+  <a class="strip-back" href="case-birdview.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    <span class="t-en">Birdview case</span><span class="t-ru">Кейс Birdview</span>
+  </a>
+  <div class="strip-title">
+    <span class="t-en">Interactive prototype · sample data, everything is clickable</span>
+    <span class="t-ru">Интерактивный прототип · тестовые данные, всё кликается</span>
+  </div>
+  <div class="strip-actions">
+    <button type="button" class="strip-btn" data-action="reset">
+      <span class="t-en">Reset demo</span><span class="t-ru">Сбросить</span>
+    </button>
+    <button type="button" class="strip-btn lang" data-set-lang="en">EN</button>
+    <button type="button" class="strip-btn lang" data-set-lang="ru">RU</button>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <aside class="sb" id="sidebar"></aside>
+  <main class="main">
+    <header class="top">
+      <h1>Resources</h1>
+      <div class="top-icons" id="topIcons"></div>
+      <button type="button" class="btn-p" data-action="new-project">New project</button>
+    </header>
+    <nav class="tabs" id="tabs"></nav>
+    <div class="toolbar" id="toolbar"></div>
+    <div class="sim-banner" id="simBanner" hidden></div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<div class="guide" id="guide"></div>
+<div id="layer"></div>
+
+<div class="small-screen" id="smallScreen">
+  <div>
+    <b class="t-en">Best on a wider screen</b><b class="t-ru">Лучше смотреть на широком экране</b>
+    <p class="t-en">This is a desktop planning tool — it works here too, just with fewer months in view.</p>
+    <p class="t-ru">Это десктопный инструмент планирования — здесь он тоже работает, просто месяцев видно меньше.</p>
+    <button type="button" class="btn-p" data-action="dismiss-small"><span class="t-en">Open anyway</span><span class="t-ru">Всё равно открыть</span></button>
+  </div>
+</div>
+
+<script src="assets/demo-birdview.js?v=39f20c4c"></script>
+</body>
+</html>

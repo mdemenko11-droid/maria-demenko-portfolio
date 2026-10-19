@@ -1,31 +1,35 @@
 (function(){
   var root = document.documentElement;
 
+  /* the sticky header only exists on the long-read case page; the home page
+     navigates with the side menu and page router further down */
   var header = document.querySelector('.site-header');
-  var lastY = window.scrollY;
-  var ticking = false;
-  function onScroll(){
-    var y = window.scrollY;
-    if (y > lastY && y > header.offsetHeight){
-      header.classList.add('is-hidden');
-    } else {
-      header.classList.remove('is-hidden');
-    }
-    lastY = y;
-    ticking = false;
-  }
-  window.addEventListener('scroll', function(){
-    if (!ticking){
-      window.requestAnimationFrame(onScroll);
-      ticking = true;
-    }
-  }, {passive:true});
+  if (header) {
+    var lastY = window.scrollY;
+    var ticking = false;
+    var onScroll = function(){
+      var y = window.scrollY;
+      if (y > lastY && y > header.offsetHeight){
+        header.classList.add('is-hidden');
+      } else {
+        header.classList.remove('is-hidden');
+      }
+      lastY = y;
+      ticking = false;
+    };
+    window.addEventListener('scroll', function(){
+      if (!ticking){
+        window.requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, {passive:true});
 
-  // the #top anchor sits below the sticky header, so scroll to the real top instead
-  document.querySelector('.logo-mark').addEventListener('click', function(e){
-    e.preventDefault();
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
+    // the #top anchor sits below the sticky header, so scroll to the real top instead
+    header.querySelector('.logo-mark').addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
 
   var langButtons = document.querySelectorAll('.lang-btn');
   function setLang(l){
@@ -44,7 +48,8 @@
   var navLang = (navigator.language || 'en').slice(0,2);
   setLang(storedLang || (navLang === 'ru' ? 'ru' : 'en'));
 
-  var themeBtn = document.getElementById('theme-toggle');
+  var themeBtn = document.getElementById('theme-toggle') || document.querySelector('.theme-toggle');
+  if (!themeBtn) return;
   var sunIcon = themeBtn.querySelector('.icon-sun');
   var moonIcon = themeBtn.querySelector('.icon-moon');
   var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -124,7 +129,8 @@ document.querySelectorAll('[data-marquee]').forEach(function(mq){
       row.appendChild(clone);
     }
     row.style.setProperty('--mq-shift', (one + gap) + 'px');
-    row.style.setProperty('--mq-dur', ((one + gap) / 55) + 's');   /* ~55px per second */
+    var speed = parseFloat(mq.getAttribute('data-speed')) || 55;   /* px per second */
+    row.style.setProperty('--mq-dur', ((one + gap) / speed) + 's');
   }
 
   build();
@@ -132,6 +138,11 @@ document.querySelectorAll('[data-marquee]').forEach(function(mq){
     clearTimeout(mq._t);
     mq._t = setTimeout(build, 200);
   });
+  /* the Russian phrase is longer, so the loop length has to be re-measured */
+  document.querySelectorAll('[data-set-lang]').forEach(function(b){
+    b.addEventListener('click', function(){ setTimeout(build, 40); });
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
 });
 
 /* headline typewriter: the sentence after "designer" cycles through a few
@@ -140,11 +151,11 @@ document.querySelectorAll('[data-marquee]').forEach(function(mq){
    reflows while the text types. */
 (function(){
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var typers = [].slice.call(document.querySelectorAll('.hero-title .type'));
+  var typers = [].slice.call(document.querySelectorAll('[data-typed] .type'));
   if (!typers.length) return;
 
   function lockHeight(el){
-    var title = el.closest('.hero-title');
+    var title = el.closest('[data-typed]');
     if (!title || el.offsetParent === null) return;
     var words = el.dataset.words.split('|');
     var keep = el.textContent;
@@ -191,4 +202,84 @@ document.querySelectorAll('[data-marquee]').forEach(function(mq){
   document.querySelectorAll('[data-set-lang]').forEach(function(b){
     b.addEventListener('click', function(){ setTimeout(lockVisible, 50); });
   });
+})();
+
+/* side menu + pages: one page shows at a time, chosen by the URL hash, so
+   every page has its own link and the back button works */
+(function(){
+  var views = document.getElementById('views');
+  if (!views) return;
+
+  var app = document.body;
+  var pages = [].slice.call(views.querySelectorAll('.screen'));
+  var links = [].slice.call(document.querySelectorAll('.sidebar [data-nav]'));
+  var group = document.querySelector('.sb-group');
+  var parent = group && group.querySelector('.sb-parent');
+  var toggle = group && group.querySelector('.sb-toggle');
+  var burger = document.querySelector('.sb-burger');
+  var scrim = document.querySelector('.sb-scrim');
+
+  function find(id){
+    for (var i = 0; i < pages.length; i++) if (pages[i].id === id) return pages[i];
+    return null;
+  }
+
+  function setOpen(open){
+    if (!group) return;
+    group.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function setMenu(open){
+    app.classList.toggle('is-menu-open', open);
+    if (scrim) scrim.hidden = !open;
+    if (burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function show(id, push){
+    var page = find(id) || pages[0];
+    pages.forEach(function(p){ p.classList.toggle('is-active', p === page); });
+    page.scrollTop = 0;
+
+    links.forEach(function(a){
+      var on = a.getAttribute('data-nav') === page.id;
+      a.classList.toggle('is-active', on);
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    var isProject = page.getAttribute('data-tab') === 'projects';
+    if (parent) parent.classList.toggle('is-active', isProject);
+    if (isProject) setOpen(true);
+
+    var hash = '#' + page.id;
+    if (location.hash !== hash) {
+      if (push) history.pushState(null, '', hash); else history.replaceState(null, '', hash);
+    }
+    setMenu(false);
+    /* strips on a page that was hidden measured nothing; let them re-measure */
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  /* every in-page link — menu, buttons, the card — opens a page */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!find(id)) return;
+    e.preventDefault();
+    show(id, true);
+  });
+
+  if (toggle) toggle.addEventListener('click', function(){
+    setOpen(!group.classList.contains('is-open'));
+  });
+
+  if (burger) burger.addEventListener('click', function(){
+    setMenu(!app.classList.contains('is-menu-open'));
+  });
+  if (scrim) scrim.addEventListener('click', function(){ setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+
+  window.addEventListener('popstate', function(){ show((location.hash || '').slice(1), false); });
+
+  show((location.hash || '').slice(1), false);
 })();
