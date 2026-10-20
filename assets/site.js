@@ -50,13 +50,15 @@
     if (!canTilt) return;
     card.addEventListener('pointermove', function(e){
       var r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      card.style.transform = 'perspective(700px) rotateX(' + ((.5 - y) * 22).toFixed(2) + 'deg) rotateY(' + ((x - .5) * 26).toFixed(2) + 'deg) translateY(-6px) scale(1.03)';
+      // big images lean less than the small cards, so they do not swing about
+      var k = Math.min(1, 300 / r.width);
+      card.style.transform = 'perspective(' + Math.round(700 / k) + 'px) rotateX(' + ((.5 - y) * 22 * k).toFixed(2) + 'deg) rotateY(' + ((x - .5) * 26 * k).toFixed(2) + 'deg) translateY(' + (-6 * k).toFixed(1) + 'px) scale(' + (1 + .03 * k).toFixed(3) + ')';
       card.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
       card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
     });
     card.addEventListener('pointerleave', function(){ card.style.transform = ''; card.style.removeProperty('--mx'); card.style.removeProperty('--my'); });
   }
-  document.querySelectorAll('.card').forEach(bindTilt);
+  document.querySelectorAll('.card, .tilt').forEach(bindTilt);
 
   /* a light that glides right to left along the visible lower half of the arc */
   var arc = document.querySelector('.hero-arc'), dot = document.querySelector('.hero-arc-dot');

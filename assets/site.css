@@ -15,6 +15,7 @@
   --on-night-muted:#8F8D88;
   --on-night-line:rgba(243,242,239,.09);
   --accent:#E8643C;
+  --gold:#CDD1D9;
 
   --serif:'Noto Serif Display', Georgia, 'Times New Roman', serif;
   --sans:'Geist', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
@@ -119,6 +120,7 @@ button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor
 .card{transition:transform .35s cubic-bezier(.2,.7,.2,1), border-color .3s;}
 .card-top{display:flex; justify-content:space-between; align-items:flex-start; color:var(--on-night-muted); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em;}
 .card-top .suit{width:14px; height:14px; color:var(--accent);}
+.card-top .numeral{font-family:var(--serif); font-weight:300; font-size:16px; letter-spacing:.06em; color:var(--on-night);}
 .card-art{flex:1 1 0; display:flex; align-items:center; justify-content:center; color:var(--on-night); min-height:48%; padding:6px 0 10px;}
 .card-art svg{width:auto; height:100%; max-width:88%; overflow:visible; filter:drop-shadow(0 0 10px rgba(255,255,255,.12)); transition:transform .6s cubic-bezier(.2,.7,.2,1);}
 .card:hover .card-art svg{transform:translateY(-4px) scale(1.03);}
@@ -161,6 +163,52 @@ button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor
 .hero--rail .card p{max-height:none; opacity:1; margin-top:8px;}
 .hero--rail .card-art{min-height:0; padding:4px 0 8px;}
 .hero--rail .card-art svg{pointer-events:none;}
+/* tarot cards: the illustration takes the card, the description slides in on hover */
+.hero--rail .card--tarot .card-art{min-height:0; padding:2px 0 6px;}
+/* black-and-gold tarot: a double gold frame with flourishes in the corners */
+.card--tarot{box-shadow:inset 0 0 0 8px #070707, inset 0 0 0 9px rgba(205,209,217,.55), inset 0 0 0 12px #070707, inset 0 0 0 12.6px rgba(205,209,217,.28), 0 30px 60px -30px rgba(0,0,0,.9);}
+.card--tarot .card-top{position:relative; z-index:3; justify-content:center; padding:8px 0 0;}
+/* keep the copy clear of the frame and the corner flourishes */
+.hero--rail .card--tarot{padding:20px 44px 34px;}
+.card--tarot h3{position:relative; z-index:3; font-size:clamp(14px, calc(var(--rail-h) * .068), 21px); line-height:1.12; text-wrap:balance;}
+/* the art keeps one size on every card and sits centred between the numeral and the title */
+.hero--rail .card--tarot .card-art{margin:0 -28px; flex:1 1 0; min-height:0; display:flex; align-items:center; justify-content:center;}
+/* full size at rest; while the description slides in, the art shrinks with the space it is left */
+.hero--rail .card--tarot .card-art svg{height:min(calc(var(--rail-h) * .48), calc(var(--rail-h) - 140px), 100%); width:auto; max-width:100%;}
+.hero--rail .card--tarot h3{margin-top:0;}
+.card--tarot .numeral{color:var(--gold); font-size:17px; letter-spacing:.12em;}
+.card--tarot .suit{display:none;}
+.card--tarot h3{color:#ECEEF2;}
+/* no z-index: the frame must not form its own stacking context, or the foil below cannot blend with the art */
+.tarot-frame{position:absolute; inset:0; pointer-events:none;}
+.tarot-frame i{position:absolute; width:26px; height:26px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23CDD1D9' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M1.5 22C1.5 10 10 1.5 22 1.5'/%3E%3Cpath d='M5 22C5 13 13 5 22 5' stroke-opacity='.6'/%3E%3Cpath d='M9 14c0-3 4-4 5-1s-3 4-3 2'/%3E%3Ccircle cx='15.5' cy='8.5' r='1' fill='%23CDD1D9' stroke='none'/%3E%3Ccircle cx='8.5' cy='15.5' r='1' fill='%23CDD1D9' stroke='none'/%3E%3C/svg%3E") no-repeat center/contain;}
+.tarot-frame i:nth-child(1){top:14px; left:14px;}
+.tarot-frame i:nth-child(2){top:14px; right:14px; transform:scaleX(-1);}
+.tarot-frame i:nth-child(3){bottom:14px; left:14px; transform:scaleY(-1);}
+.tarot-frame i:nth-child(4){bottom:14px; right:14px; transform:scale(-1, -1);}
+/* holographic foil: a rainbow sheen that follows the pointer while the card tilts (tarot cards and the rest of the rail) */
+/* no z-index on the foil: it would isolate the blend and paint a flat rainbow over the image */
+.foil{position:absolute; inset:0; pointer-events:none; border-radius:inherit;}
+/* images outside the rail get the same lean and foil */
+.tilt{transition:transform .5s cubic-bezier(.2,.7,.2,1); will-change:transform;}
+.about-portrait.tilt{transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .4s;}
+.tarot-frame::before, .foil::before{content:""; position:absolute; inset:0; opacity:0; transition:opacity .45s;
+  background:
+    linear-gradient(115deg, transparent 22%, rgba(255,120,200,.9) 34%, rgba(110,210,255,.9) 44%, rgba(185,140,255,.9) 54%, rgba(120,255,200,.85) 64%, rgba(255,220,120,.85) 74%, transparent 86%),
+    radial-gradient(55% 45% at var(--mx, 50%) var(--my, 30%), rgba(255,255,255,.5), transparent 70%);
+  background-size:260% 260%, 100% 100%; background-position:var(--mx, 50%) var(--my, 50%), 0 0;
+  mix-blend-mode:overlay;}
+.card--tarot:hover .tarot-frame::before, .card:hover .foil::before, .tilt:hover .foil::before{opacity:1;}
+/* a faint second pass so the rainbow also reads across the black field */
+.tarot-frame::after, .foil::after{content:""; position:absolute; inset:0; opacity:0; transition:opacity .45s; mix-blend-mode:screen;
+  background:linear-gradient(115deg, transparent 25%, rgba(255,120,200,.5) 36%, rgba(110,210,255,.5) 46%, rgba(185,140,255,.5) 56%, rgba(120,255,200,.45) 66%, transparent 80%);
+  background-size:260% 260%; background-position:var(--mx, 50%) var(--my, 50%);}
+.card--tarot:hover .tarot-frame::after, .card:hover .foil::after, .tilt:hover .foil::after{opacity:.16;}
+.card--tarot:hover{border-color:rgba(205,209,217,.35);}
+.art-spin{transform-origin:100px 86px; transform-box:view-box; animation:spin 60s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.hero--rail .card--tarot p{max-height:0; opacity:0; margin-top:0;}
+.hero--rail .card--tarot:hover p, .hero--rail .card--tarot:focus-within p{max-height:6em; opacity:1; margin-top:8px;}
 a.card{color:inherit;}
 .card-go{width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,.08); color:var(--on-night); transition:transform .35s cubic-bezier(.2,.7,.2,1), background .2s;}
 .card-go svg{width:13px; height:13px;}
@@ -414,12 +462,14 @@ a.tile:hover .tile-arrow{transform:rotate(-45deg);}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
   .reveal{opacity:1; transform:none; transition:none;}
-  .art-pulse, .art-draw, .live-chip .dot, .hero-glow i{animation:none;}
+  .art-pulse, .art-draw, .live-chip .dot, .hero-glow i, .art-spin{animation:none;}
   .card{transition:none;}
 }
 
 /* ---------- responsive ---------- */
 @media (max-height:880px) and (min-width:961px){ .hero-foot{display:none;} }
+/* on short screens the tarot cards are too small to fit a description under the art */
+@media (max-height:760px) and (min-width:961px){ .hero--rail .card--tarot:hover p, .hero--rail .card--tarot:focus-within p{max-height:0; opacity:0; margin-top:0;} }
 @media (max-width:1100px){
   .about{grid-template-columns:1fr;}
   .foot-grid{grid-template-columns:1fr 1fr 1fr;}
