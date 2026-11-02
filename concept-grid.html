@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Noto+Serif+Display:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/grid.css">
 </head>
-<body>
+<body class="fit">
 
 <!-- the black glyphs share one glossy fill and one cast shadow -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -29,10 +29,10 @@
 </svg>
 
 <nav class="nav" aria-label="Main">
-  <a class="nav-brand" href="#top">Maria Demenko</a>
+  <a class="nav-brand" href="concept-grid.html">Maria Demenko</a>
   <span class="nav-links">
     <a href="#top" aria-current="page"><span class="t-en">Work</span><span class="t-ru">Работы</span></a>
-    <a href="about.html"><span class="t-en">About</span><span class="t-ru">Обо мне</span></a>
+    <a href="concept-about.html"><span class="t-en">About</span><span class="t-ru">Обо мне</span></a>
     <a href="#contact"><span class="t-en">Contact</span><span class="t-ru">Контакты</span></a>
   </span>
   <span class="nav-end">
@@ -96,11 +96,11 @@
   </article>
 
   <section class="cell cell--text cell--intro">
-    <!-- fills the top of the cell: a soft pearl glow -->
-    <div class="cell-art" aria-hidden="true">
-      <span class="blob blob-a"></span><span class="blob blob-b"></span><span class="blob blob-c"></span><span class="blob blob-d"></span>
+    <div class="me">
+      <span class="me-ava"><img src="assets/avatar.jpg?v=5" alt="Maria Demenko" width="96" height="96"></span>
+      <span class="me-id"><span class="me-name">Maria Demenko</span><span class="me-role"><span class="t-en">Product designer</span><span class="t-ru">Продуктовый дизайнер</span></span></span>
     </div>
-    <p class="cell-big"><span class="t-en">I'm Maria, a product designer with 7 years in B2B SaaS, retail and delivery.</span><span class="t-ru">Я Мария, продуктовый дизайнер, 7 лет в B2B SaaS, ритейле и доставке.</span></p>
+    <p class="cell-big"><span class="t-en">7 years turning complex B2B SaaS, retail and delivery products into simple ones.</span><span class="t-ru">7 лет делаю сложные продукты в B2B SaaS, ритейле и доставке простыми.</span></p>
     <p class="cell-small"><span class="t-en">I untangle workflows, build design systems and prototype with AI, so teams ship faster.</span><span class="t-ru">Распутываю процессы, собираю дизайн-системы и прототипирую с AI, чтобы команды выпускали быстрее.</span></p>
   </section>
 
@@ -115,12 +115,24 @@
   </article>
 
   <section class="cell cell--text cell--contact" id="contact">
-    <h3><span class="t-en">Let's make something<br>clear together</span><span class="t-ru">Давайте сделаем<br>сложное понятным</span></h3>
-    <div class="cell-links">
-      <button type="button" class="text-link" data-copy="m.demenko11@gmail.com"><span data-copy-label>m.demenko11@gmail.com</span></button>
-      <a class="text-link" href="https://t.me/mariademn" target="_blank" rel="noopener">Telegram</a>
-      <a class="text-link" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
+    <h3><span class="t-en">Let's build together</span><span class="t-ru">Сделаем вместе</span></h3>
+    <ul class="contact-list">
+      <li><button type="button" class="c-row" data-copy="m.demenko11@gmail.com">
+        <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3.5 7 7.4 5.3a1.9 1.9 0 0 0 2.2 0L20.5 7"/></svg></span>
+        <span class="c-txt"><span class="c-name"><span class="t-en">Email · click to copy</span><span class="t-ru">Почта · нажмите, чтобы скопировать</span></span><span class="c-val" data-copy-label>m.demenko11@gmail.com</span></span>
+        <span class="c-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6a2.5 2.5 0 0 0-2.5-2.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></svg></span>
+      </button></li>
+      <li><a class="c-row" href="https://t.me/mariademn" target="_blank" rel="noopener">
+        <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m21.5 3.5-19 7.3 6.6 2.5 2.5 6.7 3.4-4.4 4.6 3.4z"/><path d="m9.1 13.3 8.4-6.3"/></svg></span>
+        <span class="c-txt"><span class="c-name">Telegram</span><span class="c-val">@mariademn</span></span>
+        <span class="c-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+      </a></li>
+      <li><a class="c-row" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener">
+        <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V16M8 7.6v.1M11.5 16v-3.2a2.3 2.3 0 0 1 4.6 0V16M11.5 10.5V16"/></svg></span>
+        <span class="c-txt"><span class="c-name">LinkedIn</span><span class="c-val">Maria Demenko</span></span>
+        <span class="c-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+      </a></li>
+    </ul>
   </section>
 
 </main>
@@ -130,8 +142,8 @@
   <span class="langs"><button type="button" data-set-lang="en">EN</button><button type="button" data-set-lang="ru">RU</button></span>
 </footer>
 
-<script src="assets/grid.js?v=3"></script>
+<script src="assets/grid.js?v=5"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<script type="module" src="assets/glyph3d.js?v=4"></script>
+<script type="module" src="assets/glyph3d.js?v=7"></script>
 </body>
 </html>

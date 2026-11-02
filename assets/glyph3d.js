@@ -318,6 +318,25 @@ const builders = {
     g.rotation.set(.5, .78, 0);
     return g;
   },
+  // ---- the playlist: a vinyl record on the platter, the tonearm resting on it ----
+  vinyl(){
+    const g = new THREE.Group(), m = lacquer();
+    const black = new THREE.MeshPhysicalMaterial({color:0x050507, metalness:0, roughness:.42, clearcoat:.7, clearcoatRoughness:.18, envMapIntensity:.55});
+    const disc = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.25, .08, 128), black); disc.rotation.x = Math.PI / 2; g.add(disc);
+    // the grooves: fine raised rings that catch the light
+    const groove = new THREE.MeshPhysicalMaterial({color:0x1d1e24, metalness:.5, roughness:.25, clearcoat:1, envMapIntensity:.7});
+    [.62, .74, .86, .98, 1.1].forEach(r => { const t = new THREE.Mesh(new THREE.TorusGeometry(r, .012, 8, 128), groove); t.position.z = .045; g.add(t); });
+    // the label: the same pearl chrome as the other figures
+    const label = new THREE.Mesh(new THREE.CylinderGeometry(.44, .44, .1, 64), m); label.rotation.x = Math.PI / 2; label.position.z = .01; g.add(label);
+    const hole = new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, .14, 24), black); hole.rotation.x = Math.PI / 2; g.add(hole);
+    // the tonearm: a pivot at the top right, the arm across to the outer grooves
+    const pivot = new THREE.Mesh(new THREE.CylinderGeometry(.16, .18, .22, 32), m); pivot.rotation.x = Math.PI / 2; pivot.position.set(1.3, 1.05, .14); g.add(pivot);
+    const arm = new THREE.Mesh(new RoundedBoxGeometry(.09, 1.25, .08, 3, .035), m); arm.position.set(1.08, .45, .2); arm.rotation.z = .42; g.add(arm);
+    const head = new THREE.Mesh(new RoundedBoxGeometry(.2, .32, .1, 3, .04), m); head.position.set(.82, -.12, .22); head.rotation.z = .42; g.add(head);
+    g.userData.optical = 1.25; // the tonearm stretches the box, so the disc itself needs a little more
+    return g;
+  },
+
   // ---- systems thinking: complex in, simple out ----
   // a funnel: many balls go in the top, one comes out below
   stFunnel(){

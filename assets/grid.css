@@ -17,7 +17,8 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box;}
-html{-webkit-text-size-adjust:100%;}
+/* glows and the button membrane spill past their boxes on purpose; never let that scroll the page sideways */
+html{-webkit-text-size-adjust:100%; overflow-x:clip;}
 body{margin:0; background:radial-gradient(70% 50% at 50% 0%, #22232A, transparent 70%), var(--bg); background-attachment:fixed; color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased;}
 body::before{content:""; position:fixed; inset:0; z-index:100; pointer-events:none; background-image:var(--grain); opacity:.05;}
 a{color:inherit; text-decoration:none;}
@@ -50,7 +51,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .langs button[aria-pressed="true"]{background:rgba(255,255,255,.08); color:var(--ink);}
 
 /* ---------- the board: one even grid ---------- */
-.board{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:var(--gap); padding:var(--gap) var(--side) clamp(40px, 6vw, 80px); max-width:1680px; margin:0 auto;}
+.board{overflow:clip; overflow-clip-margin:var(--side); display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:var(--gap); padding:var(--gap) var(--side) clamp(40px, 6vw, 80px); max-width:1680px; margin:0 auto;}
 .card, .cell{aspect-ratio:1 / 1.1; min-width:0;}
 
 /* text cells: the same footprint as a card, no box around them */
@@ -143,7 +144,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .board > .card{animation:card-in .7s cubic-bezier(.2,.75,.2,1) backwards; animation-delay:calc(var(--i, 0) * 55ms);}
 @keyframes card-in{from{opacity:0; transform:perspective(1100px) translateY(24px);}}
 
-.foot{display:flex; justify-content:space-between; align-items:center; max-width:1680px; margin:0 auto; padding:20px var(--side) 32px; border-top:1px solid var(--line); font-size:14px; color:var(--ash);}
+.foot{display:flex; justify-content:space-between; align-items:center; max-width:calc(min(100vw, 1680px) - 2 * var(--side)); margin:0 auto; padding:20px 0 32px; border-top:1px solid var(--line); font-size:14px; color:var(--ash);}
 
 /* ---------- the same even grid at every width ---------- */
 @media (max-width:1000px){
@@ -151,6 +152,9 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   .board > *{grid-area:auto;}
   .cell--lead{grid-column:1 / -1;}
   .cell--lead h1, .cell.cell--contact h3{text-wrap:wrap;}
+  /* the two text blocks share the last row instead of each sitting beside a card with empty space;
+     each becomes a quiet dark glass panel so it reads as a block of the grid, not loose text */
+  .cell--intro, .cell--contact{order:2; aspect-ratio:auto; min-height:300px; padding:clamp(22px, 3vw, 32px);}
 }
 @media (max-width:760px){
   .nav{margin-top:12px; max-width:calc(100vw - 24px);}
@@ -171,6 +175,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   .card, .cell{aspect-ratio:auto;}
   .card{min-height:min(110vw, 420px);}
   .cell--text{min-height:0; padding:28px 6px;}
+  .cell--intro, .cell--contact{min-height:260px; padding:26px 24px;}
   .card p{display:block; font-size:14px;}
   .card h2{font-size:18px;}
   .cell--lead h1{font-size:44px;}
@@ -331,3 +336,183 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .card .tools li:hover::after, .card .tools li:focus-visible::after{opacity:1; transform:translate(-50%, 0);}
 .card .tools li:hover::before, .card .tools li:focus-visible::before{opacity:1; transform:translateY(0) rotate(45deg);}
 .card .tools li:focus-visible{outline:2px solid #15151A; outline-offset:2px;}
+
+/* contacts: a short list of rows, each with an icon in a glass disc, a label over the value,
+   and an action on the right that lights up on hover */
+.contact-list{list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; width:100%;}
+.c-row{display:flex; align-items:center; gap:10px; width:100%; padding:9px 8px 9px 9px; margin:0; border:0; border-radius:18px;
+  background:rgba(255,255,255,.035); box-shadow:inset 0 0 0 1px rgba(255,255,255,.07), inset 0 1px 0 rgba(255,255,255,.06);
+  color:var(--ink); font:inherit; text-align:left; text-decoration:none; cursor:pointer;
+  transition:background-color .3s ease, box-shadow .3s ease, transform .3s cubic-bezier(.2,.75,.2,1);}
+.c-row:hover, .c-row:focus-visible{background:rgba(255,255,255,.08); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14), inset 0 1px 0 rgba(255,255,255,.12);}
+.c-row:focus-visible{outline:2px solid rgba(190,220,255,.8); outline-offset:2px;}
+.c-row:active{transform:scale(.985);}
+.c-ico{flex:none; width:36px; height:36px; border-radius:12px; display:grid; place-items:center; color:#EDEFF4;
+  background:linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.04)); box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 0 0 1px rgba(255,255,255,.08);}
+.c-ico svg{width:18px; height:18px;}
+.c-txt{flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:1px;}
+.c-name{font-size:12px; line-height:1.3; color:var(--ash); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.c-val{font-size:clamp(13px, .92vw, 15px); line-height:1.35; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.c-go{flex:none; width:30px; height:30px; border-radius:50%; display:grid; place-items:center; color:var(--ash);
+  transition:background-color .3s ease, color .3s ease, transform .35s cubic-bezier(.2,.75,.2,1);}
+.c-go svg{width:15px; height:15px;}
+.c-row:hover .c-go{background:#fff; color:#15151A; transform:rotate(0deg) scale(1.04);}
+.c-row.copy-ok .c-val{color:#9BE3B5;}
+.c-row.copy-ok .c-go{background:#9BE3B5; color:#0E2A18;}
+
+/* the intro: a small profile header at the top (a pearl-silver monogram, name and role),
+   the statement and the detail at the bottom */
+.me{display:flex; align-items:center; gap:14px; margin-bottom:auto;}
+.me-ava{position:relative; flex:none; width:52px; height:52px; border-radius:50%; display:grid; place-items:center; isolation:isolate; overflow:hidden;
+  background:#D9DCE2;
+  box-shadow:0 10px 22px -10px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.12);}
+/* a pearl sheen laid over the silver, the same film as on the cards */
+.me-ava::before{content:""; position:absolute; inset:-30%; z-index:-1; mix-blend-mode:soft-light; opacity:.9;
+  background:conic-gradient(from 200deg, #FF9ACB, #9CCBFF, #9AF0C9, #FFE3A3, #FF9ACB); filter:blur(6px);}
+/* the photo sits inside a thin silver-pearl ring */
+.me-ava img{position:absolute; inset:2px; width:calc(100% - 4px); height:calc(100% - 4px); border-radius:50%; object-fit:cover; display:block;
+  box-shadow:0 0 0 1px rgba(255,255,255,.35);}
+.me-id{display:flex; flex-direction:column; gap:2px; min-width:0;}
+.me-name{font-size:16px; font-weight:500; color:var(--ink); line-height:1.3;}
+.me-role{font-size:13px; color:var(--ash); line-height:1.3;}
+.cell--intro .cell-big{margin-top:18px;}
+
+/* the two text blocks sit on a barely-there dark glass panel at every width,
+   so they read as tiles of the grid without competing with the silver cards */
+.cell--intro, .cell--contact{position:relative; overflow:hidden; padding:clamp(22px, 1.7vw, 28px); border-radius:clamp(20px, 2vw, 30px);
+  background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.012) 65%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07), inset 0 0 0 1px rgba(255,255,255,.045);}
+/* the contact heading stays on one line inside its panel */
+.cell.cell--contact h3{font-size:clamp(18px, 1.8vw, 32px);}
+@media (max-width:1000px){ .cell.cell--contact h3{font-size:22px;} }
+/* when the contact block itself is narrow, drop the action disc (and then the icon) so the address fits */
+.contact-list{container-type:inline-size;}
+@container (max-width:262px){ .c-go{display:none;} .c-row{padding-right:12px;} }
+@container (max-width:212px){ .c-ico{display:none;} .c-row{padding-left:14px;} }
+
+/* desktop: the whole board fits the screen height with no scroll. The two card rows take
+   what the nav, the footer and the gaps leave; the board narrows to keep the cards' shape,
+   and the headline scales with the board instead of the window. */
+@media (min-width:1001px){
+  :root{--chrome:206px; --rowH:calc((100svh - var(--chrome)) / 2);
+    --bw:min(1680px, 100vw, calc(4 * var(--rowH) / 1.1 + 3 * var(--gap) + 2 * var(--side)));}
+  .fit .board{max-width:var(--bw); padding-bottom:var(--gap); container-type:inline-size; grid-template-rows:repeat(2, var(--rowH));}
+  /* rows have an exact height, so a card with more words gives its figure a little less room instead of growing */
+  .fit .board > .card, .fit .board > .cell{aspect-ratio:auto; min-height:0;}
+  .fit .nav{width:calc(var(--bw) - 2 * var(--side));}
+  .fit .cell--lead h1{font-size:clamp(40px, 4.6cqw, 92px);}
+  /* the intro's words scale with the board too, so they always fit under the profile header */
+  .fit .cell--intro .cell-big{font-size:clamp(16px, 1.4cqw, 25px); margin-top:14px;}
+  .fit .cell--intro .cell-small{font-size:clamp(12.5px, .98cqw, 16px);}
+  .fit .cell--intro{gap:10px;}
+  /* the footer line runs exactly as wide as the cards above it */
+  .fit .foot{max-width:calc(var(--bw) - 2 * var(--side)); padding:14px 0 18px;}
+}
+
+/* ---------- about page: the same board, but it scrolls ---------- */
+.board--about > *{aspect-ratio:auto; grid-area:auto; order:0;}
+.board--about > .cell--lead{grid-column:1 / 3;}
+@media (max-width:1000px){ .board--about > .cell--lead, .board--about > .cell--cta{grid-column:1 / -1;} }
+.board--about > .card--portrait{aspect-ratio:1 / 1.1;}
+.kicker{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--ash);}
+.board--about .cell--lead{justify-content:center; gap:clamp(16px, 1.8vw, 26px);}
+.board--about .cell--lead h1{text-wrap:nowrap;}
+.about-lead{max-width:30ch; font-size:clamp(18px, 1.5vw, 24px); line-height:1.35; letter-spacing:-.01em; color:var(--ink);}
+
+/* the portrait: a silver ID card with the photo set into it */
+.card-photo{flex:1 1 auto; min-height:0; margin:12px 0 14px; border-radius:calc(var(--r) * .6); overflow:hidden;
+  /* the cut-out portrait stands on dark graphite, with a soft light behind the head */
+  background:radial-gradient(60% 50% at 50% 30%, #3A3B42, #1C1D22 60%, #101014);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), 0 10px 22px -12px rgba(0,0,0,.45);}
+.card-photo img{display:block; width:100%; height:100%; object-fit:cover; object-position:50% 18%;}
+
+/* the facts panel beside it */
+.cell--facts{justify-content:space-between;}
+.facts{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+.facts li{display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:14px; font-size:14px; color:var(--ink);
+  background:rgba(255,255,255,.035); box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);}
+.facts li small{margin-left:auto; color:var(--ash); font-size:12.5px; white-space:nowrap;}
+
+/* section headings run across the whole board */
+.cell--section{grid-column:1 / -1; padding:clamp(28px, 4vw, 56px) clamp(6px, 1.2vw, 18px) 4px; justify-content:flex-end; gap:6px;}
+.sec-title{font-family:var(--serif); font-weight:400; font-size:clamp(30px, 3vw, 52px); line-height:1.05; letter-spacing:-.02em;}
+
+/* a job: a silver card across the whole board. The left column holds who, when and where,
+   the right one what I did, so a short list never leaves a hole and a long one never squeezes */
+.card--job{grid-column:1 / -1; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.5fr); column-gap:clamp(24px, 4vw, 72px);
+  padding:clamp(22px, 2.2vw, 36px);}
+.job-meta{display:flex; flex-direction:column; align-items:flex-start;}
+.card--job h2{margin-top:10px; font-size:clamp(22px, 2vw, 32px);}
+.card--job .lead{max-width:34ch;}
+.job-body{padding-top:4px;}
+.points{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+.points li{position:relative; padding:0 0 0 18px; font-size:clamp(14px, 1vw, 16px); line-height:1.45; color:rgba(21,21,26,.8); max-width:62ch;}
+.points li::before{content:""; position:absolute; left:2px; top:.6em; width:6px; height:6px; border-radius:50%; background:rgba(21,21,26,.4);}
+.job-foot{display:flex; flex-direction:column; align-items:flex-start; gap:14px; margin-top:auto; padding-top:22px;}
+.job-foot .chips{margin-top:0;}
+.card-link{flex:none; display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 15px; border-radius:999px; background:#15151A; color:#F2F3F6; font-size:13.5px; font-weight:500; white-space:nowrap; transition:background-color .2s, transform .3s cubic-bezier(.2,.75,.2,1);}
+.card-link:hover{background:#000; transform:translateY(-1px);}
+.card-link svg{width:14px; height:14px;}
+/* the last row mirrors the home page: a call to the work on two columns, then the toolkit and the contacts */
+.board--about > .cell--cta{grid-column:1 / 3; justify-content:center; gap:clamp(28px, 3vw, 48px);}
+@media (max-width:1000px){ .board--about > .cell--cta{grid-column:1 / -1;} }
+@media (max-width:520px){ .board--about > .card--portrait{aspect-ratio:auto;} }
+
+@media (max-width:1000px){
+  .card--job, .cell--section{grid-column:1 / -1;}
+  .board--about .cell--lead h1{text-wrap:wrap;}
+}
+@media (max-width:760px){
+  .board--about .card p{display:block;}
+  .card--job{grid-template-columns:minmax(0, 1fr); row-gap:16px;}
+  .job-foot{order:3;}
+}
+
+/* ---------- the timeline: one dark glass panel, a lane per job, bars to scale ---------- */
+.cell--timeline{grid-column:1 / -1; position:relative; padding:clamp(22px, 2.4vw, 36px) clamp(22px, 2.4vw, 40px) clamp(16px, 1.6vw, 24px); border-radius:clamp(20px, 2vw, 30px);
+  background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.012) 65%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07), inset 0 0 0 1px rgba(255,255,255,.045);}
+.tl-lanes{position:relative; display:flex; flex-direction:column; gap:clamp(14px, 1.4vw, 20px);}
+/* faint year gridlines run behind the lanes */
+.tl-lanes::before{content:""; position:absolute; inset:-8px 0 -10px; pointer-events:none;
+  background:repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px calc(100% / 7.75)); }
+.tl-lane{position:relative; display:block; height:62px; color:var(--ink); text-decoration:none;}
+.tl-label{position:absolute; top:0; display:flex; flex-direction:column; gap:1px; white-space:nowrap; font-size:13px; line-height:1.3;}
+.tl-label b{font-size:15px; font-weight:500;}
+.tl-label span{color:var(--ash);}
+.tl-label--start{left:var(--l);}
+.tl-label--end{right:calc(100% - var(--l) - var(--w)); text-align:right;}
+/* the bar: the same silver as the cards, with the pearl film drifting through it */
+.tl-bar{position:absolute; bottom:0; left:var(--l); width:var(--w); min-width:14px; height:16px; border-radius:999px; overflow:hidden;
+  background:linear-gradient(120deg, #F5F6F8, #C6CAD1 38%, #EEF0F3 60%, #B3B8C1);
+  box-shadow:inset 0 1px 0 #fff, 0 6px 16px -6px rgba(0,0,0,.9), 0 0 24px -8px rgba(205,215,240,.45);
+  transform-origin:left center; transition:transform .9s cubic-bezier(.2,.75,.2,1), box-shadow .3s ease, height .3s ease;}
+.tl-sheen{position:absolute; inset:0 -100%; mix-blend-mode:soft-light; opacity:.9;
+  background:linear-gradient(110deg, #FBAED6, #A9D8FB 17%, #CDB9FB 33%, #A9F0CF 50%, #F9DCA8 67%, #FBAED6 84%, #A9D8FB);
+  animation:pearl 12s ease-in-out infinite alternate;}
+.tl-lane:hover .tl-bar, .tl-lane:focus-visible .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 34px -6px rgba(205,215,240,.7);}
+.tl-lane:hover .tl-label b{text-decoration:underline; text-underline-offset:3px; text-decoration-color:rgba(255,255,255,.35);}
+.tl-lane:focus-visible{outline:none;}
+.tl-lane:focus-visible .tl-label b{outline:2px solid rgba(190,220,255,.8); outline-offset:2px; border-radius:4px;}
+/* the bars grow in from the left when the timeline scrolls into view */
+.cell--timeline.is-pending .tl-bar{transform:scaleX(0);}
+.tl-lane:nth-child(2) .tl-bar{transition-delay:.12s;} .tl-lane:nth-child(3) .tl-bar{transition-delay:.24s;}
+.tl-axis{position:relative; height:28px; margin-top:16px; border-top:1px solid rgba(255,255,255,.1);}
+.tl-tick{position:absolute; top:0; left:var(--x); transform:translateX(-50%); padding-top:9px; font-size:12px; color:var(--ash); font-variant-numeric:tabular-nums;}
+.tl-tick:first-child{transform:none;}
+.tl-tick i{position:absolute; top:-4px; left:50%; width:1px; height:7px; background:rgba(255,255,255,.25);}
+.tl-tick:first-child i{left:0;}
+@media (max-width:520px){ .tl-tick:nth-child(even){visibility:hidden;} .tl-label{font-size:12px;} .tl-label b{font-size:14px;} }
+@media (prefers-reduced-motion:reduce){ .tl-sheen{animation:none;} .tl-bar{transition:none;} .cell--timeline.is-pending .tl-bar{transform:none;} }
+
+/* the playlist card: a vinyl record, and a Spotify link with a small equaliser that keeps time */
+.board--about > .card--playlist{aspect-ratio:1 / 1.1;}
+.card--playlist .job-foot{padding-top:14px;}
+.eq{flex:none; display:flex; align-items:flex-end; gap:2px; height:13px;}
+.eq i{width:2.5px; height:100%; border-radius:2px; background:#1ED760; transform-origin:bottom; animation:eq 1.1s ease-in-out infinite alternate;}
+.eq i:nth-child(1){animation-duration:.9s;} .eq i:nth-child(2){animation-duration:1.3s; animation-delay:-.4s;}
+.eq i:nth-child(3){animation-duration:.75s; animation-delay:-.2s;} .eq i:nth-child(4){animation-duration:1.15s; animation-delay:-.6s;}
+@keyframes eq{from{transform:scaleY(.25);} to{transform:scaleY(1);}}
+@media (prefers-reduced-motion:reduce){ .eq i{animation:none; transform:scaleY(.6);} }
+
+@media (max-width:520px){ .board--about > .card--playlist{aspect-ratio:auto;} }
