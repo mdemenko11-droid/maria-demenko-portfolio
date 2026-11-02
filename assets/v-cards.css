@@ -1,0 +1,50 @@
+/* Variant 5: collectible cards. Each strength is a numbered card from one
+   set with a type colour, an art window, three stats and a rarity. The foil
+   is what it is on real cards: the mark of a rare one. Unfinished cases are
+   sealed for the next set. Colour enters only as muted metallic edges. */
+
+body[data-variant="cards"]{--frame:inset 0 0 0 6px #24242A, inset 0 0 0 7px rgba(0,0,0,.7);}
+.tc-sys{--tint:#8FA8C8;}
+.tc-ds{--tint:#A897C9;}
+.tc-ai{--tint:#86BDB2;}
+.tc-out{--tint:#C9AE7E;}
+
+.card--tc{gap:8px; box-shadow:inset 0 0 0 6px var(--tint), inset 0 0 0 7px rgba(0,0,0,.6), 0 30px 60px -30px rgba(0,0,0,.9);
+  background:radial-gradient(80% 60% at var(--mx) var(--my), rgba(255,255,255,.08), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--tint) 22%, var(--stock)), var(--stock) 45%);}
+.hero--rail .card--tc{width:calc(var(--rail-h) * .74); padding:16px 16px 14px;}
+.card--tc > *{position:relative; z-index:2;}
+
+.tc-head{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+.card--tc h3{margin:0; text-align:left; font-family:var(--serif); font-weight:300; font-size:clamp(14px, calc(var(--rail-h) * .058), 18px); line-height:1.1; color:var(--bone);}
+.tc-no{flex:none; font-size:13px; color:var(--bone); font-variant-numeric:tabular-nums;}
+.tc-no small{font-size:10px; color:var(--ash);}
+
+.tc-art{flex:1 1 0; min-height:0; display:flex; align-items:center; justify-content:center; border-radius:10px; overflow:hidden;
+  border:1px solid color-mix(in srgb, var(--tint) 45%, transparent);
+  background:radial-gradient(70% 70% at 50% 40%, color-mix(in srgb, var(--tint) 28%, transparent), transparent 75%), #060607;}
+.tc-art svg{height:86%; width:auto; color:var(--bone); transition:transform .5s cubic-bezier(.2,.7,.2,1);}
+.card--tc:hover .tc-art svg{transform:scale(1.06);}
+
+.card--tc .tc-flavor{margin:0; max-width:none; text-align:left; font-size:11px; line-height:1.35; color:var(--ash); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.tc-stats{list-style:none; margin:0; padding:6px 0 0; border-top:1px solid rgba(255,255,255,.08); display:grid; gap:3px;}
+.tc-stats li{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:11px; line-height:1.3; color:var(--bone);}
+.pips{display:flex; gap:3px;}
+.pips i{width:6px; height:6px; transform:rotate(45deg); background:rgba(255,255,255,.14);}
+.pips i.on{background:var(--tint);}
+.tc-foot{display:flex; justify-content:space-between; font-size:10.5px; color:var(--ash);}
+.tc-foot > span:first-child{color:var(--tint);}
+
+/* the holo rare keeps a faint sheen even at rest */
+.tc-ai .foil::before{opacity:.28;}
+.tc-ai .foil::after{opacity:.08;}
+
+/* the lead case is the chase card of the set */
+.tc-badge{position:absolute; top:28px; right:28px; z-index:4; display:inline-flex; align-items:center; height:32px; padding:0 14px; border-radius:999px; font-size:13px; color:var(--stock);
+  background:linear-gradient(110deg, #F2C6E0, #BFE3F5 35%, #D9CCF7 60%, #CDEFD9 85%);}
+@media (max-width:760px){ .tc-badge{top:18px; right:18px;} }
+body[data-variant="cards"] .back{border-radius:16px;}
+
+/* the cards are taller than the arcana, so the art window keeps room for the picture */
+body[data-variant="cards"] .hero--rail{--rail-h:clamp(240px, 34svh, 330px);}
+.hero--rail .card--tc .tc-flavor{display:none;}
+.card--tc .tc-art{min-height:42%;}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Button effects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0E0E11; --ink:#EEEEF1; --ash:#9A9AA3; --dark:#15151A;
+    --silver:linear-gradient(120deg, #F5F6F8, #C6CAD1 38%, #EEF0F3 60%, #B3B8C1);}
+  *{box-sizing:border-box;}
+  body{margin:0; min-height:100vh; background:radial-gradient(70% 50% at 50% 0%, #22232A, transparent 70%), var(--bg); color:var(--ink); font-family:'Geist', system-ui, sans-serif;
+    display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:20px; padding:40px; align-content:center;}
+  .slot{display:flex; flex-direction:column; align-items:flex-start; gap:22px; padding:44px 40px; border-radius:24px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06);}
+  .slot h2{margin:0; font-weight:500; font-size:20px;}
+  .slot p{margin:-12px 0 0; color:var(--ash); font-size:14px; line-height:1.5; max-width:46ch;}
+  a{text-decoration:none;}
+
+  /* shared base: the current silver button */
+  .btn{position:relative; display:inline-flex; align-items:center; gap:18px; height:64px; padding:0 8px 0 30px; border-radius:999px; font-size:17px; font-weight:500; color:var(--dark);
+    background:var(--silver); border:1px solid rgba(255,255,255,.6); box-shadow:inset 0 1px 0 #fff, 0 16px 34px -14px rgba(0,0,0,.9), 0 0 44px -18px rgba(205,215,240,.4);}
+  .ico{position:relative; width:48px; height:48px; flex:none; border-radius:50%; background:var(--dark); color:#F2F3F6; display:grid; place-items:center; overflow:hidden;}
+  .ico svg{width:20px; height:20px;}
+  .label{position:relative; z-index:2;}
+
+  /* 1. Fill: the dark disc grows from the icon and floods the button; the words turn light, the arrow turns */
+  .b1{overflow:hidden; isolation:isolate; transition:color .45s cubic-bezier(.6,0,.2,1);}
+  .b1::before{content:""; position:absolute; z-index:0; right:8px; top:50%; width:48px; height:48px; margin-top:-24px; border-radius:50%; background:var(--dark);
+    transform:scale(1); transition:transform .6s cubic-bezier(.6,0,.2,1);}
+  .b1:hover::before{transform:scale(9);}
+  .b1:hover{color:#F2F3F6;}
+  .b1 .ico{z-index:1; background:transparent; transition:transform .5s cubic-bezier(.6,0,.2,1);}
+  .b1:hover .ico{transform:rotate(45deg);}
+
+  /* 2. Orbit: a light runs round the edge of the button, like the orbit elsewhere on the site */
+  @property --a{syntax:'<angle>'; inherits:false; initial-value:0deg;}
+  .b2::after{content:""; position:absolute; inset:-2px; border-radius:inherit; padding:2px; opacity:0; transition:opacity .4s;
+    background:conic-gradient(from var(--a), transparent 0deg, transparent 280deg, rgba(255,255,255,.2) 310deg, #fff 350deg, rgba(190,220,255,.9) 356deg, transparent 360deg);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation:orbit 2.2s linear infinite; filter:drop-shadow(0 0 6px rgba(255,255,255,.8));}
+  .b2:hover::after{opacity:1;}
+  @keyframes orbit{to{--a:360deg;}}
+  .b2 .ico svg{transition:transform .5s cubic-bezier(.2,.75,.2,1);}
+  .b2:hover .ico svg{transform:translateX(2px) rotate(45deg);}
+
+  /* 3. Magnetic: the button leans toward the pointer and the icon follows a little further, like it is pulled */
+  .b3{transition:transform .5s cubic-bezier(.2,.75,.2,1);}
+  .b3 .ico{transition:transform .5s cubic-bezier(.2,.75,.2,1);}
+  .b3 .label{transition:transform .5s cubic-bezier(.2,.75,.2,1);}
+
+  /* 4. Liquid glass: the silver turns to clear glass on hover, with a pearl sheen behind it and a bright rim */
+  .b4{overflow:hidden; isolation:isolate; transition:color .5s, background-color .5s, box-shadow .5s;}
+  .b4::before{content:""; position:absolute; inset:0; z-index:-1; border-radius:inherit; background:var(--silver); transition:opacity .5s;}
+  .b4::after{content:""; position:absolute; inset:-40%; z-index:-2; opacity:0; transition:opacity .6s;
+    background:radial-gradient(30% 50% at 30% 50%, rgba(255,160,210,.75), transparent 70%), radial-gradient(30% 50% at 60% 40%, rgba(150,210,255,.75), transparent 70%), radial-gradient(30% 50% at 80% 60%, rgba(160,250,210,.6), transparent 70%);
+    filter:blur(14px); animation:swirl 6s linear infinite;}
+  .b4{background:rgba(255,255,255,.08);}
+  .b4:hover{color:#fff; box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -1px 0 rgba(255,255,255,.15), inset 10px 10px 20px -12px rgba(255,255,255,.6), 0 16px 34px -14px rgba(0,0,0,.9);}
+  .b4:hover::before{opacity:0;}
+  .b4:hover::after{opacity:1;}
+  @keyframes swirl{to{transform:rotate(360deg);}}
+  .b4 .ico{transition:background-color .5s, color .5s;}
+  .b4:hover .ico{background:#fff; color:var(--dark);}
+
+  @media (max-width:800px){ body{grid-template-columns:1fr; padding:20px;} }
+</style>
+</head>
+<body>
+
+<section class="slot">
+  <h2>1. Заливка</h2>
+  <p>Тёмный круг со стрелкой разрастается и заливает всю кнопку, текст становится светлым, стрелка поворачивается.</p>
+  <a class="btn b1" href="#"><span class="label">Explore my work</span><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+</section>
+
+<section class="slot">
+  <h2>2. Орбита</h2>
+  <p>По краю кнопки бежит светящаяся точка с хвостом, как орбита на сайте. Стрелка поворачивается вправо.</p>
+  <a class="btn b2" href="#"><span class="label">Explore my work</span><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+</section>
+
+<section class="slot">
+  <h2>3. Магнит</h2>
+  <p>Кнопка тянется за курсором, а кружок со стрелкой тянется чуть сильнее, будто его притягивает.</p>
+  <a class="btn b3" href="#" data-magnet><span class="label">Explore my work</span><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+</section>
+
+<section class="slot">
+  <h2>4. Жидкое стекло</h2>
+  <p>Серебро становится прозрачным стеклом, под ним медленно кружится перламутр, кромка светится, стрелка в белом круге.</p>
+  <a class="btn b4" href="#"><span class="label">Explore my work</span><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+</section>
+
+<script>
+  document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
+  // 3: the button and its icon are pulled toward the pointer by different amounts
+  document.querySelectorAll('[data-magnet]').forEach(function(b){
+    var ico = b.querySelector('.ico'), label = b.querySelector('.label');
+    b.addEventListener('pointermove', function(e){
+      var r = b.getBoundingClientRect(), x = e.clientX - (r.left + r.width / 2), y = e.clientY - (r.top + r.height / 2);
+      b.style.transform = 'translate(' + (x * .18).toFixed(1) + 'px,' + (y * .3).toFixed(1) + 'px)';
+      ico.style.transform = 'translate(' + (x * .12).toFixed(1) + 'px,' + (y * .2).toFixed(1) + 'px) rotate(' + (x * .15).toFixed(1) + 'deg)';
+      label.style.transform = 'translate(' + (x * .05).toFixed(1) + 'px,0)';
+    });
+    b.addEventListener('pointerleave', function(){ b.style.transform = ''; ico.style.transform = ''; label.style.transform = ''; });
+  });
+</script>
+</body>
+</html>

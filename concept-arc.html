@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Maria Demenko — Product Designer</title>
+<meta name="description" content="Product designer with 7 years in B2B SaaS, retail and delivery software. Complex systems, design systems and AI-assisted prototyping.">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#121115">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Noto+Serif+Display:wght@200;300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/arc.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <a class="nav-brand" href="#top">Maria Demenko</a>
+  <span class="nav-sep"></span>
+  <a href="#work"><span class="t-en">Work</span><span class="t-ru">Работы</span></a>
+  <a href="about.html"><span class="t-en">About</span><span class="t-ru">Обо мне</span></a>
+  <a href="#contact"><span class="t-en">Contact</span><span class="t-ru">Контакты</span></a>
+  <span class="nav-sep"></span>
+  <button type="button" data-set-lang="en">EN</button>
+  <button type="button" data-set-lang="ru">RU</button>
+</nav>
+
+<!-- one scene from the first screen through the cases: scrolling turns the orbit -->
+<section class="orbit-scene" id="top" aria-label="Introduction and selected work">
+  <div class="stage" id="stage">
+
+    <div class="ring" id="ring" aria-hidden="true"><span class="ring-dot" id="ring-dot"></span></div>
+
+    <!-- the satellites: every step is a small planet on the orbit; the current one becomes the card -->
+    <ol class="sats" aria-label="Sections">
+      <li><button type="button" class="sat sat--face" data-goto="-1"><span class="sat-disc"><img src="assets/photo-hero.webp" alt=""></span><span class="sat-name"><span class="t-en">Hello</span><span class="t-ru">Привет</span></span></button></li>
+      <li><button type="button" class="sat" data-goto="0"><span class="sat-disc"></span><span class="sat-name">Birdview</span></button></li>
+      <li><button type="button" class="sat" data-goto="1"><span class="sat-disc"></span><span class="sat-name"><span class="t-en">Prototype</span><span class="t-ru">Прототип</span></span></button></li>
+      <li><button type="button" class="sat sat--draft" data-goto="2"><span class="sat-disc"></span><span class="sat-name">POS</span></button></li>
+      <li><button type="button" class="sat sat--draft" data-goto="3"><span class="sat-disc"></span><span class="sat-name">AI</span></button></li>
+    </ol>
+
+    <!-- one card in front at a time: designed covers, not raw screenshots -->
+    <div class="deck" id="deck">
+      <a class="cover cover--face" href="about.html" data-i="-1">
+        <span class="cover-top"><span class="cover-kind"><span class="dot"></span><span class="t-en">Open to product design roles</span><span class="t-ru">Открыта к ролям продуктового дизайнера</span></span></span>
+        <span class="cover-title"><span class="t-en">Hi, I'm Maria</span><span class="t-ru">Привет, я Мария</span></span>
+        <span class="cover-portrait"><img src="assets/photo-hero.webp" alt="" draggable="false"></span>
+        <span class="foil" aria-hidden="true"></span>
+      </a>
+      <a class="cover" href="case-birdview.html" data-i="0">
+        <span class="cover-top"><span class="cover-kind"><span class="t-en">Case study, B2B SaaS, 2024</span><span class="t-ru">Кейс, B2B SaaS, 2024</span></span><span class="cover-go" aria-hidden="true">↗</span></span>
+        <span class="cover-title"><span class="t-en">Resource planning in Birdview</span><span class="t-ru">Планирование ресурсов в Birdview</span></span>
+        <span class="cover-shot"><img src="assets/case-birdview-planning-card.jpg" alt="" draggable="false"></span>
+        <span class="foil" aria-hidden="true"></span>
+      </a>
+      <a class="cover" href="birdview-demo.html" data-i="1">
+        <span class="cover-top"><span class="cover-kind"><span class="dot"></span><span class="t-en">Live prototype, 2024</span><span class="t-ru">Живой прототип, 2024</span></span><span class="cover-go" aria-hidden="true">↗</span></span>
+        <span class="cover-title"><span class="t-en">Birdview, clickable</span><span class="t-ru">Birdview, который можно потрогать</span></span>
+        <span class="cover-shot"><img src="assets/case-birdview-workload-card.jpg" alt="" draggable="false"></span>
+        <span class="foil" aria-hidden="true"></span>
+      </a>
+      <a class="cover cover--draft" href="#contact" data-i="2">
+        <span class="cover-top"><span class="cover-kind"><span class="t-en">Case in progress, 2019–2022</span><span class="t-ru">Кейс в работе, 2019–2022</span></span></span>
+        <span class="cover-title"><span class="t-en">POS and driver apps</span><span class="t-ru">POS и приложение для водителей</span></span>
+        <span class="cover-lattice" aria-hidden="true"></span>
+        <span class="foil" aria-hidden="true"></span>
+      </a>
+      <a class="cover cover--draft" href="#contact" data-i="3">
+        <span class="cover-top"><span class="cover-kind"><span class="t-en">Case in progress, 2024–2026</span><span class="t-ru">Кейс в работе, 2024–2026</span></span></span>
+        <span class="cover-title"><span class="t-en">AI-assisted prototyping</span><span class="t-ru">Прототипы с AI</span></span>
+        <span class="cover-lattice" aria-hidden="true"></span>
+        <span class="foil" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <!-- the copy for the current step, one centred column under the card -->
+    <div class="copy">
+      <article class="step is-active" data-step="-1">
+        <h1><span class="t-en">Complex systems, simple screens</span><span class="t-ru">Сложные системы&nbsp;— простые экраны</span></h1>
+        <p class="t-en">A product designer with 7 years in B2B SaaS, retail and delivery. I untangle workflows, build design systems and prototype with AI.</p>
+        <p class="t-ru">Продуктовый дизайнер, 7 лет в B2B SaaS, ритейле и доставке. Распутываю процессы, собираю дизайн-системы и прототипирую с AI.</p>
+        <p class="scroll-cue"><span class="t-en">Scroll to turn the orbit</span><span class="t-ru">Листайте, чтобы повернуть орбиту</span></p>
+      </article>
+
+      <article class="step" data-step="0" id="work">
+        <h2 class="sr-only"><span class="t-en">Resource planning in Birdview</span><span class="t-ru">Планирование ресурсов в Birdview</span></h2>
+        <p class="t-en">The workload of a whole company on one screen, conflicts resolved where they appear, and candidates matched to roles automatically.</p>
+        <p class="t-ru">Загрузка всей компании на одном экране, конфликты решаются там же, где возникли, а кандидаты подбираются к ролям автоматически.</p>
+        <dl class="stats">
+          <div><dt>100%</dt><dd><span class="t-en">of new clients use it</span><span class="t-ru">новых клиентов пользуются</span></dd></div>
+          <div><dt>1.67&#8202;→&#8202;2.78%</dt><dd><span class="t-en">sales-assisted conversion</span><span class="t-ru">конверсия с участием сейлза</span></dd></div>
+        </dl>
+        <a class="btn btn--solid" href="case-birdview.html"><span class="t-en">Read the case</span><span class="t-ru">Читать кейс</span></a>
+      </article>
+
+      <article class="step" data-step="1">
+        <h2 class="sr-only"><span class="t-en">Birdview, clickable</span><span class="t-ru">Birdview, который можно потрогать</span></h2>
+        <p class="t-en">The same module rebuilt as a working prototype on sample data: resolve an overload, drag bookings, staff a role, test a what-if.</p>
+        <p class="t-ru">Тот же модуль, собранный в работающий прототип на тестовых данных: разрулите перегруз, подвигайте брони, подберите человека, проверьте сценарий.</p>
+        <a class="btn btn--solid" href="birdview-demo.html"><span class="t-en">Open prototype</span><span class="t-ru">Открыть прототип</span></a>
+      </article>
+
+      <article class="step" data-step="2">
+        <h2 class="sr-only"><span class="t-en">POS and driver apps</span><span class="t-ru">POS и приложение для водителей</span></h2>
+        <p class="t-en">Retail and delivery software for staff who work at speed. I'm writing this one up now.</p>
+        <p class="t-ru">Ритейл и доставка для сотрудников, которые работают на скорости. Сейчас дописываю этот кейс.</p>
+        <a class="btn" href="#contact"><span class="t-en">Ask me about it</span><span class="t-ru">Спросить о нём</span></a>
+      </article>
+
+      <article class="step" data-step="3">
+        <h2 class="sr-only"><span class="t-en">AI-assisted prototyping</span><span class="t-ru">Прототипы с AI</span></h2>
+        <p class="t-en">From idea to a working prototype in days at Synesis, with Claude and Cursor in the loop.</p>
+        <p class="t-ru">От идеи до рабочего прототипа за дни в Synesis — вместе с Claude и Cursor.</p>
+        <a class="btn" href="#contact"><span class="t-en">Ask me about it</span><span class="t-ru">Спросить о нём</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<main class="after">
+  <section class="ledger" aria-labelledby="ledger-title">
+    <div class="ledger-head">
+      <h2 id="ledger-title"><span class="t-en">Where I've worked</span><span class="t-ru">Где я работала</span></h2>
+      <a class="text-link" href="about.html"><span class="t-en">Read the full story</span><span class="t-ru">Читать подробнее</span></a>
+    </div>
+    <ol class="jobs">
+      <li><span class="when">2024 – 2026</span><b>Synesis</b><span class="what"><span class="t-en">Frisbee: web and mobile, design system, AI prototypes</span><span class="t-ru">Frisbee: веб и мобайл, дизайн-система, прототипы с AI</span></span></li>
+      <li><span class="when">2023 – 2024</span><b>Logic Development</b><span class="what"><span class="t-en">Birdview: resource planning and one design system for every product</span><span class="t-ru">Birdview: планирование ресурсов и единая дизайн-система</span></span></li>
+      <li><span class="when">2019 – 2022</span><b>Telesphor Software</b><span class="what"><span class="t-en">IndicaOnline: POS, back office, marketplace and driver apps</span><span class="t-ru">IndicaOnline: POS, бэк-офис, маркетплейс и приложения водителей</span></span></li>
+    </ol>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <div class="contact-card">
+      <p class="status"><span class="dot"></span><span class="t-en">Open to product design roles</span><span class="t-ru">Открыта к ролям продуктового дизайнера</span></p>
+      <h2 id="contact-title"><span class="t-en">Let's make something clear together</span><span class="t-ru">Давайте сделаем сложное понятным</span></h2>
+      <div class="contact-actions">
+        <button type="button" class="btn btn--solid" data-copy="m.demenko11@gmail.com"><span data-copy-label>m.demenko11@gmail.com</span></button>
+        <a class="btn" href="https://t.me/mariademn" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <span class="foil" aria-hidden="true"></span>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Maria Demenko</span>
+  <span class="langs"><button type="button" data-set-lang="en">EN</button><button type="button" data-set-lang="ru">RU</button></span>
+</footer>
+
+<script src="assets/arc.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Maria Demenko — Product Designer</title>
+<meta name="description" content="Product designer with 7 years in B2B SaaS, retail and delivery software. Complex systems, design systems and AI-assisted prototyping.">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#141417">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Noto+Serif+Display:wght@200;300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/canvas.css">
+</head>
+<body>
+
+<a class="skip" href="#frames-list"><span class="t-en">Skip to the list of frames</span><span class="t-ru">К списку фреймов</span></a>
+
+<!-- the whole site is one canvas; frames sit at fixed world coordinates -->
+<div class="viewport" id="viewport" aria-label="Portfolio canvas">
+  <div class="world" id="world">
+
+    <div class="orbit" id="orbit" aria-hidden="true"><span class="orbit-ring"></span><span class="orbit-dot"></span></div>
+
+    <section class="frame" id="f-hello" data-x="0" data-y="0" data-w="1040" data-h="600" tabindex="0" aria-labelledby="t-hello">
+      <p class="frame-label"><span class="t-en">Hello</span><span class="t-ru">Привет</span></p>
+      <div class="card card--hello">
+        <div class="hello-copy">
+          <p class="status"><span class="dot"></span><span class="t-en">Open to product design roles</span><span class="t-ru">Открыта к ролям продуктового дизайнера</span></p>
+          <h1 id="t-hello"><span class="t-en">Complex systems, simple screens</span><span class="t-ru">Сложные системы&nbsp;— простые экраны</span></h1>
+          <p class="lead t-en">I'm Maria, a product designer with 7 years in B2B SaaS, retail and delivery. I untangle workflows, build design systems and prototype with AI.</p>
+          <p class="lead t-ru">Я Мария, продуктовый дизайнер, 7 лет в B2B SaaS, ритейле и доставке. Распутываю процессы, собираю дизайн-системы и прототипирую с AI.</p>
+        </div>
+        <div class="hello-photo"><img src="assets/photo-hero.webp" alt="Maria Demenko" draggable="false"></div>
+        <span class="foil" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <section class="frame" id="f-birdview" data-x="1200" data-y="-80" data-w="1120" data-h="660" tabindex="0" aria-labelledby="t-birdview">
+      <p class="frame-label"><span class="t-en">Case study / Birdview</span><span class="t-ru">Кейс / Birdview</span></p>
+      <div class="card card--case">
+        <div class="case-copy">
+          <p class="kind"><span class="t-en">B2B SaaS, 2024</span><span class="t-ru">B2B SaaS, 2024</span></p>
+          <h2 id="t-birdview"><span class="t-en">Resource planning in Birdview</span><span class="t-ru">Планирование ресурсов в Birdview</span></h2>
+          <p class="t-en">The workload of a whole company on one screen, conflicts resolved where they appear, and candidates matched to roles automatically.</p>
+          <p class="t-ru">Загрузка всей компании на одном экране, конфликты решаются там же, где возникли, а кандидаты подбираются к ролям автоматически.</p>
+          <dl class="stats">
+            <div><dt>100%</dt><dd><span class="t-en">of new clients use it</span><span class="t-ru">новых клиентов пользуются</span></dd></div>
+            <div><dt>1.67&#8202;→&#8202;2.78%</dt><dd><span class="t-en">sales-assisted conversion</span><span class="t-ru">конверсия с участием сейлза</span></dd></div>
+          </dl>
+          <a class="btn btn--solid" href="case-birdview.html"><span class="t-en">Read the case</span><span class="t-ru">Читать кейс</span></a>
+        </div>
+        <div class="case-media"><img src="assets/case-birdview-mac.png" alt="Birdview resource planning on a laptop" draggable="false"></div>
+        <span class="foil" aria-hidden="true"></span>
+      </div>
+      <div class="comment" tabindex="0">
+        <span class="comment-pin" aria-hidden="true">M</span>
+        <span class="comment-text"><span class="t-en">Shipped to every new client from day one.</span><span class="t-ru">С первого дня у всех новых клиентов.</span></span>
+      </div>
+    </section>
+
+    <section class="frame" id="f-prototype" data-x="1200" data-y="680" data-w="720" data-h="540" tabindex="0" aria-labelledby="t-prototype">
+      <p class="frame-label"><span class="t-en">Prototype / Birdview, clickable</span><span class="t-ru">Прототип / Birdview</span></p>
+      <div class="card card--proto">
+        <div class="proto-media">
+          <span class="live"><span class="dot"></span><span class="t-en">Live</span><span class="t-ru">Живой</span></span>
+          <img src="assets/case-birdview-workload-card.jpg" alt="Workload screen of the interactive Birdview prototype" draggable="false">
+        </div>
+        <div class="proto-copy">
+          <div>
+            <h2 id="t-prototype"><span class="t-en">Birdview, clickable</span><span class="t-ru">Birdview, который можно потрогать</span></h2>
+            <p class="t-en">Resolve an overload, drag bookings and staff a role on sample data.</p>
+            <p class="t-ru">Разрулите перегруз, подвигайте брони и подберите человека на тестовых данных.</p>
+          </div>
+          <a class="btn" href="birdview-demo.html"><span class="t-en">Open prototype</span><span class="t-ru">Открыть прототип</span></a>
+        </div>
+        <span class="foil" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <section class="frame frame--draft" id="f-pos" data-x="1980" data-y="680" data-w="340" data-h="260" tabindex="0" aria-labelledby="t-pos">
+      <p class="frame-label"><span class="t-en">Draft / POS and driver apps</span><span class="t-ru">Черновик / POS</span></p>
+      <div class="card card--draft">
+        <span class="draft-tag"><span class="t-en">Draft</span><span class="t-ru">Черновик</span></span>
+        <h2 id="t-pos"><span class="t-en">POS and driver apps</span><span class="t-ru">POS и приложение для водителей</span></h2>
+        <p><span class="t-en">Retail and delivery, 2019–2022. Case in progress.</span><span class="t-ru">Ритейл и доставка, 2019–2022. Кейс в работе.</span></p>
+      </div>
+    </section>
+
+    <section class="frame frame--draft" id="f-ai" data-x="1980" data-y="960" data-w="340" data-h="260" tabindex="0" aria-labelledby="t-ai">
+      <p class="frame-label"><span class="t-en">Draft / AI prototyping</span><span class="t-ru">Черновик / AI</span></p>
+      <div class="card card--draft">
+        <span class="draft-tag"><span class="t-en">Draft</span><span class="t-ru">Черновик</span></span>
+        <h2 id="t-ai"><span class="t-en">AI-assisted prototyping</span><span class="t-ru">Прототипы с AI</span></h2>
+        <p><span class="t-en">Idea to working prototype in days at Synesis. Case in progress.</span><span class="t-ru">От идеи до рабочего прототипа за дни в Synesis. Кейс в работе.</span></p>
+      </div>
+    </section>
+
+    <section class="frame" id="f-experience" data-x="-780" data-y="-60" data-w="660" data-h="500" tabindex="0" aria-labelledby="t-experience">
+      <p class="frame-label"><span class="t-en">Experience</span><span class="t-ru">Опыт</span></p>
+      <div class="card card--list">
+        <h2 id="t-experience"><span class="t-en">Where I've worked</span><span class="t-ru">Где я работала</span></h2>
+        <ol class="jobs">
+          <li><span class="when">2024–2026</span><b>Synesis</b><span class="what t-en">Frisbee: web, mobile, AI prototypes</span><span class="what t-ru">Frisbee: веб, мобайл, прототипы с AI</span></li>
+          <li><span class="when">2023–2024</span><b>Logic Development</b><span class="what t-en">Birdview and its design system</span><span class="what t-ru">Birdview и его дизайн-система</span></li>
+          <li><span class="when">2019–2022</span><b>Telesphor Software</b><span class="what t-en">IndicaOnline: POS and driver apps</span><span class="what t-ru">IndicaOnline: POS и приложения водителей</span></li>
+        </ol>
+        <a class="btn" href="about.html"><span class="t-en">Read the full story</span><span class="t-ru">Читать подробнее</span></a>
+        <span class="foil" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <section class="frame" id="f-toolkit" data-x="-780" data-y="520" data-w="660" data-h="300" tabindex="0" aria-labelledby="t-toolkit">
+      <p class="frame-label"><span class="t-en">Toolkit</span><span class="t-ru">Инструменты</span></p>
+      <div class="card card--tools">
+        <h2 id="t-toolkit"><span class="t-en">What I work with</span><span class="t-ru">С чем я работаю</span></h2>
+        <ul class="chips"><li>Figma</li><li>Claude</li><li>Cursor</li><li>ChatGPT</li><li>GitHub</li><li>Jitter</li><li>Jira</li><li>Perplexity</li></ul>
+        <span class="foil" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <section class="frame" id="f-contact" data-x="0" data-y="700" data-w="1040" data-h="420" tabindex="0" aria-labelledby="t-contact">
+      <p class="frame-label"><span class="t-en">Contact</span><span class="t-ru">Контакты</span></p>
+      <div class="card card--contact">
+        <h2 id="t-contact"><span class="t-en">Let's make something clear together</span><span class="t-ru">Давайте сделаем сложное понятным</span></h2>
+        <div class="contact-actions">
+          <button type="button" class="btn btn--solid" data-copy="m.demenko11@gmail.com"><span data-copy-label>m.demenko11@gmail.com</span></button>
+          <a class="btn" href="https://t.me/mariademn" target="_blank" rel="noopener">Telegram</a>
+          <a class="btn" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <span class="foil" aria-hidden="true"></span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- chrome: the layers panel is the navigation -->
+<header class="bar bar--top">
+  <a class="brand" href="#f-hello" data-go="f-hello"><img src="assets/photo-hero.webp" alt=""><span>Maria Demenko</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">EN</button><button type="button" data-set-lang="ru">RU</button></div>
+</header>
+
+<nav class="layers" aria-label="Frames">
+  <p class="layers-title"><span class="t-en">Frames</span><span class="t-ru">Фреймы</span></p>
+  <ul id="frames-list">
+    <li><a href="#f-hello" data-go="f-hello"><span class="t-en">Hello</span><span class="t-ru">Привет</span></a></li>
+    <li><a href="#f-birdview" data-go="f-birdview"><span class="t-en">Birdview case</span><span class="t-ru">Кейс Birdview</span></a></li>
+    <li><a href="#f-prototype" data-go="f-prototype"><span class="t-en">Prototype</span><span class="t-ru">Прототип</span></a></li>
+    <li><a href="#f-pos" data-go="f-pos" class="is-draft"><span class="t-en">POS and driver apps</span><span class="t-ru">POS и доставка</span></a></li>
+    <li><a href="#f-ai" data-go="f-ai" class="is-draft"><span class="t-en">AI prototyping</span><span class="t-ru">Прототипы с AI</span></a></li>
+    <li><a href="#f-experience" data-go="f-experience"><span class="t-en">Experience</span><span class="t-ru">Опыт</span></a></li>
+    <li><a href="#f-toolkit" data-go="f-toolkit"><span class="t-en">Toolkit</span><span class="t-ru">Инструменты</span></a></li>
+    <li><a href="#f-contact" data-go="f-contact"><span class="t-en">Contact</span><span class="t-ru">Контакты</span></a></li>
+  </ul>
+</nav>
+
+<div class="bar bar--zoom" role="group" aria-label="Zoom">
+  <span class="zoom-hint"><span class="t-en">Drag to look around</span><span class="t-ru">Тяните, чтобы осмотреться</span></span>
+  <span class="bar-sep"></span>
+  <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+  <span class="zoom-value" id="zoom-value" aria-live="polite">100%</span>
+  <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+  <span class="bar-sep"></span>
+  <button type="button" data-zoom="fit"><span class="t-en">Show all</span><span class="t-ru">Показать всё</span></button>
+</div>
+
+<script src="assets/canvas.js"></script>
+</body>
+</html>

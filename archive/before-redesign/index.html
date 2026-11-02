@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maria Demenko — Product Designer, UX/UI</title>
+<link rel="icon" href="assets/favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="assets/site.webmanifest">
+<meta name="theme-color" content="#050505">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=392addd0">
+</head>
+<body class="app">
+
+<header class="sb-topbar">
+  <a class="sb-brand" href="#about">
+    <span class="sb-avatar"><img src="assets/photo-hero.webp" alt=""></span>
+    <span class="sb-name"><span class="sb-name-first">Maria</span>Demenko</span>
+  </a>
+  <button type="button" class="sb-burger" aria-label="Menu" aria-controls="sidebar" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <a class="sb-brand" href="#about">
+    <span class="sb-avatar"><img src="assets/photo-hero.webp" alt=""></span>
+    <span class="sb-name"><span class="sb-name-first">Maria</span>Demenko</span>
+  </a>
+
+  <nav class="sb-nav" aria-label="Sections">
+      <a class="sb-item" data-nav="about" href="#about"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 19.6c1.3-3.3 4-5 7.2-5s5.9 1.7 7.2 5"/></svg></span><span class="sb-label"><span class="t-en">About</span><span class="t-ru">Обо мне</span></span></a>
+      <a class="sb-item" data-nav="experience" href="#experience"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="12.5" rx="2.5"/><path d="M8.8 7V5.6A1.6 1.6 0 0 1 10.4 4h3.2a1.6 1.6 0 0 1 1.6 1.6V7M3.5 12.4h17"/></svg></span><span class="sb-label"><span class="t-en">Experience</span><span class="t-ru">Опыт</span></span></a>
+      <div class="sb-group">
+        <div class="sb-item sb-parent" data-nav-group="projects">
+          <a class="sb-parent-link" href="#projects">
+            <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="3.5"/></svg></span>
+            <span class="sb-label"><span class="t-en">Projects</span><span class="t-ru">Проекты</span></span>
+          </a>
+          <button type="button" class="sb-toggle" aria-expanded="false" aria-controls="sb-projects" aria-label="Show projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></svg></button>
+        </div>
+        <ul class="sb-sub" id="sb-projects">
+          <li><a class="sb-subitem" data-nav="projects" href="#projects"><span class="t-en">Birdview planning</span><span class="t-ru">Планирование в Birdview</span></a></li>
+          <li><a class="sb-subitem" data-nav="project-pos" href="#project-pos"><span class="t-en">POS &amp; driver apps</span><span class="t-ru">POS и доставка</span></a></li>
+          <li><a class="sb-subitem" data-nav="project-ai" href="#project-ai"><span class="t-en">AI prototyping</span><span class="t-ru">Прототипы с AI</span></a></li>
+        </ul>
+      </div>
+      <a class="sb-item" data-nav="contact" href="#contact"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.2a7.6 7.6 0 0 1-11.2 6.7L4 20l1.2-4.4A7.6 7.6 0 1 1 20 12.2z"/></svg></span><span class="sb-label"><span class="t-en">Contacts</span><span class="t-ru">Контакты</span></span></a>
+  </nav>
+
+  <div class="sb-card">
+    <span class="sb-card-chip"><span class="status-dot"></span><span class="t-en">Open to work</span><span class="t-ru">Ищу работу</span></span>
+    <p class="sb-card-text t-en">Product design roles and long-term collaborations.</p>
+    <p class="sb-card-text t-ru">Роли продуктового дизайнера и долгосрочные проекты.</p>
+    <a class="sb-card-btn" href="#contact"><span class="t-en">Let's talk</span><span class="t-ru">Давайте знакомиться</span></a>
+  </div>
+
+  <div class="sb-tools">
+    <button type="button" class="pill-btn theme-toggle" id="theme-toggle" aria-pressed="false">
+        <span class="icon icon-sun" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>
+        <span class="icon icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></span>
+      </button>
+    <button type="button" class="pill-btn lang-btn" data-set-lang="en">EN</button>
+    <button type="button" class="pill-btn lang-btn" data-set-lang="ru">RU</button>
+  </div>
+</aside>
+<div class="sb-scrim" hidden></div>
+
+<main class="views" id="views">
+
+  <section class="screen" id="about" data-tab="about"
+           data-name-en="About" data-name-ru="Обо мне"
+           data-arrow-en="Back to start" data-arrow-ru="В начало">
+    <div class="screen-inner hx">
+
+      <div class="hx-top" data-typed>
+        <span class="status-chip"><span class="status-dot"></span><span class="t-en">Open to work</span><span class="t-ru">Ищу работу</span></span>
+        <h1 class="hx-hello t-en" aria-label="Hello! I'm Maria, product designer building complex web systems and apps"><b>Hello! I'm Maria</b> <span class="wave">👋</span> Product designer <span class="type" data-words="building complex web systems|building apps for iOS and Android|creating design systems|working with AI"></span><span class="caret" aria-hidden="true"></span></h1>
+        <h1 class="hx-hello t-ru" aria-label="Привет! Я Мария, продуктовый дизайнер, проектирую сложные веб-системы и приложения"><b>Привет! Я Мария</b> <span class="wave">👋</span> Продуктовый дизайнер, <span class="type" data-words="проектирую сложные веб-системы|делаю приложения для iOS и Android|собираю дизайн-системы|работаю с ИИ"></span><span class="caret" aria-hidden="true"></span></h1>
+      </div>
+
+      <div class="hx-stage">
+        <p class="sr-only"><span class="t-en">Complex made clear.</span><span class="t-ru">Сложное делаю ясным.</span></p>
+
+        <!-- the phrase runs behind the figure: the cut-out's own transparency is the mask -->
+        <div class="bigline" data-marquee data-speed="36" aria-hidden="true">
+          <div class="marquee-row">
+            <div class="marquee-track">
+              <span class="bl-item"><span class="t-en">Complex made clear</span><span class="t-ru">Сложное делаю ясным</span></span>
+              <span class="bl-sep"></span>
+              <span class="bl-item bl-outline"><span class="t-en">Product designer</span><span class="t-ru">Продуктовый дизайнер</span></span>
+              <span class="bl-sep"></span>
+            </div>
+          </div>
+        </div>
+
+        <figure class="hx-figure">
+          <picture>
+            <source srcset="assets/photo-hero.webp" type="image/webp">
+            <img src="assets/photo-hero.png" alt="Maria Demenko">
+          </picture>
+        </figure>
+
+        <div class="hx-bottom">
+          <div class="hx-actions">
+            <a class="hx-cta" href="#projects"><span class="t-en">View projects</span><span class="t-ru">Смотреть проекты</span><span class="hx-cta-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+            <a class="btn" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener"><span class="t-en">Let's talk</span><span class="t-ru">Давайте знакомиться</span></a>
+          </div>
+          <p class="hx-meta">
+            <span class="t-en">07 yrs in product</span><span class="t-ru">07 лет в продукте</span>
+            <span>Web · iOS · Android</span>
+          </p>
+        </div>
+      </div>
+
+  <div class="marquee" data-marquee aria-label="Tools">
+    <div class="marquee-row">
+      <div class="marquee-track">
+        <span class="mq-item"><span class="mq-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="hsl(14.8, 63.1%, 59.6%)"><path d="m19.6 66.5 19.7-11 .3-1-.3-.5h-1l-3.3-.2-11.2-.3L14 53l-9.5-.5-2.4-.5L0 49l.2-1.5 2-1.3 2.9.2 6.3.5 9.5.6 6.9.4L38 49.1h1.6l.2-.7-.5-.4-.4-.4L29 41l-10.6-7-5.6-4.1-3-2-1.5-2-.6-4.2 2.7-3 3.7.3.9.2 3.7 2.9 8 6.1L37 36l1.5 1.2.6-.4.1-.3-.7-1.1L33 25l-6-10.4-2.7-4.3-.7-2.6c-.3-1-.4-2-.4-3l3-4.2L28 0l4.2.6L33.8 2l2.6 6 4.1 9.3L47 29.9l2 3.8 1 3.4.3 1h.7v-.5l.5-7.2 1-8.7 1-11.2.3-3.2 1.6-3.8 3-2L61 2.6l2 2.9-.3 1.8-1.1 7.7L59 27.1l-1.5 8.2h.9l1-1.1 4.1-5.4 6.9-8.6 3-3.5L77 13l2.3-1.8h4.3l3.1 4.7-1.4 4.9-4.4 5.6-3.7 4.7-5.3 7.1-3.2 5.7.3.4h.7l12-2.6 6.4-1.1 7.6-1.3 3.5 1.6.4 1.6-1.4 3.4-8.2 2-9.6 2-14.3 3.3-.2.1.2.3 6.4.6 2.8.2h6.8l12.6 1 3.3 2 1.9 2.7-.3 2-5.1 2.6-6.8-1.6-16-3.8-5.4-1.3h-.8v.4l4.6 4.5 8.3 7.5L89 80.1l.5 2.4-1.3 2-1.4-.2-9.2-7-3.6-3-8-6.8h-.5v.7l1.8 2.7 9.8 14.7.5 4.5-.7 1.4-2.6 1-2.7-.6-5.8-8-6-9-4.7-8.2-.5.4-2.9 30.2-1.3 1.5-3 1.2-2.5-2-1.4-3 1.4-6.2 1.6-8 1.3-6.4 1.2-7.9.7-2.6v-.2H49L43 72l-9 12.3-7.2 7.6-1.7.7-3-1.5.3-2.8L24 86l10-12.8 6-7.9 4-4.6-.1-.5h-.3L17.2 77.4l-4.7.6-2-2 .2-3 1-1 8-5.5Z"></path></svg></span>Claude</span>
+        <span class="mq-item"><span class="mq-icon"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" fill="#EDEAE1"><path d="m297.06 130.97c7.26-21.79 4.76-45.66-6.85-65.48-17.46-30.4-52.56-46.04-86.84-38.68-15.25-17.18-37.16-26.95-60.13-26.81-35.04-.08-66.13 22.48-76.91 55.82-22.51 4.61-41.94 18.7-53.31 38.67-17.59 30.32-13.58 68.54 9.92 94.54-7.26 21.79-4.76 45.66 6.85 65.48 17.46 30.4 52.56 46.04 86.84 38.68 15.24 17.18 37.16 26.95 60.13 26.8 35.06.09 66.16-22.49 76.94-55.86 22.51-4.61 41.94-18.7 53.31-38.67 17.57-30.32 13.55-68.51-9.94-94.51zm-120.28 168.11c-14.03.02-27.62-4.89-38.39-13.88.49-.26 1.34-.73 1.89-1.07l63.72-36.8c3.26-1.85 5.26-5.32 5.24-9.07v-89.83l26.93 15.55c.29.14.48.42.52.74v74.39c-.04 33.08-26.83 59.9-59.91 59.97zm-128.84-55.03c-7.03-12.14-9.56-26.37-7.15-40.18.47.28 1.3.79 1.89 1.13l63.72 36.8c3.23 1.89 7.23 1.89 10.47 0l77.79-44.92v31.1c.02.32-.13.63-.38.83l-64.41 37.19c-28.69 16.52-65.33 6.7-81.92-21.95zm-16.77-139.09c7-12.16 18.05-21.46 31.21-26.29 0 .55-.03 1.52-.03 2.2v73.61c-.02 3.74 1.98 7.21 5.23 9.06l77.79 44.91-26.93 15.55c-.27.18-.61.21-.91.08l-64.42-37.22c-28.63-16.58-38.45-53.21-21.95-81.89zm221.26 51.49-77.79-44.92 26.93-15.54c.27-.18.61-.21.91-.08l64.42 37.19c28.68 16.57 38.51 53.26 21.94 81.94-7.01 12.14-18.05 21.44-31.2 26.28v-75.81c.03-3.74-1.96-7.2-5.2-9.06zm26.8-40.34c-.47-.29-1.3-.79-1.89-1.13l-63.72-36.8c-3.23-1.89-7.23-1.89-10.47 0l-77.79 44.92v-31.1c-.02-.32.13-.63.38-.83l64.41-37.16c28.69-16.55 65.37-6.7 81.91 22 6.99 12.12 9.52 26.31 7.15 40.1zm-168.51 55.43-26.94-15.55c-.29-.14-.48-.42-.52-.74v-74.39c.02-33.12 26.89-59.96 60.01-59.94 14.01 0 27.57 4.92 38.34 13.88-.49.26-1.33.73-1.89 1.07l-63.72 36.8c-3.26 1.85-5.26 5.31-5.24 9.06l-.04 89.79zm14.63-31.54 34.65-20.01 34.65 20v40.01l-34.65 20-34.65-20z"></path></svg></span>ChatGPT</span>
+        <span class="mq-item"><span class="mq-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#22B8CD"><path d="M19.785 0v7.272H22.5V17.62h-2.935V24l-7.037-6.194v6.145h-1.091v-6.152L4.392 24v-6.465H1.5V7.188h2.884V0l7.053 6.494V.19h1.09v6.49L19.786 0zm-7.257 9.044v7.319l5.946 5.234V14.44l-5.946-5.397zm-1.099-.08l-5.946 5.398v7.235l5.946-5.234V8.965zm8.136 7.58h1.844V8.349H13.46l6.105 5.54v2.655zm-8.982-8.28H2.59v8.195h1.8v-2.576l6.192-5.62zM5.475 2.476v4.71h5.115l-5.115-4.71zm13.219 0l-5.115 4.71h5.115v-4.71z" fill-rule="nonzero"></path></svg></span>Perplexity</span>
+        <span class="mq-item"><span class="mq-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#EDEAE1" fill-rule="evenodd"><path d="M22.106 5.68L12.5.135a.998.998 0 00-.998 0L1.893 5.68a.84.84 0 00-.419.726v11.186c0 .3.16.577.42.727l9.607 5.547a.999.999 0 00.998 0l9.608-5.547a.84.84 0 00.42-.727V6.407a.84.84 0 00-.42-.726zm-.603 1.176L12.228 22.92c-.063.108-.228.064-.228-.061V12.34a.59.59 0 00-.295-.51l-9.11-5.26c-.107-.062-.063-.228.062-.228h18.55c.264 0 .428.286.296.514z"></path></svg></span>Cursor</span>
+        <span class="mq-item"><span class="mq-icon"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#EDEAE1" stroke="none" d="M 10.226 17.284 C 7.261 16.924 5.172 14.791 5.172 12.028 C 5.172 10.905 5.576 9.692 6.25 8.884 C 5.958 8.143 6.003 6.57 6.34 5.919 C 7.238 5.807 8.451 6.279 9.17 6.929 C 10.023 6.66 10.921999 6.525 12.023001 6.525 C 13.123 6.525 14.022 6.66 14.829999 6.9070005 C 15.526001 6.278 16.762 5.807 17.66 5.919 C 17.975 6.525 18.02 8.098 17.727 8.861 C 18.447 9.715 18.828 10.861 18.828 12.028 C 18.828 14.791 16.739 16.88 13.73 17.262 C 14.493 17.756 15.01 18.834 15.01 20.069 L 15.01 22.404999 C 15.01 23.079002 15.571 23.461 16.245 23.191 C 20.311 21.641 23.500002 17.576 23.500002 12.545 C 23.500002 6.188 18.334 1 11.978 1 C 5.62 1 0.5 6.188 0.5 12.545 C 0.5 17.531 3.667 21.665 7.9349995 23.214 C 8.541 23.439 9.125 23.033998 9.125 22.428 L 9.125 20.63 C 8.783268 20.772821 8.41734 20.848858 8.047 20.854 C 6.564 20.854 5.688 20.046 5.06 18.541 C 4.813 17.934 4.543 17.575 4.026 17.508 C 3.756 17.485 3.667 17.373 3.667 17.238 C 3.667 16.968 4.117 16.767 4.565 16.767 C 5.217 16.767 5.778 17.171 6.362 18.002 C 6.812 18.653 7.2829995 18.945 7.845 18.945 C 8.406 18.945 8.765 18.743 9.282 18.226 C 9.664 17.845 9.956 17.508 10.226 17.283"/></svg></span>GitHub</span>
+        <span class="mq-item"><span class="mq-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 20a4 4 0 014-4h4v4a4 4 0 01-8 0z" fill="#24CB71"></path><path d="M12 0v8h4a4 4 0 000-8h-4z" fill="#FF7237"></path><path d="M15.967 16a4 4 0 100-8 4 4 0 000 8z" fill="#00B6FF"></path><path d="M4 4a4 4 0 004 4h4V0H8a4 4 0 00-4 4z" fill="#FF3737"></path><path d="M4 12a4 4 0 004 4h4V8H8a4 4 0 00-4 4z" fill="#874FFF"></path></svg></span>Figma</span>
+        <span class="mq-item"><span class="mq-icon"><svg width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#1868db" stroke="none" d="M 41.318 36.567 L 25.44 4.813 C 25.128 4.125 24.815002 4 24.44 4 C 24.128 4 23.752 4.125 23.377 4.75 C 21.127 8.313 20.127 12.439 20.127 16.752 C 20.127 22.752 23.19 28.379 27.691 37.442 C 28.191 38.442 28.566 38.63 29.441002 38.63 L 40.442 38.63 C 41.255 38.63 41.692 38.318 41.692 37.692 C 41.692 37.38 41.63 37.192 41.318 36.567 M 18.252 21.565 C 17.002 19.69 16.626 19.565 16.314 19.565 C 16.002 19.565 15.814001 19.69 15.251 20.815 L 7.313 36.692 C 7.063 37.192 7 37.38 7 37.63 C 7 38.13 7.438 38.63 8.375 38.63 L 19.565 38.63 C 20.315 38.63 20.877 38.005 21.189 36.817 C 21.565 35.317 21.689 34.004 21.689 32.442 C 21.689 28.066 19.752 23.815002 18.252 21.565"/></svg></span>Jira</span>
+        <span class="mq-item"><span class="mq-icon"><img src="assets/jitter.png" alt=""></span>Jitter</span>
+      </div>
+    </div>
+  </div>
+    </div>
+    <nav class="next-up" aria-label="Next">
+      <a class="next-link" href="#experience">
+        <span class="next-copy">
+          <span class="next-meta"><span><span class="t-en">Next</span><span class="t-ru">Дальше</span></span><span>02 / 06</span></span>
+          <span class="next-title"><span class="t-en">Experience</span><span class="t-ru">Опыт работы</span><span class="next-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+        </span>
+        <span class="next-preview np-list" aria-hidden="true">
+            <span>Synesis</span><span>Birdview PSA</span><span>Telesphor</span><span>Aterise</span>
+          </span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="screen" id="experience" data-tab="experience"
+           data-name-en="Experience" data-name-ru="Опыт работы"
+           data-arrow-en="Experience" data-arrow-ru="Опыт работы">
+    <div class="screen-inner band">
+    <div class="band-head">
+      <h2 class="t-en">Experience</h2>
+      <h2 class="t-ru">Опыт работы</h2>
+      <span class="section-note t-en">2019 — now</span>
+      <span class="section-note t-ru">2019 — сейчас</span>
+    </div>
+    <ol class="cv">
+      <li class="cv-row">
+        <div class="cv-years">2024 – 2026</div>
+        <div class="cv-main">
+          <h3>Synesis</h3>
+          <p class="t-en">AI-assisted design and vibe-coding: interactive prototypes in days rather than weeks, a design system that keeps releases consistent, and specs ready to hand straight to engineering.</p>
+          <p class="t-ru">AI-дизайн и вайб-кодинг: интерактивные прототипы за дни, а не недели, дизайн-система, которая держит релизы в одном стиле, и спецификации, готовые к передаче в разработку.</p>
+        </div>
+        <div class="cv-link"><a href="https://frisbee.ms" target="_blank" rel="noopener">frisbee.ms</a></div>
+      </li>
+      <li class="cv-row">
+        <div class="cv-years">2023 – 2024</div>
+        <div class="cv-main">
+          <h3>Birdview PSA</h3>
+          <p class="t-en">Designed the resource-planning module that turned into a sales argument: 100% of new clients use it, and sales-assisted conversion grew from 1.67% to 2.78%. Also ran a full visual redesign and kept the design system current.</p>
+          <p class="t-ru">Спроектировала модуль планирования ресурсов, который стал аргументом в продажах: им пользуются 100% новых клиентов, а конверсия в оплату с участием сейлзов выросла с 1,67% до 2,78%. Плюс полный визуальный редизайн и поддержка дизайн-системы.</p>
+        </div>
+        <div class="cv-link"><a href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com</a></div>
+      </li>
+      <li class="cv-row">
+        <div class="cv-years">2019 – 2022</div>
+        <div class="cv-main">
+          <h3>Telesphor Software</h3>
+          <p class="t-en">Three years on retail and delivery software — POS, back-office and driver apps for IndicaOnline and Sweede, designed for staff who work at speed and cannot stop to figure out the screen.</p>
+          <p class="t-ru">Три года в ритейле и доставке — POS, бэк-офис и приложение для водителей IndicaOnline и Sweede. Интерфейсы для сотрудников, которые работают на скорости и не могут останавливаться, чтобы разобраться в экране.</p>
+        </div>
+        <div class="cv-link"><a href="https://indicaonline.com" target="_blank" rel="noopener">indicaonline.com</a></div>
+      </li>
+      <li class="cv-row">
+        <div class="cv-years">2022</div>
+        <div class="cv-main">
+          <h3>Aterise</h3>
+          <p class="t-en">Part-time design support alongside the main role — feature work and interface upkeep for a small product team.</p>
+          <p class="t-ru">Дизайн на частичной занятости параллельно с основной работой — новые функции и поддержка интерфейсов небольшой продуктовой команды.</p>
+        </div>
+        <div class="cv-link"><a href="https://aterise.com" target="_blank" rel="noopener">aterise.com</a></div>
+      </li>
+    </ol>
+    </div>
+    <nav class="next-up" aria-label="Next">
+      <a class="next-link" href="#projects">
+        <span class="next-copy">
+          <span class="next-meta"><span><span class="t-en">Next</span><span class="t-ru">Дальше</span></span><span>03 / 06</span></span>
+          <span class="next-title"><span class="t-en">Birdview</span><span class="t-ru">Birdview</span><span class="next-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+        </span>
+        <span class="next-preview np-img" aria-hidden="true"><img src="assets/case-birdview-planning-card.jpg" alt="" loading="lazy"></span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="screen" id="projects" data-tab="projects"
+           data-name-en="Resource planning in Birdview" data-name-ru="Планирование ресурсов в Birdview"
+           data-arrow-en="View projects" data-arrow-ru="Смотреть проекты">
+    <div class="screen-inner">
+      <div class="section-head">
+        <h2 class="t-en">Projects</h2>
+        <h2 class="t-ru">Проекты</h2>
+        <span class="section-note">01 / 03</span>
+      </div>
+      <div class="case-card">
+        <div class="case-body">
+          <div class="case-tags">
+            <span class="case-tag">B2B</span>
+            <span class="case-tag">SaaS</span>
+            <span class="case-tag">2024</span>
+          </div>
+          <h3 class="case-title t-en">Resource planning in Birdview</h3>
+          <h3 class="case-title t-ru">Планирование ресурсов в Birdview</h3>
+          <p class="case-desc t-en">I designed the module that distributes people across projects: the workload of a whole company on one screen, conflicts resolved where they appear, and candidates matched to roles automatically.</p>
+          <p class="case-desc t-ru">Спроектировала модуль, который распределяет людей по проектам: загрузка всей компании на одном экране, конфликты решаются там же, где возникли, а кандидаты подбираются к ролям автоматически.</p>
+          <div class="case-stats">
+            <span class="stat-chip"><b>100%</b> <span class="t-en">of new clients use it</span><span class="t-ru">новых клиентов используют</span></span>
+            <span class="stat-chip"><b>1.67 → 2.78%</b> <span class="t-en">sales-assisted conversion</span><span class="t-ru">конверсия с сейлзом</span></span>
+          </div>
+          <a class="case-cta" href="case-birdview.html">
+            <span class="t-en">Open project</span><span class="t-ru">Смотреть проект</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="case-visual">
+          <div class="carousel" data-carousel>
+            <div class="carousel-track">
+              <img class="carousel-slide is-active" src="assets/case-birdview-planning-card.jpg" alt="Planning screen in Birdview" loading="lazy">
+              <img class="carousel-slide" src="assets/case-birdview-workload-card.jpg" alt="Workload screen in Birdview" loading="lazy">
+            </div>
+            <div class="carousel-dots">
+              <button type="button" class="carousel-dot is-active" aria-label="Planning"></button>
+              <button type="button" class="carousel-dot" aria-label="Workload"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="next-up" aria-label="Next">
+      <a class="next-link" href="#project-pos">
+        <span class="next-copy">
+          <span class="next-meta"><span><span class="t-en">Next</span><span class="t-ru">Дальше</span></span><span>04 / 06</span></span>
+          <span class="next-title"><span class="t-en">POS & driver apps</span><span class="t-ru">POS и доставка</span><span class="next-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+        </span>
+        <span class="next-preview np-ph" aria-hidden="true"><span class="t-en">In progress</span><span class="t-ru">Скоро</span></span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="screen" id="project-pos" data-tab="projects"
+           data-name-en="POS and driver apps" data-name-ru="POS и приложение для водителей"
+           data-arrow-en="POS and driver apps" data-arrow-ru="POS и приложение для водителей">
+    <div class="screen-inner">
+      <div class="section-head">
+        <h2 class="t-en">Projects</h2>
+        <h2 class="t-ru">Проекты</h2>
+        <span class="section-note">02 / 03</span>
+      </div>
+      <div class="case-card is-soon">
+        <div class="case-body">
+          <div class="case-tags">
+            <span class="case-tag">B2B</span>
+            <span class="case-tag">POS</span>
+            <span class="case-tag">2022</span>
+          </div>
+          <h3 class="case-title t-en">POS and driver apps</h3>
+          <h3 class="case-title t-ru">POS и приложение для водителей</h3>
+          <p class="case-desc t-en">Three years of retail and delivery software for IndicaOnline and Sweede — interfaces for staff who work at speed and cannot stop to figure out the screen.</p>
+          <p class="case-desc t-ru">Три года в ритейле и доставке для IndicaOnline и Sweede — интерфейсы для сотрудников, которые работают на скорости и не могут останавливаться, чтобы разобраться в экране.</p>
+          <span class="case-cta"><span class="t-en">In progress</span><span class="t-ru">Скоро</span></span>
+        </div>
+        <div class="case-visual">
+          <div class="ph"><span class="t-en">POS and driver app screens</span><span class="t-ru">Экраны POS и приложения водителя</span></div>
+        </div>
+      </div>
+    </div>
+    <nav class="next-up" aria-label="Next">
+      <a class="next-link" href="#project-ai">
+        <span class="next-copy">
+          <span class="next-meta"><span><span class="t-en">Next</span><span class="t-ru">Дальше</span></span><span>05 / 06</span></span>
+          <span class="next-title"><span class="t-en">AI prototyping</span><span class="t-ru">Прототипы с AI</span><span class="next-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+        </span>
+        <span class="next-preview np-ph" aria-hidden="true"><span class="t-en">In progress</span><span class="t-ru">Скоро</span></span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="screen" id="project-ai" data-tab="projects"
+           data-name-en="AI-assisted prototyping" data-name-ru="Прототипы с AI"
+           data-arrow-en="AI-assisted prototyping" data-arrow-ru="Прототипы с AI">
+    <div class="screen-inner">
+      <div class="section-head">
+        <h2 class="t-en">Projects</h2>
+        <h2 class="t-ru">Проекты</h2>
+        <span class="section-note">03 / 03</span>
+      </div>
+      <div class="case-card is-soon">
+        <div class="case-body">
+          <div class="case-tags">
+            <span class="case-tag">AI</span>
+            <span class="case-tag">WEB</span>
+            <span class="case-tag">2026</span>
+          </div>
+          <h3 class="case-title t-en">AI-assisted prototyping</h3>
+          <h3 class="case-title t-ru">Прототипы с AI и вайб-кодингом</h3>
+          <p class="case-desc t-en">Interactive prototypes in days rather than weeks, a design system that keeps releases consistent, and specs ready to hand straight to engineering.</p>
+          <p class="case-desc t-ru">Интерактивные прототипы за дни, а не недели, дизайн-система, которая держит релизы в одном стиле, и спецификации, готовые к передаче в разработку.</p>
+          <span class="case-cta"><span class="t-en">In progress</span><span class="t-ru">Скоро</span></span>
+        </div>
+        <div class="case-visual">
+          <div class="ph"><span class="t-en">Prototype screens</span><span class="t-ru">Экраны прототипов</span></div>
+        </div>
+      </div>
+    </div>
+    <nav class="next-up" aria-label="Next">
+      <a class="next-link" href="#contact">
+        <span class="next-copy">
+          <span class="next-meta"><span><span class="t-en">Next</span><span class="t-ru">Дальше</span></span><span>06 / 06</span></span>
+          <span class="next-title"><span class="t-en">Let's talk</span><span class="t-ru">Давайте знакомиться</span><span class="next-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+        </span>
+        <span class="next-preview np-contact" aria-hidden="true">
+            <span class="np-chip"><span class="status-dot"></span><span class="t-en">Open to work</span><span class="t-ru">Ищу работу</span></span>
+            <span class="np-mail">m.demenko11@gmail.com</span>
+          </span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="screen" id="contact" data-tab="contact"
+           data-name-en="Contacts" data-name-ru="Контакты"
+           data-arrow-en="Let's talk" data-arrow-ru="Давайте знакомиться">
+    <div class="screen-inner band">
+    <div class="band-head">
+      <h2 class="t-en">Let's talk</h2>
+      <h2 class="t-ru">Давайте знакомиться</h2>
+      <span class="section-note t-en">Open to work</span>
+      <span class="section-note t-ru">Ищу работу</span>
+    </div>
+    <div class="contact-row">
+      <div class="contact-copy">
+        <p class="contact-lead t-en">Have a product to design? I'm open to new product design roles and collaborations.</p>
+        <p class="contact-lead t-ru">Есть продукт, который нужно спроектировать? Открыта к новым проектам и предложениям по продуктовому дизайну.</p>
+      </div>
+      <ul class="contact-list">
+        <li><a href="mailto:m.demenko11@gmail.com"><span class="contact-kind">Email</span><span class="contact-value">m.demenko11@gmail.com</span></a></li>
+        <li><a href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener"><span class="contact-kind">LinkedIn</span><span class="contact-value">maria-demenko</span></a></li>
+        <li><a href="https://t.me/mariademn" target="_blank" rel="noopener"><span class="contact-kind">Telegram</span><span class="contact-value">@mariademn</span></a></li>
+      </ul>
+    </div>
+    <p class="footline t-en">Bridging design, product, and engineering — one design system at a time.</p>
+    <p class="footline t-ru">Соединяю дизайн, продукт и инженерию — одну дизайн-систему за раз.</p>
+    </div>
+    <nav class="next-up" aria-label="Next">
+      <a class="next-link" href="#about">
+        <span class="next-copy">
+          <span class="next-meta"><span><span class="t-en">Back to</span><span class="t-ru">Обратно</span></span><span>01 / 06</span></span>
+          <span class="next-title"><span class="t-en">Back to start</span><span class="t-ru">В начало</span><span class="next-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+        </span>
+        <span class="next-preview np-img np-face" aria-hidden="true"><img src="assets/photo-hero.webp" alt="" loading="lazy"></span>
+      </a>
+    </nav>
+  </section>
+
+</main>
+
+<script src="assets/app.js?v=b57eb5c1"></script>
+
+</body>
+</html>

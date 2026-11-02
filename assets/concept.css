@@ -1,0 +1,158 @@
+/* Concept: "the deck".
+   The whole site is one deck of black-and-silver cards. The hero rail deals
+   the arcana; work cases are cards laid out in a spread (unfinished cases lie
+   face down); the contact block is the last card. No cream page and no orange
+   UI accent: the only colour is the holographic foil, and only under the
+   pointer. Two families: Noto Serif Display for names and titles, Geist for
+   everything else, in sentence case. Loaded after site.css. */
+
+:root{
+  --table:#121115;          /* the page: a cool graphite cloth under the cards */
+  --stock:#0A0A0C;          /* card stock */
+  --bone:#ECEAE4;           /* text */
+  --ash:#8E8B95;            /* secondary text */
+  --silver:#CDD1D9;         /* foil frame and rules */
+  --rule:rgba(205,209,217,.14);
+  --frame:inset 0 0 0 8px var(--stock), inset 0 0 0 9px rgba(205,209,217,.5), inset 0 0 0 12px var(--stock), inset 0 0 0 12.6px rgba(205,209,217,.24);
+  --wrap:1360px;
+  --side:clamp(20px, 4.4vw, 72px);
+  color-scheme:dark;
+}
+
+body[data-page="concept"]{background:var(--table); color:var(--bone);}
+body[data-page="concept"]::before{content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; background-image:var(--grain); opacity:.05;}
+body[data-page="concept"] ::selection{background:var(--silver); color:var(--stock);}
+body[data-page="concept"] :focus-visible{outline:2px solid var(--silver); outline-offset:4px; border-radius:6px;}
+
+/* nav: dark glass everywhere, sentence-case Geist instead of the mono caps */
+body[data-page="concept"] .nav,
+body[data-page="concept"] .nav.on-dark{background:rgba(26,25,30,.62); border-color:rgba(255,255,255,.08); box-shadow:0 10px 30px -14px rgba(0,0,0,.8);
+  font-family:var(--sans); font-size:14px; letter-spacing:0; text-transform:none;}
+body[data-page="concept"] .nav a, body[data-page="concept"] .nav button{color:rgba(236,234,228,.58);}
+body[data-page="concept"] .nav a:hover, body[data-page="concept"] .nav button:hover,
+body[data-page="concept"] .nav .nav-brand, body[data-page="concept"] .nav .nav-lang[aria-pressed="true"]{color:var(--bone);}
+body[data-page="concept"] .nav a[aria-current="page"]{background:rgba(255,255,255,.09); color:var(--bone);}
+body[data-page="concept"] .nav .nav-sep{background:rgba(255,255,255,.12);}
+
+/* ---------- hero: same scene, one voice in the headline ---------- */
+.deck-hero{border:1px solid rgba(255,255,255,.06);}
+.deck-hero h1 em{font-style:normal; color:inherit;}
+.deck-hero .hero-intro{color:var(--ash);}
+/* every card in the rail belongs to the deck, so the toolkit and status cards get the silver frame too */
+.card--framed{box-shadow:var(--frame), 0 30px 60px -30px rgba(0,0,0,.9);}
+.hero--rail .card--framed{padding:24px 26px 26px;}
+.card--framed .card-top{font-family:var(--sans); font-size:13px; letter-spacing:0; text-transform:none;}
+.card--tools .card-top, .hero--rail .card--tools p{padding:0 14px;}
+.hero--rail .card--tools p{margin-bottom:6px;}
+.deck-hero .card p{font-family:var(--sans); font-size:12.5px; letter-spacing:0;}
+.deck-hero .tool-chips span{font-family:var(--sans); letter-spacing:0; text-transform:none;}
+.deck-hero .card--status{background:radial-gradient(80% 60% at var(--mx) var(--my), rgba(91,211,140,.12), transparent 70%), var(--stock);}
+.deck-hero .card--status .mail{font-family:var(--sans); letter-spacing:0; text-transform:none;}
+.deck-hero .card--photo .card-top{font-family:var(--sans); text-transform:none; letter-spacing:0; font-size:13px;}
+
+/* ---------- shared section rhythm ---------- */
+.deck{display:flex; flex-direction:column; gap:clamp(96px, 12vw, 168px); padding:clamp(88px, 10vw, 140px) 0 clamp(64px, 8vw, 112px);}
+.deck > section{width:100%; max-width:calc(var(--wrap) + 2 * var(--side)); margin:0 auto; padding:0 var(--side);}
+.deck h2{margin:0; font-family:var(--serif); font-weight:200; font-size:clamp(40px, 5vw, 76px); line-height:1; letter-spacing:-.03em; color:var(--bone);}
+.deck h3{margin:0; font-family:var(--serif); font-weight:300; letter-spacing:-.02em; color:var(--bone);}
+.kind{margin:0 0 14px; font-size:14px; color:var(--ash);}
+
+/* ---------- the spread ---------- */
+.spread-head{display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 420px); align-items:end; gap:32px; margin-bottom:clamp(36px, 4vw, 56px);}
+.spread-head p{margin:0; color:var(--ash); font-size:17px; line-height:1.55;}
+
+.lead-card, .play-card, .contact-card{--mx:50%; --my:40%; position:relative; display:grid; overflow:hidden; border-radius:28px; color:inherit;
+  background:radial-gradient(70% 60% at var(--mx) var(--my), rgba(255,255,255,.06), transparent 70%), var(--stock);
+  border:1px solid rgba(255,255,255,.07); box-shadow:var(--frame), 0 40px 80px -40px rgba(0,0,0,.9);}
+.lead-card::after, .play-card::after, .contact-card::after{content:""; position:absolute; inset:0; pointer-events:none; background-image:var(--grain); opacity:.18; mix-blend-mode:overlay;}
+
+.lead-card{grid-template-columns:minmax(0, 5fr) minmax(0, 7fr); align-items:center; gap:clamp(24px, 4vw, 64px); padding:clamp(40px, 5vw, 72px);}
+.lead-copy{position:relative; z-index:2;}
+.lead-card h3{font-size:clamp(32px, 3.4vw, 52px); line-height:1.04; text-wrap:balance;}
+.lead-sub{margin:20px 0 0; max-width:44ch; color:var(--ash); font-size:17px; line-height:1.6;}
+.lead-stats{display:flex; flex-wrap:wrap; gap:16px 40px; margin:32px 0 0; padding-top:24px; border-top:1px solid var(--rule);}
+.lead-stats div{margin:0;}
+.lead-stats dt{font-family:var(--serif); font-weight:300; font-size:clamp(28px, 2.6vw, 38px); line-height:1; letter-spacing:-.02em; color:var(--bone);}
+.lead-stats dd{margin:8px 0 0; font-size:14px; color:var(--ash);}
+.lead-cta{display:inline-flex; align-items:center; height:48px; margin-top:36px; padding:0 22px; border-radius:999px; border:1px solid rgba(205,209,217,.35); font-size:15px; color:var(--bone); transition:background-color .3s, color .3s, border-color .3s;}
+.lead-card:hover .lead-cta{background:var(--bone); color:var(--stock); border-color:var(--bone);}
+.lead-media{position:relative; z-index:2; margin-right:calc(-1 * clamp(40px, 5vw, 72px) - 40px);}
+.lead-media img{width:100%; height:auto; filter:drop-shadow(0 40px 50px rgba(0,0,0,.6));}
+
+.spread-row{display:grid; grid-template-columns:minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap:clamp(16px, 2vw, 28px); margin-top:clamp(16px, 2vw, 28px); align-items:start;}
+
+.play-card{grid-template-rows:auto 1fr; padding:22px 22px 36px;}
+.play-media{position:relative; z-index:2; margin:0; border-radius:16px; overflow:hidden; aspect-ratio:16/10; background:#fff;}
+.play-media img{width:100%; height:100%; object-fit:cover; object-position:top left;}
+.live-chip{position:absolute; top:12px; left:12px; z-index:2; display:inline-flex; align-items:center; gap:8px; height:30px; padding:0 12px; border-radius:999px; background:rgba(10,10,12,.82); color:var(--bone); font-size:13px;}
+.play-copy{position:relative; z-index:2; padding:26px 18px 0;}
+.play-card h3{font-size:clamp(24px, 2.2vw, 32px); line-height:1.1;}
+.play-copy > p:not(.kind){margin:12px 0 0; max-width:48ch; color:var(--ash); font-size:15.5px; line-height:1.55;}
+
+/* unfinished cases lie face down: the card back is the honest "not yet" */
+.face-down h3{margin-top:20px; font-size:22px; line-height:1.15;}
+.face-down p{margin:8px 0 0; color:var(--ash); font-size:14.5px; line-height:1.5;}
+.back{--mx:50%; --my:40%; position:relative; aspect-ratio:2/3; border-radius:20px; overflow:hidden; background:var(--stock); border:1px solid rgba(255,255,255,.07); box-shadow:0 30px 60px -30px rgba(0,0,0,.9);}
+.back::after{content:""; position:absolute; inset:0; pointer-events:none; background-image:var(--grain); opacity:.2; mix-blend-mode:overlay;}
+.back-art, .back-art svg{position:absolute; inset:0; width:100%; height:100%;}
+
+/* ---------- ledger ---------- */
+.ledger-head{display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:clamp(28px, 3vw, 44px);}
+.ledger-more{font-size:15px; color:var(--ash); border-bottom:1px solid var(--rule); padding-bottom:4px; transition:color .25s, border-color .25s;}
+.ledger-more:hover{color:var(--bone); border-color:var(--silver);}
+.ledger-list{list-style:none; margin:0; padding:0; border-top:1px solid var(--rule);}
+.ledger-list li{display:grid; grid-template-columns:150px minmax(0, 1.1fr) minmax(0, 1.4fr); align-items:baseline; gap:24px; padding:28px 0; border-bottom:1px solid var(--rule);}
+.lg-when{font-size:15px; color:var(--ash); font-variant-numeric:tabular-nums;}
+.lg-co{font-family:var(--serif); font-weight:200; font-size:clamp(28px, 3vw, 44px); line-height:1.05; letter-spacing:-.02em;}
+.lg-what{color:var(--ash); font-size:16px; line-height:1.5;}
+
+/* ---------- the last card ---------- */
+.contact-card{justify-items:center; text-align:center; padding:clamp(64px, 8vw, 120px) clamp(28px, 6vw, 96px);}
+.contact-card > *{position:relative; z-index:2;}
+.contact-status{display:inline-flex; align-items:center; gap:10px; margin:0 0 28px; font-size:15px; color:var(--ash);}
+.contact-card h2{max-width:16ch; font-size:clamp(44px, 6vw, 92px); text-wrap:balance;}
+.contact-actions{display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:44px;}
+.contact-actions a, .contact-actions button{display:inline-flex; align-items:center; height:52px; padding:0 24px; border-radius:999px; border:1px solid rgba(205,209,217,.3); font-size:16px; color:var(--bone); transition:background-color .25s, color .25s, border-color .25s;}
+.contact-actions .contact-mail{background:var(--bone); color:var(--stock); border-color:var(--bone);}
+.contact-actions a:hover{border-color:var(--silver); background:rgba(255,255,255,.06);}
+.contact-actions .contact-mail:hover{background:#fff;}
+.contact-actions .copy-ok{background:#5BD38C; border-color:#5BD38C;}
+
+.deck-foot{display:flex; justify-content:space-between; align-items:center; max-width:calc(var(--wrap) + 2 * var(--side)); margin:0 auto; padding:28px var(--side) 36px; border-top:1px solid var(--rule); font-size:14px; color:var(--ash);}
+.deck-foot .langs{display:flex; gap:4px;}
+.deck-foot .langs button{height:36px; padding:0 12px; border-radius:999px; color:var(--ash);}
+.deck-foot .langs button[aria-pressed="true"]{background:rgba(255,255,255,.09); color:var(--bone);}
+
+/* ---------- the one orchestrated moment: the rail is dealt from a single deck ---------- */
+.is-dealing .rail-track > .card{visibility:hidden;}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .lead-card{grid-template-columns:1fr;}
+  .lead-media{margin:0 calc(-1 * clamp(40px, 5vw, 72px) - 40px) 0 0;}
+  .spread-row{grid-template-columns:1fr 1fr;}
+  .play-card{grid-column:1 / -1;}
+  /* narrower screens: the back sits beside its caption instead of towering over it */
+  .face-down{display:grid; grid-template-columns:minmax(96px, 38%) minmax(0, 1fr); align-items:center; gap:20px;}
+  .face-down .back{grid-row:1 / 3;}
+  .face-down h3{margin-top:0; align-self:end;}
+  .face-down p{align-self:start;}
+}
+@media (max-width:760px){
+  .spread-head{grid-template-columns:1fr;}
+  .ledger-head{flex-direction:column; align-items:flex-start;}
+  .ledger-list li{grid-template-columns:1fr; gap:6px; padding:22px 0;}
+  .lead-card{padding:36px 26px 28px; border-radius:24px;}
+  .lead-media{margin:0 -40px 0 0;}
+  .spread-row{gap:14px;}
+  .face-down h3{font-size:18px;}
+  .contact-card{border-radius:24px;}
+  .contact-actions{flex-direction:column; align-self:stretch;}
+  .contact-actions a, .contact-actions button{justify-content:center;}
+}
+@media (max-width:640px){
+  .spread-row{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){
+  .lead-cta, .contact-actions a, .contact-actions button{transition:none;}
+}
