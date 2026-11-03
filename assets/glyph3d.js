@@ -9,11 +9,12 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* iridescent chrome: a mirror metal with a thin-film coat, so it shifts
    from pink to teal as the object turns, like the foil on the cards */
+/* rose gold: a pink-copper metal with only a faint film of iridescence left on it */
 function lacquer(){
   return new THREE.MeshPhysicalMaterial({
-    color:0xe4e6ee, metalness:1, roughness:.12,
-    iridescence:1, iridescenceIOR:1.35, iridescenceThicknessRange:[180, 780],
-    clearcoat:.6, clearcoatRoughness:.08, envMapIntensity:2.4
+    color:0xffd6c8, metalness:.92, roughness:.14,
+    iridescence:.25, iridescenceIOR:1.3, iridescenceThicknessRange:[200, 520],
+    clearcoat:.7, clearcoatRoughness:.06, envMapIntensity:3
   });
 }
 
@@ -435,7 +436,8 @@ const builders = {
   sparkWindow(){
     const g = new THREE.Group(), m = lacquer();
     const frame = new THREE.Mesh(new RoundedBoxGeometry(2.1, 1.5, .2, 6, .16), m); g.add(frame);
-    const dark = new THREE.MeshPhysicalMaterial({color:0x1b1b22, metalness:.2, roughness:.35, clearcoat:1});
+    // the screen is rose gold too, a deeper satin tone so the bright star still stands out on it
+    const dark = new THREE.MeshPhysicalMaterial({color:0xc98c78, metalness:.95, roughness:.38, clearcoat:.5, clearcoatRoughness:.2, envMapIntensity:1.6});
     const screen = new THREE.Mesh(new RoundedBoxGeometry(1.82, 1.08, .06, 4, .06), dark); screen.position.set(0, -.12, .1); g.add(screen);
     [-.78, -.62, -.46].forEach(x => { const d = new THREE.Mesh(new THREE.SphereGeometry(.05, 16, 12), m); d.position.set(x, .6, .12); g.add(d); });
     const s = sparkle(m, .5); s.position.set(.1, -.12, .3); g.add(s);
@@ -596,6 +598,13 @@ function mount(host){
 
   // the pointer over the card turns the object toward it; it eases, never jumps
   const aim = {x:0, y:0}, cur = {x:0, y:0};
+  // a click spins the figure one full turn; the page keeps count and says so
+  const spin = {v:0, t:0};
+  host.style.cursor = 'pointer';
+  host.addEventListener('click', () => {
+    spin.t += Math.PI * 2;
+    window.dispatchEvent(new CustomEvent('glyph-spin', {detail:{shape}}));
+  });
   card.addEventListener('pointermove', e => {
     const r = card.getBoundingClientRect();
     aim.x = ((e.clientX - r.left) / r.width - .5) * 2;
@@ -613,7 +622,8 @@ function mount(host){
     cur.y += (aim.y - cur.y) * .1;
     const s = reduced ? 0 : t / 1000 + seed;
     // a slow sway and float of its own, plus the turn toward the pointer
-    pivot.rotation.y = -.32 + Math.sin(s * .6) * .26 + cur.x * .55;
+    spin.v += (spin.t - spin.v) * .09;
+    pivot.rotation.y = -.32 + Math.sin(s * .6) * .26 + cur.x * .55 + spin.v;
     pivot.rotation.x = -.18 + Math.cos(s * .5) * .1 + cur.y * .4;
     pivot.position.y = Math.sin(s * .9) * .06;
     // resizing the drawing buffer is costly, so it only ever grows to fit the largest figure;

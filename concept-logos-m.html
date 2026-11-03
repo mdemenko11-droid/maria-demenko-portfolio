@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo M</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1A1715; --ink:#EEEEF1; --ash:#9A9AA3;}
+  *{box-sizing:border-box; margin:0;}
+  body{min-height:100vh; padding:28px; background:radial-gradient(58% 66% at 30% 112%, rgba(255,106,43,.7), transparent 76%), var(--bg); background-attachment:fixed;
+    color:var(--ink); font-family:'Geist', system-ui, sans-serif; display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:16px;}
+  .t{border-radius:22px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:14px;
+    background:linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02)); box-shadow:inset 0 1px 0 rgba(255,255,255,.09), inset 0 0 0 1px rgba(255,255,255,.06);}
+  .n{font-size:13px; color:var(--ash);} .n b{color:var(--ink); font-weight:500;}
+  .big{height:150px; display:grid; place-items:center;}
+  .big svg{width:104px; height:104px; filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));}
+  /* the mark at its real size, in a header */
+  .hdr{display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-radius:14px; background:rgba(0,0,0,.25); font-size:12.5px; color:var(--ash);}
+  .hdr svg{width:28px; height:28px;}
+  .hdr span{display:flex; gap:14px;} .hdr span i{font-style:normal;} .hdr span i:first-child{color:var(--ink);}
+</style>
+</head>
+<body>
+<!-- one rose-gold fill shared by every mark: a pink-copper metal with a soft highlight -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FCE6DA"/><stop offset=".38" stop-color="#EBB39E"/><stop offset=".62" stop-color="#F8D4C4"/><stop offset="1" stop-color="#C4826B"/>
+    </linearGradient>
+    <radialGradient id="hl" cx=".32" cy=".26" r=".55"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  </defs>
+</svg>
+<div id="marks"></div>
+<script>
+// each mark is drawn on a 48 x 48 grid; "hl" adds a soft highlight over the same shape
+const marks = [
+  ['M одной линией', 'Мягкая M непрерывным штрихом, острые углы скруглены', '<path d="M8 38V16c0-5 7-6 9-1l7 16 7-16c2-5 9-4 9 1v22" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>'],
+  ['M из двух арок', 'Две круглые арки рядом, как ∩∩', '<path d="M7 38V22a8.5 8.5 0 0 1 17 0v16M24 22a8.5 8.5 0 0 1 17 0v16" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>'],
+  ['Строчная m', 'Пухлая строчная m из двух горбиков', '<path d="M8 38V24M8 26c0-6 4-9 8-9s8 3 8 9v12M24 26c0-6 4-9 8-9s8 3 8 9v12" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.5"/>'],
+  ['Жирная M', 'Плотная заливная M с мягкими углами', '<path d="M9 40c-2 0-3-1-3-3V12c0-3 4-4 6-2l12 13 12-13c2-2 6-1 6 2v25c0 2-1 3-3 3h-4c-2 0-3-1-3-3V24l-6 7c-1 1.5-3 1.5-4 0l-6-7v13c0 2-1 3-3 3z"/>'],
+  ['M в круге', 'Круглая монета с вырезанной M', '<path fill-rule="evenodd" d="M24 4a20 20 0 1 1 0 40 20 20 0 0 1 0-40zM15 32c0 1 .8 1.8 1.8 1.8h.4c1 0 1.8-.8 1.8-1.8v-8l3.6 4.6c.7.9 2.1.9 2.8 0L29 24v8c0 1 .8 1.8 1.8 1.8h.4c1 0 1.8-.8 1.8-1.8V17c0-1.7-2.1-2.4-3.2-1.1L24 23l-5.8-7.1c-1.1-1.3-3.2-.6-3.2 1.1z"/>'],
+  ['M в сквиркле', 'Мягкий квадрат-кнопка с вырезанной M', '<path fill-rule="evenodd" d="M24 4c13 0 20 7 20 20s-7 20-20 20S4 37 4 24 11 4 24 4zM15 32c0 1 .8 1.8 1.8 1.8h.4c1 0 1.8-.8 1.8-1.8v-8l3.6 4.6c.7.9 2.1.9 2.8 0L29 24v8c0 1 .8 1.8 1.8 1.8h.4c1 0 1.8-.8 1.8-1.8V17c0-1.7-2.1-2.4-3.2-1.1L24 23l-5.8-7.1c-1.1-1.3-3.2-.6-3.2 1.1z"/>'],
+  ['M-петля', 'M с петелькой в середине, как в прописи', '<path d="M7 38 13 12c.8-3 4-3 5 0l4 13c1.5 4 6 4 7 0-1-6-6-6-6-1 0 3 3 5 6 4l3-16c.8-3 4.2-3 5 0l4 26" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>'],
+  ['M-волна', 'Одна плавная волна, похожая на M', '<path d="M6 36c3-14 6-22 9-22s5 14 9 14 6-14 9-14 6 8 9 22" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>'],
+  ['M из пилюль', 'Три мягкие пилюли: две стойки и галочка между ними', '<rect x="5" y="9" width="9" height="31" rx="4.5"/><rect x="34" y="9" width="9" height="31" rx="4.5"/><path d="M12 14l12 13 12-13" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>'],
+  ['M с искрой', 'Мягкая M и маленькая звёздочка над ней', '<path d="M8 40V22c0-4 5-5 7-1l5 11 5-11c2-4 7-3 7 1v18" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.5"/><path d="M38 5c.8 3 2 4.2 5 5-3 .8-4.2 2-5 5-.8-3-2-4.2-5-5 3-.8 4.2-2 5-5z" fill="url(#rg)"/>'],
+];
+const host = document.getElementById('marks');
+marks.forEach(([name, note, shape], i) => {
+  const svg = (fill) => `<svg viewBox="0 0 48 48" aria-hidden="true"><g fill="url(#rg)">${shape}</g>${fill ? `<g fill="url(#hl)" opacity=".55">${shape.replace(/fill="none" stroke="url\(#rg\)"/, 'fill="none" stroke="url(#hl)"')}</g>` : ''}</svg>`;
+  const t = document.createElement('section');
+  t.className = 't';
+  t.innerHTML = `<p class="n"><b>${String(i + 1).padStart(2, '0')} · ${name}</b><br>${note}</p>
+    <div class="big">${svg(true)}</div>
+    <div class="hdr">${svg(true)}<span><i>Work</i><i>About</i><i>Contact</i></span></div>`;
+  document.body.appendChild(t);
+});
+host.remove();
+</script>
+</body>
+</html>

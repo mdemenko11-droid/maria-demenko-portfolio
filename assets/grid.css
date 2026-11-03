@@ -5,11 +5,18 @@
    4 columns, then 2, then 1 (eight cells never split evenly into 3). */
 
 :root{
-  --bg:#0E0E11;
+  --bg:#1A1715;
   --ink:#EEEEF1;
   --ash:#9A9AA3;
   --line:rgba(238,238,241,.12);
-  --serif:'Noto Serif Display', Georgia, serif;
+  /* the accent: a warm orange, with a red-orange partner for the glow. It sits behind the silver,
+     never in the type: --accent and --accent-2 light the page, --accent-soft marks states on the dark
+     glass, --accent-ink states on the silver cards */
+  --accent:#FF6A2B;
+  --accent-soft:#FFB38A;
+  --accent-2:#E8452E;
+  --accent-ink:#D9480F;
+  --display:'Noto Serif Display', Georgia, serif;
   --sans:'Geist', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --side:clamp(16px, 3vw, 48px);
   --gap:clamp(10px, 1.4vw, 20px);
@@ -33,7 +40,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .nav{position:relative; z-index:50; margin:18px auto 0; display:grid; grid-template-columns:auto auto 1fr; align-items:center; gap:2px; padding:7px; border-radius:999px;
   /* as wide as the grid of cards below it */
   width:calc(min(100vw, 1680px) - 2 * var(--side));
-  background:rgba(32,32,36,.62); border:1px solid rgba(255,255,255,.07); box-shadow:0 12px 30px -14px rgba(0,0,0,.8);
+  background:rgba(26,25,30,.62); border:1px solid rgba(255,255,255,.07); box-shadow:0 12px 30px -14px rgba(0,0,0,.8);
   -webkit-backdrop-filter:blur(16px) saturate(1.3); backdrop-filter:blur(16px) saturate(1.3); font-size:14.5px;}
 .nav a, .nav button{height:44px; padding:0 20px; border-radius:999px; display:inline-grid; align-items:center; justify-items:center; color:rgba(238,238,241,.6); white-space:nowrap; transition:color .2s, background-color .2s;}
 /* both translations share one cell, so the pill keeps its width when the language changes */
@@ -51,7 +58,9 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .langs button[aria-pressed="true"]{background:rgba(255,255,255,.08); color:var(--ink);}
 
 /* ---------- the board: one even grid ---------- */
-.board{overflow:clip; overflow-clip-margin:var(--side); display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:var(--gap); padding:var(--gap) var(--side) clamp(40px, 6vw, 80px); max-width:1680px; margin:0 auto;}
+/* the board never clips: glows and shadows must fade out on their own. Sideways scroll is stopped by the page itself
+   (html overflow-x:clip) and the foil's own containment, not by cutting the board */
+.board{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:var(--gap); padding:var(--gap) var(--side) clamp(40px, 6vw, 80px); max-width:1680px; margin:0 auto;}
 .card, .cell{aspect-ratio:1 / 1.1; min-width:0;}
 
 /* text cells: the same footprint as a card, no box around them */
@@ -72,8 +81,8 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 /* text-wrap:balance on .cell h3 would switch wrapping back on, so this rule is more specific */
 .cell.cell--contact h3{text-wrap:nowrap;}
 .cell--lead{aspect-ratio:auto;}
-.cell--lead h1{max-width:none; font-family:var(--serif); font-weight:400; font-size:clamp(40px, 4.6vw, 92px); line-height:1.12; letter-spacing:-.03em; text-wrap:nowrap;}
-.cell h3{font-family:var(--serif); font-weight:400; font-size:clamp(24px, 2.1vw, 36px); line-height:1.05; letter-spacing:-.02em; text-wrap:balance;}
+.cell--lead h1{max-width:none; font-family:var(--display); font-weight:400; font-size:clamp(40px, 4.6vw, 92px); line-height:1.12; letter-spacing:-.03em; text-wrap:nowrap;}
+.cell h3{font-family:var(--display); font-weight:400; font-size:clamp(24px, 2.1vw, 36px); line-height:1.05; letter-spacing:-.02em; text-wrap:balance;}
 .cell-big{font-size:clamp(19px, 1.55vw, 26px); line-height:1.3; letter-spacing:-.01em;}
 .cell-small{font-size:clamp(14px, 1vw, 16px); line-height:1.55; color:var(--ash); max-width:40ch;}
 .cell-links{display:flex; flex-direction:column; align-items:flex-start; gap:8px;}
@@ -91,7 +100,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
    - ::after is the grain.
    grid.js eases the tilt and the lights every frame toward the pointer. */
 .card{--r:clamp(20px, 2vw, 30px); position:relative; display:flex; flex-direction:column; padding:clamp(18px, 1.8vw, 28px); border-radius:var(--r); color:#15151A;
-  background:linear-gradient(155deg, #F6F7F9 0%, #BFC3CA 30%, #E9EBEE 52%, #959AA3 78%, #D7DADF 100%);
+  background:linear-gradient(155deg, #FAF6F2 0%, #D3C6BB 30%, #F1EAE3 52%, #A99A8F 78%, #E3D9D0 100%);
   border:1px solid rgba(255,255,255,.55);
   /* the card floats: a bevel on the edge, a tight contact shadow, a wide soft one,
      and a little silver light spilling onto the dark page. Static, so it never repaints. */
@@ -100,7 +109,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
     0 2px 3px rgba(0,0,0,.55),
     0 14px 24px -8px rgba(0,0,0,.6),
     0 46px 70px -18px rgba(0,0,0,.88),
-    0 0 90px -34px rgba(205,215,240,.32);
+    0 0 90px -34px rgba(255,170,120,.32);
   transform:perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--s, 1));
   will-change:transform;}
 .card::before{content:""; position:absolute; z-index:0; inset:0; border-radius:inherit; pointer-events:none;
@@ -115,14 +124,14 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 /* clip-path isolates the layers inside, so the whole foil now blends onto the metal as one */
 /* no z-index on .foil: a stacking context would cut the blend off from the metal underneath */
 .foil::after{content:""; position:absolute; top:-10%; bottom:-10%; left:-100%; width:300%; mix-blend-mode:overlay; opacity:.95;
-  background:linear-gradient(110deg, #FBAED6, #A9D8FB 17%, #CDB9FB 33%, #A9F0CF 50%, #F9DCA8 67%, #FBAED6 84%, #A9D8FB);
+  background:linear-gradient(110deg, #FFB59A, #FFD59A 17%, #F99A86 33%, #FFE2B0 50%, #F7A27E 67%, #FFB59A 84%, #FFD59A);
   animation:pearl 16s ease-in-out infinite alternate;}
 @keyframes pearl{from{transform:translate3d(-16%, 0, 0);} to{transform:translate3d(16%, 0, 0);}}
 .foil::before{content:""; position:absolute; left:-30%; top:-30%; width:160%; height:160%; opacity:var(--fo, .62); mix-blend-mode:color;
   background:
-    radial-gradient(26% 22% at 38% 36%, rgba(255,120,200,.95), transparent 72%),
-    radial-gradient(28% 24% at 64% 46%, rgba(90,190,255,.95), transparent 72%),
-    radial-gradient(26% 22% at 50% 68%, rgba(110,255,190,.9), transparent 72%),
+    radial-gradient(26% 22% at 38% 36%, rgba(255,110,70,.95), transparent 72%),
+    radial-gradient(28% 24% at 64% 46%, rgba(255,170,50,.95), transparent 72%),
+    radial-gradient(26% 22% at 50% 68%, rgba(255,90,110,.85), transparent 72%),
     radial-gradient(22% 20% at 66% 66%, rgba(255,215,120,.85), transparent 72%);
   filter:blur(18px) saturate(1.25);
   transform:translate3d(var(--fx, 0px), var(--fy, 0px), 0);}
@@ -228,26 +237,32 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .lb-body{position:absolute; inset:0; z-index:0; border-radius:inherit; overflow:hidden;
   background:rgba(255,255,255,.07); -webkit-backdrop-filter:blur(10px) saturate(1.4); backdrop-filter:blur(10px) saturate(1.4);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -1px 0 rgba(255,255,255,.12), inset 10px 10px 22px -14px rgba(255,255,255,.5), 0 16px 34px -14px rgba(0,0,0,.9);}
-.lb-silver{position:absolute; inset:0; background:linear-gradient(120deg, #F5F6F8, #C6CAD1 38%, #EEF0F3 60%, #B3B8C1); transition:opacity .55s ease;}
+.lb-silver{position:absolute; inset:0; background:linear-gradient(120deg, #FAF6F2, #D6C9BE 38%, #F2EBE4 60%, #BBAA9E); transition:opacity .55s ease;}
+/* the same pearl film as on the cards drifts across the silver, so the buttons share their holographic sheen */
+.lb-silver::after{content:""; position:absolute; top:0; bottom:0; left:-100%; width:300%; mix-blend-mode:overlay; opacity:.9;
+  background:linear-gradient(110deg, #FFB59A, #FFD59A 17%, #F99A86 33%, #FFE2B0 50%, #F7A27E 67%, #FFB59A 84%, #FFD59A);
+  animation:pearl 12s ease-in-out infinite alternate;}
+@media (prefers-reduced-motion:reduce){ .lb-silver::after{animation:none;} }
 .lb-pearl{position:absolute; inset:-60%; opacity:0; transition:opacity .6s ease; filter:blur(16px);
   background:
-    radial-gradient(22% 40% at 30% 50%, rgba(255,150,205,.8), transparent 70%),
-    radial-gradient(22% 40% at 55% 42%, rgba(140,205,255,.8), transparent 70%),
-    radial-gradient(22% 40% at 76% 58%, rgba(150,250,205,.65), transparent 70%);
+    radial-gradient(22% 40% at 30% 50%, rgba(255,120,70,.8), transparent 70%),
+    radial-gradient(22% 40% at 55% 42%, rgba(255,190,80,.8), transparent 70%),
+    radial-gradient(22% 40% at 76% 58%, rgba(255,95,110,.7), transparent 70%);
   animation:lb-swirl 7s linear infinite paused;}
 .lead-btn:hover .lb-pearl{animation-play-state:running;}
 @keyframes lb-swirl{to{transform:rotate(360deg);}}
 /* the rim: a 1.5px ring that only lights up near the pointer */
 .lb-rim{position:absolute; inset:0; z-index:2; border-radius:inherit; padding:1.5px; pointer-events:none;
   background:
-    radial-gradient(90px 90px at var(--px) var(--py), #fff, rgba(190,220,255,.95) 25%, rgba(255,170,215,.75) 50%, transparent 80%),
+    radial-gradient(90px 90px at var(--px) var(--py), #fff, rgba(255,214,170,.95) 25%, rgba(255,140,90,.75) 50%, transparent 80%),
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.12));
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
   opacity:0; transition:opacity .45s ease;}
 /* the halo outside, centred on the pointer */
-.lb-halo{position:absolute; z-index:-1; inset:-50px; border-radius:50%; pointer-events:none; opacity:0; transition:opacity .5s ease;
-  background:radial-gradient(130px 110px at calc(var(--px) + 50px) calc(var(--py) + 50px), rgba(150,195,255,.32), rgba(200,160,255,.12) 50%, transparent 75%);
+/* the halo's box reaches well past the glow (160px each way, no rounded clip), so the light always fades out on its own and is never cut */
+.lb-halo{position:absolute; z-index:-1; inset:-160px; pointer-events:none; opacity:0; transition:opacity .5s ease;
+  background:radial-gradient(130px 110px at calc(var(--px) + 160px) calc(var(--py) + 160px), rgba(255,150,80,.34), rgba(255,100,70,.14) 50%, transparent 75%);
   filter:blur(6px);}
 .lb-sparks{position:absolute; inset:0; z-index:4; pointer-events:none; overflow:visible;}
 .spark{position:absolute; left:0; top:0; width:var(--sz, 3px); height:var(--sz, 3px); border-radius:50%; background:#fff; box-shadow:0 0 6px 1px rgba(200,225,255,.9);
@@ -302,16 +317,15 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   filter:blur(8px); mix-blend-mode:soft-light;}
 
 /* card copy in two levels: one short line, then frosted-glass badges with the key words */
-.card .lead{margin-top:8px; max-width:34ch; font-size:clamp(13px, .95vw, 15px); line-height:1.4; color:#1B1B22; font-weight:500; letter-spacing:-.005em;}
+.card .lead{margin-top:8px; max-width:30ch; font-size:clamp(13.5px, 1.05vw, 17px); line-height:1.42; color:rgba(27,27,34,.75); font-weight:400; letter-spacing:0; text-wrap:pretty;}
+/* the lead is now the only line under a heading, so it shows at every width */
+@media (max-width:760px){ .card p.lead{display:block;} }
 .card .chips{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0; padding:0; list-style:none;}
 .card .chips li{height:clamp(24px, 1.9vw, 28px); display:inline-flex; align-items:center; padding:0 clamp(9px, .8vw, 12px); border-radius:999px;
   font-size:clamp(11px, .8vw, 12.5px); color:#24242C; white-space:nowrap;
   background:rgba(255,255,255,.5); border:1px solid rgba(255,255,255,.85);
   box-shadow:inset 0 1px 0 #fff, 0 4px 10px -6px rgba(40,44,70,.35);}
-@media (max-width:760px){ .card .lead{display:none;} .card .chips{margin-top:8px;} }
-@media (max-width:520px){ .card .lead{display:block;} }
 /* on narrow four-column screens the badges alone carry the card, so the 3D figure keeps its room */
-@media (max-width:1240px) and (min-width:1001px){ .card .lead{display:none;} }
 
 /* the toolkit as app icons: small dark tiles with each product's own mark */
 /* all eight always sit in one row: the tiles shrink with the card instead of wrapping */
@@ -345,7 +359,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   color:var(--ink); font:inherit; text-align:left; text-decoration:none; cursor:pointer;
   transition:background-color .3s ease, box-shadow .3s ease, transform .3s cubic-bezier(.2,.75,.2,1);}
 .c-row:hover, .c-row:focus-visible{background:rgba(255,255,255,.08); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14), inset 0 1px 0 rgba(255,255,255,.12);}
-.c-row:focus-visible{outline:2px solid rgba(190,220,255,.8); outline-offset:2px;}
+.c-row:focus-visible{outline:2px solid rgba(255,180,130,.85); outline-offset:2px;}
 .c-row:active{transform:scale(.985);}
 .c-ico{flex:none; width:36px; height:36px; border-radius:12px; display:grid; place-items:center; color:#EDEFF4;
   background:linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.04)); box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 0 0 1px rgba(255,255,255,.08);}
@@ -368,7 +382,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   box-shadow:0 10px 22px -10px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.12);}
 /* a pearl sheen laid over the silver, the same film as on the cards */
 .me-ava::before{content:""; position:absolute; inset:-30%; z-index:-1; mix-blend-mode:soft-light; opacity:.9;
-  background:conic-gradient(from 200deg, #FF9ACB, #9CCBFF, #9AF0C9, #FFE3A3, #FF9ACB); filter:blur(6px);}
+  background:conic-gradient(from 200deg, #FF9A6B, #FFD08A, #FF7B7B, #FFE3A3, #FF9A6B); filter:blur(6px);}
 /* the photo sits inside a thin silver-pearl ring */
 .me-ava img{position:absolute; inset:2px; width:calc(100% - 4px); height:calc(100% - 4px); border-radius:50%; object-fit:cover; display:block;
   box-shadow:0 0 0 1px rgba(255,255,255,.35);}
@@ -403,7 +417,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   .fit .cell--lead h1{font-size:clamp(40px, 4.6cqw, 92px);}
   /* the intro's words scale with the board too, so they always fit under the profile header */
   .fit .cell--intro .cell-big{font-size:clamp(16px, 1.4cqw, 25px); margin-top:14px;}
-  .fit .cell--intro .cell-small{font-size:clamp(12.5px, .98cqw, 16px);}
+  .fit .cell--intro .cell-small{font-size:clamp(13.5px, 1.05vw, 17px);}
   .fit .cell--intro{gap:10px;}
   /* the footer line runs exactly as wide as the cards above it */
   .fit .foot{max-width:calc(var(--bw) - 2 * var(--side)); padding:14px 0 18px;}
@@ -435,20 +449,43 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 
 /* section headings run across the whole board */
 .cell--section{grid-column:1 / -1; padding:clamp(28px, 4vw, 56px) clamp(6px, 1.2vw, 18px) 4px; justify-content:flex-end; gap:6px;}
-.sec-title{font-family:var(--serif); font-weight:400; font-size:clamp(30px, 3vw, 52px); line-height:1.05; letter-spacing:-.02em;}
+.sec-title{font-family:var(--display); font-weight:400; font-size:clamp(30px, 3vw, 52px); line-height:1.05; letter-spacing:-.02em;}
 
-/* a job: a silver card across the whole board. The left column holds who, when and where,
-   the right one what I did, so a short list never leaves a hole and a long one never squeezes */
-.card--job{grid-column:1 / -1; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.5fr); column-gap:clamp(24px, 4vw, 72px);
-  padding:clamp(22px, 2.2vw, 36px);}
+/* experience: the timeline on the left picks a job, one silver card on the right shows it */
+.exp{grid-column:1 / -1; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:var(--gap); align-items:stretch;}
+.exp > *{aspect-ratio:auto;}
+.exp > .cell--timeline{grid-column:1; grid-row:1; display:flex; flex-direction:column; justify-content:space-between;}
+.exp > .card--job{grid-column:2; grid-row:1;}
+/* every job card shares the one cell, so the block keeps the height of the longest and never jumps */
+.exp > .card--job[hidden]{display:flex; visibility:hidden; opacity:0; pointer-events:none;}
+.exp > .card--job.is-shown{animation:job-in .55s cubic-bezier(.2,.75,.2,1) both;}
+@keyframes job-in{from{opacity:0; transform:perspective(1100px) translateY(14px) scale(.985);}}
+.card--job{display:flex; flex-direction:column; padding:clamp(22px, 2.2vw, 34px);}
+/* who and when on top, then what I did, then the tags and the link at the foot of the card */
+.card--job .job-meta{display:contents;}
+/* display:contents drops the wrapper's stacking, so lift its children above the glass reflection directly */
+.card--job .job-meta > *{position:relative; z-index:2;}
+.card--job .job-body{order:2;}
+.card--job .job-foot{order:3;}
 .job-meta{display:flex; flex-direction:column; align-items:flex-start;}
 .card--job h2{margin-top:10px; font-size:clamp(22px, 2vw, 32px);}
 .card--job .lead{max-width:34ch;}
-.job-body{padding-top:4px;}
-.points{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
-.points li{position:relative; padding:0 0 0 18px; font-size:clamp(14px, 1vw, 16px); line-height:1.45; color:rgba(21,21,26,.8); max-width:62ch;}
-.points li::before{content:""; position:absolute; left:2px; top:.6em; width:6px; height:6px; border-radius:50%; background:rgba(21,21,26,.4);}
-.job-foot{display:flex; flex-direction:column; align-items:flex-start; gap:14px; margin-top:auto; padding-top:22px;}
+.job-body{padding-top:18px;}
+.points{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+.points li{position:relative; display:flex; align-items:center; gap:12px; font-size:clamp(14px, 1vw, 16px); line-height:1.4; color:rgba(21,21,26,.8); max-width:62ch;}
+/* each point carries a small icon on a frosted tile, the same glass as the tool tiles and chips */
+.pt-ico{flex:none; width:30px; height:30px; border-radius:9px; display:grid; place-items:center; color:#1B1B22;
+  background:linear-gradient(150deg, rgba(255,255,255,.85), rgba(255,255,255,.45)); box-shadow:inset 0 1px 0 #fff, inset 0 0 0 1px rgba(21,21,26,.06), 0 3px 8px -4px rgba(21,21,26,.35);
+  transition:background-color .25s ease, transform .35s cubic-bezier(.2,.75,.2,1), box-shadow .25s ease;}
+.pt-ico svg{width:16px; height:16px; opacity:.85;}
+.points li:hover .pt-ico{background:#fff; transform:rotate(-6deg) scale(1.08); box-shadow:inset 0 1px 0 #fff, 0 6px 14px -6px rgba(21,21,26,.45);}
+/* when a job card comes in, its points follow one after another and each icon pops in */
+.card--job.is-shown .points li{animation:pt-in .5s cubic-bezier(.2,.75,.2,1) both; animation-delay:calc(.12s + var(--k, 0) * 55ms);}
+.card--job.is-shown .pt-ico{animation:pt-pop .55s cubic-bezier(.3,1.5,.5,1) both; animation-delay:calc(.16s + var(--k, 0) * 55ms);}
+@keyframes pt-in{from{opacity:0; transform:translateX(-10px);}}
+@keyframes pt-pop{from{opacity:0; transform:scale(.4) rotate(-20deg);}}
+@media (prefers-reduced-motion:reduce){ .card--job.is-shown .points li, .card--job.is-shown .pt-ico{animation:none;} }
+.job-foot{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:auto; padding-top:22px;}
 .job-foot .chips{margin-top:0;}
 .card-link{flex:none; display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 15px; border-radius:999px; background:#15151A; color:#F2F3F6; font-size:13.5px; font-weight:500; white-space:nowrap; transition:background-color .2s, transform .3s cubic-bezier(.2,.75,.2,1);}
 .card-link:hover{background:#000; transform:translateY(-1px);}
@@ -460,23 +497,28 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 
 @media (max-width:1000px){
   .card--job, .cell--section{grid-column:1 / -1;}
+  .exp{grid-template-columns:minmax(0, 1fr);}
+  .exp > .cell--timeline{grid-column:1; grid-row:1;}
+  .exp > .card--job{grid-column:1; grid-row:2;}
   .board--about .cell--lead h1{text-wrap:wrap;}
 }
 @media (max-width:760px){
   .board--about .card p{display:block;}
-  .card--job{grid-template-columns:minmax(0, 1fr); row-gap:16px;}
-  .job-foot{order:3;}
 }
 
 /* ---------- the timeline: one dark glass panel, a lane per job, bars to scale ---------- */
 .cell--timeline{grid-column:1 / -1; position:relative; padding:clamp(22px, 2.4vw, 36px) clamp(22px, 2.4vw, 40px) clamp(16px, 1.6vw, 24px); border-radius:clamp(20px, 2vw, 30px);
   background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.012) 65%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07), inset 0 0 0 1px rgba(255,255,255,.045);}
-.tl-lanes{position:relative; display:flex; flex-direction:column; gap:clamp(14px, 1.4vw, 20px);}
+.tl-lanes{position:relative; flex:1 1 auto; display:flex; flex-direction:column; justify-content:space-around; gap:clamp(14px, 1.4vw, 20px);}
 /* faint year gridlines run behind the lanes */
 .tl-lanes::before{content:""; position:absolute; inset:-8px 0 -10px; pointer-events:none;
   background:repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px calc(100% / 7.75)); }
-.tl-lane{position:relative; display:block; height:62px; color:var(--ink); text-decoration:none;}
+.tl-lane{position:relative; display:block; width:100%; height:62px; padding:0; border:0; background:none; font:inherit; color:var(--ink); text-align:left; cursor:pointer;}
+.tl-lane .tl-bar, .tl-lane .tl-label{transition:opacity .35s ease, transform .9s cubic-bezier(.2,.75,.2,1), box-shadow .3s ease, height .3s ease;}
+.tl-lane[aria-selected="false"] .tl-bar{opacity:.45;}
+.tl-lane[aria-selected="false"] .tl-label{opacity:.55;}
+.tl-lane[aria-selected="true"] .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 38px -4px rgba(255,170,120,.75);}
 .tl-label{position:absolute; top:0; display:flex; flex-direction:column; gap:1px; white-space:nowrap; font-size:13px; line-height:1.3;}
 .tl-label b{font-size:15px; font-weight:500;}
 .tl-label span{color:var(--ash);}
@@ -484,16 +526,16 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .tl-label--end{right:calc(100% - var(--l) - var(--w)); text-align:right;}
 /* the bar: the same silver as the cards, with the pearl film drifting through it */
 .tl-bar{position:absolute; bottom:0; left:var(--l); width:var(--w); min-width:14px; height:16px; border-radius:999px; overflow:hidden;
-  background:linear-gradient(120deg, #F5F6F8, #C6CAD1 38%, #EEF0F3 60%, #B3B8C1);
-  box-shadow:inset 0 1px 0 #fff, 0 6px 16px -6px rgba(0,0,0,.9), 0 0 24px -8px rgba(205,215,240,.45);
+  background:linear-gradient(120deg, #FAF6F2, #D6C9BE 38%, #F2EBE4 60%, #BBAA9E);
+  box-shadow:inset 0 1px 0 #fff, 0 6px 16px -6px rgba(0,0,0,.9), 0 0 24px -8px rgba(255,170,120,.45);
   transform-origin:left center; transition:transform .9s cubic-bezier(.2,.75,.2,1), box-shadow .3s ease, height .3s ease;}
 .tl-sheen{position:absolute; inset:0 -100%; mix-blend-mode:soft-light; opacity:.9;
-  background:linear-gradient(110deg, #FBAED6, #A9D8FB 17%, #CDB9FB 33%, #A9F0CF 50%, #F9DCA8 67%, #FBAED6 84%, #A9D8FB);
+  background:linear-gradient(110deg, #FFB59A, #FFD59A 17%, #F99A86 33%, #FFE2B0 50%, #F7A27E 67%, #FFB59A 84%, #FFD59A);
   animation:pearl 12s ease-in-out infinite alternate;}
-.tl-lane:hover .tl-bar, .tl-lane:focus-visible .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 34px -6px rgba(205,215,240,.7);}
+.tl-lane:hover .tl-bar, .tl-lane:focus-visible .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 34px -6px rgba(255,170,120,.7);}
 .tl-lane:hover .tl-label b{text-decoration:underline; text-underline-offset:3px; text-decoration-color:rgba(255,255,255,.35);}
 .tl-lane:focus-visible{outline:none;}
-.tl-lane:focus-visible .tl-label b{outline:2px solid rgba(190,220,255,.8); outline-offset:2px; border-radius:4px;}
+.tl-lane:focus-visible .tl-label b{outline:2px solid rgba(255,180,130,.85); outline-offset:2px; border-radius:4px;}
 /* the bars grow in from the left when the timeline scrolls into view */
 .cell--timeline.is-pending .tl-bar{transform:scaleX(0);}
 .tl-lane:nth-child(2) .tl-bar{transition-delay:.12s;} .tl-lane:nth-child(3) .tl-bar{transition-delay:.24s;}
@@ -516,3 +558,271 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 @media (prefers-reduced-motion:reduce){ .eq i{animation:none; transform:scaleY(.6);} }
 
 @media (max-width:520px){ .board--about > .card--playlist{aspect-ratio:auto;} }
+
+/* the intro's detail line is set exactly like the lines on the cards: same size, leading and weight,
+   75% ink, light on the dark panel instead of dark on the silver */
+.cell--intro .cell-small{font-size:clamp(13.5px, 1.05vw, 17px); line-height:1.42; font-weight:400; letter-spacing:0; color:rgba(238,238,241,.75); text-wrap:pretty;}
+
+/* ---------- about page: one spacing system ----------
+   --pad   the inside of every box: cards, panels, the timeline
+   --gap   between boxes in a section (the board's own gap)
+   --section  between sections: the hero, the experience, the closing row
+   Words that sit on the page with no box align to the column line, the cards' outer edge. */
+.board--about{--pad:clamp(20px, 1.8vw, 28px); --section:clamp(48px, 5.5vw, 88px);}
+.board--about .card, .board--about .cell--intro, .board--about .cell--contact, .board--about .cell--timeline{padding:var(--pad);}
+.board--about > .cell--lead, .board--about > .cell--section{padding-left:0; padding-right:0;}
+.board--about > .cell--section{padding-top:calc(var(--section) - var(--gap)); padding-bottom:0;}
+.board--about > .exp{margin-bottom:calc(var(--section) - var(--gap));}
+/* the silver cards carry a 1px rim, so their inside is a pixel less to put the words on the same line as the panels' */
+.board--about .card{padding:calc(var(--pad) - 1px);}
+/* the portrait keeps its shape as a minimum, then stretches with its row so the hero row ends on one line */
+.board--about > .card--portrait{aspect-ratio:auto; min-height:calc((min(100vw, 1680px) - 2 * var(--side) - 3 * var(--gap)) / 4 * 1.1);}
+@media (max-width:1000px){ .board--about > .card--portrait{min-height:calc((min(100vw, 900px) - 2 * var(--side) - var(--gap)) / 2 * 1.1);} }
+@media (max-width:520px){ .board--about > .card--portrait{min-height:0;} }
+
+/* the timeline's hint: a quiet line at the top; until the first pick the other bars breathe to invite a click */
+.tl-hint{display:flex; align-items:center; gap:8px; margin:0 0 6px; font-size:13px; color:var(--ash); transition:opacity .4s ease;}
+.tl-hint svg{flex:none; width:16px; height:16px; color:var(--ink); opacity:.8;}
+.cell--timeline.was-used .tl-hint{opacity:.45;}
+/* until the first pick, a ghost pointer shows how it works: it glides to one bar, taps it (a ring
+   spreads and a glint runs along the bar), glides to the next and taps again, then fades and loops.
+   grid.js measures where the two bars are and hands the positions over as --ax/--ay and --bx/--by. */
+.tl-ghost{position:absolute; left:0; top:0; z-index:3; width:22px; height:22px; pointer-events:none; opacity:0;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.6)) drop-shadow(0 0 10px rgba(255,170,120,.35));}
+.tl-ghost svg{display:block; width:100%; height:100%;}
+.cell--timeline.is-coaching .tl-ghost{animation:tl-ghost 6s cubic-bezier(.45,0,.25,1) infinite;}
+@keyframes tl-ghost{
+  0%  {opacity:0; transform:translate(calc(var(--ax) + 34px), calc(var(--ay) + 26px)) scale(1);}
+  10% {opacity:1;}
+  22% {opacity:1; transform:translate(var(--ax), var(--ay)) scale(1);}
+  26% {transform:translate(var(--ax), var(--ay)) scale(.82);}
+  31% {transform:translate(var(--ax), var(--ay)) scale(1);}
+  56% {transform:translate(var(--bx), var(--by)) scale(1);}
+  60% {transform:translate(var(--bx), var(--by)) scale(.82);}
+  65% {opacity:1; transform:translate(var(--bx), var(--by)) scale(1);}
+  80%, 100% {opacity:0; transform:translate(calc(var(--bx) + 24px), calc(var(--by) + 20px)) scale(1);}
+}
+/* the tap: a ring spreads from the bar and a glint sweeps along it, timed to the pointer */
+.tl-bar::after{content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0;
+  background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,.95) 50%, transparent 70%) no-repeat; background-size:200% 100%;}
+.tl-lane::after{content:""; position:absolute; bottom:-6px; left:var(--l); width:var(--w); min-width:14px; height:28px; border-radius:999px; pointer-events:none; opacity:0;
+  box-shadow:0 0 0 1.5px rgba(255,220,195,.9), 0 0 24px 2px rgba(255,106,43,.55);}
+.cell--timeline.is-coaching .tl-lane:nth-child(2)::after{animation:tl-ring 6s ease-out infinite; animation-delay:1.56s;}
+.cell--timeline.is-coaching .tl-lane:nth-child(3)::after{animation:tl-ring 6s ease-out infinite; animation-delay:3.6s;}
+.cell--timeline.is-coaching .tl-lane:nth-child(2) .tl-bar::after{animation:tl-glint 6s ease-out infinite; animation-delay:1.56s;}
+.cell--timeline.is-coaching .tl-lane:nth-child(3) .tl-bar::after{animation:tl-glint 6s ease-out infinite; animation-delay:3.6s;}
+@keyframes tl-ring{0%{opacity:.95; transform:scale(1, 1);} 12%{opacity:0; transform:scale(1.06, 1.9);} 100%{opacity:0;}}
+@keyframes tl-glint{0%{opacity:1; background-position:120% 0;} 12%{opacity:1; background-position:-20% 0;} 13%, 100%{opacity:0;}}
+@media (prefers-reduced-motion:reduce){ .cell--timeline.is-coaching .tl-ghost, .cell--timeline.is-coaching .tl-lane::after, .cell--timeline.is-coaching .tl-bar::after{animation:none;} }
+
+/* ---------- the accent: in the light behind things, not in the type ---------- */
+/* the page: warm graphite with an orange glow rising from the bottom edge, left of centre, fading
+   up into the grey (a hot amber core low down, orange around it, a wider red-orange haze to the right) */
+body{background:
+  radial-gradient(30% 32% at 30% 104%, rgba(255,200,130,.6), transparent 70%),
+  radial-gradient(58% 66% at 30% 112%, rgba(255,106,43,.95) 0%, rgba(232,74,30,.55) 38%, rgba(160,45,20,.18) 60%, transparent 76%),
+  radial-gradient(70% 55% at 80% 118%, rgba(214,60,35,.42), transparent 72%),
+  var(--bg); background-attachment:fixed;}
+/* the dark glass panels pick up a faint tint of it */
+/* frosted glass: a thin veil of white over a strong blur, so the glow behind shows through softened */
+.cell--intro, .cell--contact, .cell--timeline{background:linear-gradient(160deg, rgba(255,255,255,.075), rgba(255,255,255,.025)); -webkit-backdrop-filter:blur(28px) saturate(1.25); backdrop-filter:blur(28px) saturate(1.25);}
+/* and a fine grain on top, which is what makes glass read as matte rather than clear */
+.cell--intro::after, .cell--contact::after, .cell--timeline::after{content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background-image:var(--grain); opacity:.09; mix-blend-mode:overlay;}
+.cell--intro > *, .cell--contact > *, .cell--timeline > *{position:relative; z-index:1;}
+.nav a[aria-current="page"]{background:rgba(255,106,43,.24); color:#fff; box-shadow:inset 0 0 0 1px rgba(255,179,138,.32);}
+.tl-hint svg{color:var(--accent-soft); opacity:1;}
+.tl-lane[aria-selected="true"] .tl-bar{box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 40px -2px rgba(255,106,43,.9), 0 0 0 1px rgba(255,179,138,.55);}
+.c-row:hover .c-go{background:var(--accent); color:#fff;}
+.c-row:hover .c-ico{color:var(--accent-soft);}
+.card-link:hover{background:var(--accent-ink);}
+.points li:hover .pt-ico{color:var(--accent-ink);}
+.card-no{font-variant-numeric:tabular-nums;}
+
+/* ---------- matte: the dark surfaces lose their gloss ----------
+   The silver cards keep their holographic foil; the dark panels and the nav are flat or frosted. */
+.cell--intro, .cell--contact, .cell--timeline, .cell--facts{box-shadow:inset 0 1px 0 rgba(255,255,255,.1), inset 0 0 0 1px rgba(255,255,255,.07), 0 24px 44px -26px rgba(0,0,0,.7);}
+.nav{background:#202024; -webkit-backdrop-filter:none; backdrop-filter:none; border-color:rgba(255,255,255,.06);}
+.c-row, .facts li{background:rgba(255,255,255,.04); box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
+
+/* on hover the holographic film deepens: richer colour, more contrast, the colour wash at full strength */
+/* the saturation goes on the film's own layers: a filter on .foil itself would isolate it from the
+   metal below and the colour would vanish instead of deepening */
+.card > .foil::before, .card > .foil::after{transition:filter .5s ease, opacity .5s ease;}
+.card:hover > .foil::after{opacity:1; filter:saturate(1.9) contrast(1.12);}
+.card:hover > .foil::before{opacity:1; filter:blur(18px) saturate(2.4) brightness(1.08);}
+@media (hover:none){ .card:hover > .foil::after{filter:none;} .card:hover > .foil::before{filter:blur(18px) saturate(1.25);} }
+
+/* ---------- the header: a plain line ----------
+   No pill: the name on the left, the links and the languages on the right, straight on the page,
+   and a hairline underneath that runs as wide as the cards. */
+.nav{grid-template-columns:auto 1fr auto; gap:44px; padding:0 0 12px; border-radius:0; background:none; border:0;
+  border-bottom:1px solid rgba(255,255,255,.12); box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none;}
+.nav .nav-brand{padding:0; color:var(--ink); font-weight:500; font-size:15px;}
+.nav-links{gap:36px; justify-self:start;}
+.nav-end{gap:14px;}
+.nav a, .nav button{padding:0; height:44px; background:none !important; box-shadow:none !important;}
+.nav-links a{color:var(--ash);}
+.nav a[aria-current="page"]{color:var(--ink);}
+.nav .nav-lang{padding:0; font-size:13px; color:var(--ash);}
+.nav .nav-lang[aria-pressed="true"]{color:var(--ink);}
+@media (max-width:760px){
+  .nav{grid-template-columns:auto 1fr auto; gap:18px; max-width:calc(100vw - 2 * var(--side));}
+  .nav-links{gap:18px; justify-self:start;}
+}
+/* the logo: a soft lowercase m with a full stop, in rose gold */
+/* the m is centred on the menu's capitals, so it overhangs them by the same amount above and below */
+.nav .nav-logo{display:inline-flex; align-items:center; height:44px; padding:0; justify-self:start; transform:translateY(-.3px);}
+.nav-logo svg{width:auto; height:16.5px; display:block; filter:drop-shadow(0 4px 10px rgba(0,0,0,.4)); transition:transform .35s cubic-bezier(.2,.75,.2,1);}
+.nav-logo:hover svg{transform:rotate(-6deg) scale(1.06);}
+/* no rules at all: neither under the header nor over the footer */
+.nav{border-bottom:0;}
+.foot{border-top:0;}
+/* words with no box sit on the column line on every page: the headline and its button line up
+   with the name in the header, the cards and the footer, on the left and on the right */
+.board > .cell--lead{padding-left:0; padding-right:0;}
+/* the pearl film is three times the card's width so it can drift; contain it to the card's box so that
+   width never reaches the page (no sideways scroll, no extra height under the last row) */
+.foil{contain:paint;}
+/* the menu carries the same weight as the logo's thick stroke */
+.nav-links a{font-size:17px; font-weight:400; letter-spacing:-.005em;}
+/* only the page you are on is set in the heavier weight */
+.nav-links a[aria-current="page"]{font-weight:500;}
+/* the languages match the menu's size; the one in use sits on a soft pill */
+.nav-end{gap:4px;}
+.nav .nav-lang{height:34px; padding:0 12px; border-radius:999px; font-size:15px; font-weight:500; color:var(--ash); transition:background-color .2s, color .2s;}
+.nav .nav-lang[aria-pressed="true"]{color:var(--ink); background:rgba(255,255,255,.12) !important; box-shadow:inset 0 0 0 1px rgba(255,255,255,.1) !important;}
+.nav .nav-lang:hover{color:var(--ink);}
+@media (max-width:760px){ .nav .nav-lang{height:30px; padding:0 10px; font-size:13px;} }
+@media (max-width:760px){ .nav-links a{font-size:15px;} }
+
+/* footer: the copyright in soft white */
+.foot-left{color:rgba(255,255,255,.85); text-shadow:0 1px 8px rgba(0,0,0,.35);}
+
+/* ---------- little delights ---------- */
+.foot button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer;}
+/* "don't press": a small outlined pill that dares you */
+.dont-press{height:34px; padding:0 16px !important; border-radius:999px; font-size:14px !important; color:rgba(255,255,255,.75) !important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18); transition:box-shadow .2s, color .2s, transform .2s;}
+.dont-press:hover{color:#fff !important; box-shadow:inset 0 0 0 1px rgba(255,106,43,.7); transform:translateY(-1px);}
+.dont-press:active{transform:scale(.94);}
+/* the logo's confetti: small rose-gold stars that fly out and fall */
+.burst{position:fixed; z-index:200; width:12px; height:12px; pointer-events:none; animation:burst .95s cubic-bezier(.2,.7,.3,1) forwards;
+  background:linear-gradient(135deg, #FCE6DA, #EBB39E 50%, #C4826B);
+  clip-path:polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);}
+@keyframes burst{from{opacity:1; transform:translate(-50%, -50%) scale(.3) rotate(0);} 70%{opacity:1;}
+  to{opacity:0; transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(var(--sc, 1)) rotate(var(--rot));}}
+/* one toast at the bottom of the screen for the jokes and the spin counter */
+.toast{position:fixed; z-index:210; left:50%; bottom:28px; transform:translate(-50%, 20px); opacity:0; pointer-events:none;
+  padding:12px 20px; border-radius:999px; font-size:14.5px; color:#fff; white-space:nowrap;
+  background:rgba(30,26,24,.82); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); box-shadow:inset 0 0 0 1px rgba(255,255,255,.1), 0 14px 30px -12px rgba(0,0,0,.8);
+  transition:opacity .3s ease, transform .4s cubic-bezier(.2,.75,.2,1);}
+.toast.is-on{opacity:1; transform:translate(-50%, 0);}
+@media (max-width:520px){ .toast{white-space:normal; max-width:calc(100vw - 32px); text-align:center;} }
+@media (prefers-reduced-motion:reduce){ .burst{animation-duration:.01s;} }
+
+/* ---------- cases page: the same board as About ---------- */
+.board--cases > .cell--cases-head{grid-column:1 / -1;}
+/* a case: a wide silver card with the work on top and the outcome under it */
+.card--case{grid-column:span 2; aspect-ratio:auto; gap:0; text-decoration:none; color:#15151A;}
+.card--case h2{margin-top:8px; font-size:clamp(22px, 2vw, 32px); text-transform:none; letter-spacing:-.01em;}
+.card--case .lead{max-width:52ch;}
+.case-media{position:relative; display:block; margin-bottom:20px; border-radius:calc(var(--r) * .6); overflow:hidden; aspect-ratio:16 / 10;
+  background:radial-gradient(70% 60% at 50% 40%, #3A3B42, #17171C); box-shadow:inset 0 0 0 1px rgba(0,0,0,.06), 0 12px 26px -14px rgba(0,0,0,.45);}
+.case-media img{display:block; width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.75,.2,1);}
+.case-media--mac img{object-fit:contain; padding:6% 8% 0;}
+.card--case:hover .case-media img{transform:scale(1.03);}
+.case-media--live{display:grid; place-items:center; padding:7% 8% 0;}
+.case-browser{display:block; width:100%; height:100%; border-radius:12px 12px 0 0; overflow:hidden; background:#fff; box-shadow:0 20px 40px -18px rgba(0,0,0,.6);}
+.case-bar{display:flex; align-items:center; gap:6px; height:28px; padding:0 12px; background:#ECECEF; font-size:11.5px; color:#6B6B75;}
+.case-bar i{width:8px; height:8px; border-radius:50%; background:#C9C9CF;} .case-bar span{margin-left:8px;}
+.case-browser img{height:calc(100% - 28px); object-fit:cover; object-position:top left;}
+.live-chip{position:absolute; top:14px; right:14px; z-index:2; display:inline-flex; align-items:center; gap:7px; height:28px; padding:0 11px; border-radius:999px;
+  background:rgba(20,16,14,.72); color:#fff; font-size:12.5px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);}
+.case-stats{display:flex; flex-wrap:wrap; gap:clamp(18px, 3vw, 44px); margin-top:18px;}
+.case-stats > span{display:flex; flex-direction:column; gap:2px;}
+.case-stats b{font-family:var(--display); font-weight:400; font-size:clamp(26px, 2.4vw, 40px); line-height:1; letter-spacing:-.02em; color:#15151A;}
+.case-stats small{font-size:13px; color:rgba(21,21,26,.6);}
+.card--case .job-foot{margin-top:auto; padding-top:22px;}
+.card--case:hover .card-link{background:var(--accent-ink);}
+/* coming soon: frosted glass, half the board each */
+.board--cases > .cell--soon{grid-column:span 2; min-height:220px; justify-content:flex-end; gap:10px;}
+.soon-tag{align-self:flex-start; margin-bottom:auto; height:28px; display:inline-flex; align-items:center; padding:0 12px; border-radius:999px; font-size:12.5px; color:rgba(255,255,255,.8);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);}
+.soon-title{font-family:var(--display); font-weight:400; font-size:clamp(24px, 2.2vw, 36px); line-height:1.08; letter-spacing:-.02em;}
+.board--cases > .cell--cta{grid-column:1 / 4;}
+@media (max-width:1000px){ .card--case, .board--cases > .cell--soon, .board--cases > .cell--cta{grid-column:1 / -1;} }
+
+/* ---------- a case page: the same board, built from the same blocks ---------- */
+.card > .glass, .card > .foil{pointer-events:none;}
+.board--case > .cell--case-head{grid-column:1 / 4;}
+.board--case > .cell--case-meta{grid-column:4; justify-content:space-between; gap:16px;}
+.back-link{align-self:flex-start; display:inline-flex; align-items:center; gap:8px; height:34px; padding:0 14px 0 10px; border-radius:999px; font-size:14px; color:rgba(255,255,255,.8);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16); transition:box-shadow .2s, color .2s;}
+.back-link:hover{color:#fff; box-shadow:inset 0 0 0 1px rgba(255,106,43,.7);}
+.back-link svg{width:15px; height:15px;}
+.cell--case-meta .facts li{justify-content:space-between;}
+.cell--case-meta .facts li small{margin-left:12px; color:var(--ink); font-size:13.5px; text-align:right; white-space:normal;}
+/* light links on the dark glass */
+.card-link--light{align-self:flex-start; background:rgba(255,255,255,.1); color:#fff; box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);}
+.card-link--light:hover{background:var(--accent);}
+/* a full-width picture in a silver frame */
+.board--case > .card--cover{grid-column:1 / -1; padding:clamp(10px, 1vw, 16px);}
+.card--cover .case-media{margin:0; aspect-ratio:16 / 8.5;}
+.card--cover .case-media img{object-fit:cover; object-position:top center;}
+.card--cover .case-media--doc{aspect-ratio:16 / 8; background:#fff;}
+.card--cover .case-media--doc img{object-fit:cover; object-position:top center;}
+/* the live prototype, framed on the dark glass */
+.board--case > .cell--demo{grid-column:1 / -1; gap:18px; justify-content:flex-start;}
+.demo-head{display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+.demo-head .cell-small{max-width:60ch;}
+.demo-frame{height:clamp(520px, 58vw, 780px); border-radius:calc(var(--r) * .6); overflow:hidden; background:#fff; box-shadow:0 24px 50px -24px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.1);}
+.demo-frame iframe{display:block; width:100%; height:100%; border:0;}
+/* prose on the dark glass */
+.board--case > .cell--intro{min-height:0; justify-content:flex-start; gap:12px;}
+.board--case > .cell--prose{grid-column:span 2; justify-content:center;}
+.board--case > .cell--wide{grid-column:1 / -1;}
+.board--case > .cell--wide .cell-small{max-width:80ch;}
+.prose-title{font-family:var(--display); font-weight:400; font-size:clamp(24px, 2.1vw, 36px); line-height:1.1; letter-spacing:-.02em;}
+/* placeholders: a quiet hatched frame that says what goes there */
+.ph{flex:1 1 auto; min-height:clamp(220px, 20vw, 340px); display:grid; place-items:center; padding:20px; text-align:center; border-radius:calc(var(--r) * .6);
+  font-size:13.5px; color:rgba(21,21,26,.55);
+  background:repeating-linear-gradient(135deg, rgba(21,21,26,.05) 0 10px, rgba(21,21,26,.02) 10px 20px); box-shadow:inset 0 0 0 1px rgba(21,21,26,.1);}
+.ph > span{max-width:24ch;}
+.board--case > .card--media{grid-column:span 2; aspect-ratio:auto; padding:clamp(10px, 1vw, 16px);}
+.card--video video{display:block; width:100%; height:100%; min-height:clamp(220px, 20vw, 340px); object-fit:cover; border-radius:calc(var(--r) * .6); background:#111;}
+/* the process: four silver cards, a picture slot on top */
+.board--case > .card--step{aspect-ratio:auto; gap:0;}
+.card--step .ph{min-height:clamp(140px, 11vw, 190px); margin-bottom:16px;}
+.card--step h2{margin-top:6px;}
+.board--case > .card--tile{aspect-ratio:4 / 3; padding:clamp(10px, 1vw, 16px);}
+.card--tile .ph{min-height:0;}
+/* results */
+.board--case > .card--standout{grid-column:span 2; aspect-ratio:auto; justify-content:flex-end; gap:6px; min-height:clamp(220px, 18vw, 300px);}
+.standout-value{font-family:var(--display); font-weight:400; font-size:clamp(64px, 7vw, 120px); line-height:.95; letter-spacing:-.03em; color:#15151A;}
+.board--case > .cell--metric{justify-content:flex-end; gap:8px; min-height:clamp(160px, 13vw, 220px);}
+.metric-value{font-family:var(--display); font-weight:400; font-size:clamp(32px, 3vw, 52px); line-height:1; letter-spacing:-.02em;}
+.board--case > .cell--actions{grid-column:span 2; justify-content:flex-end;}
+.action-row{display:flex; flex-wrap:wrap; gap:8px;}
+.board--case > .cell--cta{grid-column:1 / 4;}
+@media (max-width:1000px){
+  .board--case > .cell--case-head, .board--case > .cell--case-meta, .board--case > .cell--prose, .board--case > .card--media,
+  .board--case > .card--standout, .board--case > .cell--actions, .board--case > .cell--cta{grid-column:1 / -1;}
+  .demo-frame{height:clamp(460px, 120vw, 640px);}
+}
+
+/* the cases page: one featured case across the board, then the projects still being written up */
+.board--cases > .card--feature{grid-column:1 / -1; display:grid; grid-template-columns:minmax(0, 1.25fr) minmax(0, 1fr); column-gap:clamp(24px, 3.5vw, 64px); align-items:stretch;}
+.card--feature .case-media{margin:0; aspect-ratio:auto; min-height:clamp(300px, 30vw, 460px);}
+.feature-copy{display:flex; flex-direction:column; padding:clamp(6px, 1vw, 14px) 0;}
+.card--feature .job-foot{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-start;}
+.card-link--ghost{background:transparent; color:#15151A; box-shadow:inset 0 0 0 1px rgba(21,21,26,.25);}
+.card-link--ghost:hover{background:#15151A; color:#fff;}
+.card--feature .case-media .live-chip{top:auto; bottom:14px; right:14px;}
+/* a project still being written up: the picture slot is hatched and says so */
+.case-media--soon{display:grid; place-items:center; background:repeating-linear-gradient(135deg, rgba(21,21,26,.05) 0 10px, rgba(21,21,26,.02) 10px 20px); box-shadow:inset 0 0 0 1px rgba(21,21,26,.1);}
+.soon-badge{height:30px; display:inline-flex; align-items:center; padding:0 14px; border-radius:999px; font-size:13px; font-weight:500; color:#15151A;
+  background:rgba(255,255,255,.7); box-shadow:inset 0 1px 0 #fff, 0 4px 12px -6px rgba(21,21,26,.3);}
+.card--soon{cursor:default;}
+.card--soon .case-media{aspect-ratio:16 / 8;}
+@media (max-width:1000px){ .board--cases > .card--feature{grid-template-columns:minmax(0, 1fr); row-gap:18px;} }
+@media (max-width:520px){ .board--case > .card--tile{aspect-ratio:auto; min-height:180px;} .board--case > .card--step, .board--case > .card--standout, .board--case > .card--media, .board--case > .card--cover{min-height:0;} }

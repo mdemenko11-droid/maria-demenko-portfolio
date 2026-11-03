@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Header options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Noto+Serif+Display:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1A1715; --ink:#EEEEF1; --ash:#9A9AA3; --acc:#FF6A2B;
+    --rose:linear-gradient(135deg, #FBE1D4 0%, #E9B19C 38%, #F7D2C2 62%, #C98A74 100%);
+    --silver:linear-gradient(120deg, #FAF6F2, #D6C9BE 38%, #F2EBE4 60%, #BBAA9E);}
+  *{box-sizing:border-box; margin:0;}
+  body{background:radial-gradient(58% 66% at 30% 112%, rgba(255,106,43,.75), transparent 76%), var(--bg); background-attachment:fixed;
+    color:var(--ink); font-family:'Geist', system-ui, sans-serif; padding:28px 28px 60px; display:flex; flex-direction:column; gap:22px;}
+  a{color:inherit; text-decoration:none;}
+  .opt{border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02);}
+  .opt > .label{display:flex; justify-content:space-between; padding:10px 18px; font-size:13px; color:var(--ash); border-bottom:1px solid rgba(255,255,255,.05);}
+  .opt > .label b{color:var(--ink); font-weight:500;}
+  .stage{position:relative; padding:18px 28px 0; height:150px; overflow:hidden;}
+  /* a hint of the page under each header */
+  .stage::after{content:""; position:absolute; left:28px; right:28px; bottom:-60px; height:100px; border-radius:22px;
+    background:linear-gradient(90deg, transparent 0 50%, #EDE3DA 50% 74%, transparent 74% 75.5%, #F1E6DC 75.5%); opacity:.9;}
+  .stage h1{position:absolute; left:28px; bottom:22px; font-family:'Noto Serif Display', serif; font-weight:400; font-size:34px; letter-spacing:-.02em; color:#EEEEF1;}
+  .brand{font-weight:500; font-size:15px; white-space:nowrap;}
+  .serif{font-family:'Noto Serif Display', serif; font-weight:400;}
+  .mono{font-family:'Geist Mono', monospace;}
+  .muted{color:var(--ash);}
+  .row{display:flex; align-items:center;}
+  .glass{background:linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.025)); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1), inset 0 0 0 1px rgba(255,255,255,.08);}
+  .langs{display:flex; gap:10px; font-size:13px;}
+  .langs .on{color:var(--ink);} .langs span{color:var(--ash);}
+
+  /* 1 */ .h1{justify-content:space-between; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,.12);}
+          .h1 nav{display:flex; gap:36px; font-size:14.5px;} .h1 nav a{color:var(--ash);} .h1 nav a.on{color:var(--ink);}
+  /* 2 */ .h2{justify-content:space-between;} .h2 .pill{display:flex; gap:4px; padding:6px; border-radius:999px;}
+          .h2 .pill a{padding:9px 18px; border-radius:999px; font-size:14px; color:var(--ash);} .h2 .pill a.on{background:rgba(255,255,255,.1); color:var(--ink);}
+  /* 3 */ .h3{justify-content:space-between;} .h3 .brand{font-size:22px;} .h3 nav{display:flex; gap:32px; font-size:14.5px; color:var(--ash);} .h3 nav a.on{color:var(--ink);}
+          .cta{display:inline-flex; align-items:center; gap:10px; height:42px; padding:0 6px 0 18px; border-radius:999px; background:var(--silver); color:#15151A; font-size:14px; font-weight:500;}
+          .cta i{width:32px; height:32px; border-radius:50%; background:#15151A; color:#fff; display:grid; place-items:center; font-style:normal; font-size:13px;}
+  /* 4 */ .h4{gap:2px; padding:7px 7px 7px 20px; border-radius:999px;} .h4 nav{display:flex; gap:28px; margin-left:34px; font-size:14.5px; color:var(--ash);}
+          .h4 nav a{position:relative; padding:10px 0;} .h4 nav a.on{color:var(--ink);} .h4 nav a.on::after{content:""; position:absolute; left:0; right:0; bottom:4px; height:1.5px; border-radius:2px; background:var(--acc);}
+          .h4 .langs{margin-left:auto; padding-right:14px;}
+  /* 5 */ .h5{justify-content:space-between; align-items:flex-start;} .h5 .brand{font-size:26px; line-height:1;} .h5 .brand small{display:block; margin-top:6px; font-family:'Geist'; font-size:13px; color:var(--ash);}
+          .h5 nav{display:grid; grid-template-columns:auto auto auto; gap:6px 34px; font-size:14px;} .h5 nav a{display:flex; gap:8px;} .h5 nav a span{color:var(--ash); font-size:12px;} .h5 nav a.on{color:var(--acc);}
+  /* 6 */ .h6{justify-content:space-between; padding:9px 9px 9px 22px; border-radius:999px; border:1px solid rgba(240,190,170,.3); background:linear-gradient(160deg, rgba(255,214,196,.1), rgba(255,190,170,.03));}
+          .h6 nav{display:flex; gap:30px; font-size:14.5px; color:#d9c8c0;} .h6 nav a.on{color:#fff; display:flex; align-items:center; gap:8px;} .h6 nav a.on::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--rose);}
+  /* 7 */ .h7{gap:10px;} .h7 .cap{height:46px; display:flex; align-items:center; padding:0 20px; border-radius:999px;} .h7 nav{display:flex; gap:26px; font-size:14px; color:var(--ash);} .h7 nav a.on{color:var(--ink);}
+          .h7 .mid{margin:0 auto;}
+  /* 8 */ .h8{justify-content:space-between; font-family:'Geist Mono', monospace; font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; padding-bottom:14px; border-bottom:1px dashed rgba(255,255,255,.14);}
+          .h8 nav{display:flex; gap:22px; color:var(--ash);} .h8 nav a.on{color:var(--ink);} .h8 nav a.on::before{content:"["; color:var(--acc); margin-right:6px;} .h8 nav a.on::after{content:"]"; color:var(--acc); margin-left:6px;}
+          .h8 .sq{display:inline-block; width:8px; height:8px; background:var(--acc); margin-right:10px;}
+  /* 9 */ .h9{justify-content:space-between;} .h9 .who{display:flex; align-items:center; gap:12px; font-size:14px;} .h9 .who img{width:34px; height:34px; border-radius:50%; object-fit:cover;}
+          .h9 .status{display:inline-flex; align-items:center; gap:8px; height:30px; padding:0 12px; border-radius:999px; font-size:12.5px; color:#cfe9d8; background:rgba(91,211,140,.12);}
+          .h9 .status::before{content:""; width:7px; height:7px; border-radius:50%; background:#5BD38C; box-shadow:0 0 0 3px rgba(91,211,140,.2);}
+          .h9 nav{display:flex; gap:30px; font-size:14.5px; color:var(--ash);} .h9 nav a.on{color:var(--ink);}
+  /* 10 */ .h10{justify-content:space-between;} .h10 .menu{display:inline-flex; align-items:center; gap:12px; height:44px; padding:0 8px 0 20px; border-radius:999px; font-size:14px;}
+          .h10 .burger{width:30px; height:30px; border-radius:50%; background:var(--rose); display:grid; place-content:center; gap:4px;}
+          .h10 .burger i{display:block; width:12px; height:1.5px; background:#2A1A15; border-radius:2px;}
+</style>
+</head>
+<body>
+
+<section class="opt"><div class="label"><b>01 · В линию, без плашки</b><span>имя слева, ссылки и языки справа на фоне, тонкая линия снизу</span></div>
+  <div class="stage"><header class="row h1"><span class="brand">Maria Demenko</span><span class="row" style="gap:48px"><nav><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav><span class="langs"><span class="on">EN</span><span>RU</span></span></span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>02 · Плашка по центру</b><span>стеклянная пилюля только со ссылками, имя и языки отдельно</span></div>
+  <div class="stage"><header class="row h2"><span class="brand">Maria Demenko</span><span class="pill glass"><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></span><span class="langs"><span class="on">EN</span><span>RU</span></span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>03 · Имя с засечками + кнопка</b><span>справа серебряная кнопка «Let's talk», языки в футер</span></div>
+  <div class="stage"><header class="row h3"><span class="brand serif">Maria Demenko</span><nav><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav><a class="cta" href="#">Let's talk <i>↗</i></a></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>04 · Текущая раскладка, спокойнее</b><span>нейтральное стекло, активный пункт оранжевой линией снизу</span></div>
+  <div class="stage"><header class="row h4 glass"><span class="brand">Maria Demenko</span><nav><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav><span class="langs"><span class="on">EN</span><span>RU</span></span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>05 · Редакционный</b><span>имя крупно с подписью, справа нумерованное меню</span></div>
+  <div class="stage"><header class="row h5"><span class="brand serif">Maria Demenko<small>Product designer · Minsk → Poland</small></span><nav><a class="on" href="#"><span>01</span>Work</a><a href="#"><span>02</span>About</a><a href="#"><span>03</span>Contact</a></nav></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>06 · Розовое золото, тонко</b><span>тонкая тёплая плашка, активный пункт отмечен розово-золотой точкой</span></div>
+  <div class="stage"><header class="row h6"><span class="brand" style="color:#F6DCCF">Maria Demenko</span><nav><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav><span class="langs"><span class="on">EN</span><span>RU</span></span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>07 · Три капсулы</b><span>имя, ссылки и языки в отдельных стеклянных капсулах</span></div>
+  <div class="stage"><header class="row h7"><span class="cap glass brand">Maria Demenko</span><span class="cap glass mid"><nav><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav></span><span class="cap glass langs"><span class="on">EN</span><span>RU</span></span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>08 · Технический</b><span>моноширинный, капсом, активный пункт в оранжевых скобках, пунктир снизу</span></div>
+  <div class="stage"><header class="row h8"><span><span class="sq"></span>Maria Demenko</span><nav><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav><span>EN / RU</span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>09 · Со статусом</b><span>аватар, имя и зелёный бейдж «Open to work», ссылки справа</span></div>
+  <div class="stage"><header class="row h9"><span class="who"><img src="assets/avatar.jpg?v=5" alt=""><span class="brand">Maria Demenko</span><span class="status">Open to work</span></span><span class="row" style="gap:44px"><nav><a class="on" href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav><span class="langs"><span class="on">EN</span><span>RU</span></span></span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+<section class="opt"><div class="label"><b>10 · Минимум: имя + «Menu»</b><span>ссылки прячутся в меню, открываемое кнопкой с розово-золотым кругом</span></div>
+  <div class="stage"><header class="row h10"><span class="brand">Maria Demenko</span><span class="row" style="gap:22px"><span class="langs"><span class="on">EN</span><span>RU</span></span><a class="menu glass" href="#">Menu <span class="burger"><i></i><i></i></span></a></span></header><h1>Complex systems, simple experiences</h1></div></section>
+
+</body>
+</html>

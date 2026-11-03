@@ -28,6 +28,64 @@
     });
   });
 
+  /* ---------- little delights ---------- */
+  var isRu = function(){ return root.getAttribute('data-lang') === 'ru'; };
+  function store(key, val){ try{ if (val === undefined) return +localStorage.getItem(key) || 0; localStorage.setItem(key, val); }catch(e){ return 0; } }
+  // Russian counts take one of three forms: 1 раз, 2 раза, 5 раз
+  function ruPlural(n, one, few, many){ var a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 12 || b > 14) ? few : many; }
+
+  // one toast for the jokes and the spin counter
+  var toast = document.createElement('div'), toastTimer;
+  toast.className = 'toast'; toast.setAttribute('role', 'status'); document.body.appendChild(toast);
+  function say(text){
+    toast.textContent = text; toast.classList.add('is-on');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ toast.classList.remove('is-on'); }, 2600);
+  }
+
+  // "don't press": a new line every time
+  var dont = document.querySelector('.dont-press'), dontN = 0;
+  var dontLines = [
+    ["I said don't.", 'Я же сказала: не нажимать.'],
+    ['Okay, once more, then.', 'Ладно, ещё разок.'],
+    ['You are persistent. I like that.', 'Настойчиво. Мне это нравится.'],
+    ['Nothing happens here. Really.', 'Здесь ничего не происходит. Правда.'],
+    ['Persistence like this belongs on a team.', 'С таким упорством вам в команду.'],
+    ["Let's just work together.", 'Давайте просто поработаем вместе.'],
+    ['Fine. You win. 🏆', 'Хорошо. Вы победили. 🏆']
+  ];
+  if (dont) dont.addEventListener('click', function(){
+    var line = dontLines[dontN % dontLines.length]; dontN++;
+    say(isRu() ? line[1] : line[0]);
+  });
+
+  // the logo: a burst of rose-gold stars; on the home page it stays put, elsewhere it goes home after the burst
+  var logo = document.querySelector('.nav-logo');
+  if (logo) logo.addEventListener('click', function(e){
+    if (still) return;
+    e.preventDefault();
+    var r = logo.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    for (var i = 0; i < 16; i++){
+      var s = document.createElement('span'), a = Math.random() * Math.PI * 2, d = 40 + Math.random() * 70;
+      s.className = 'burst'; s.style.left = cx + 'px'; s.style.top = cy + 'px';
+      s.style.setProperty('--dx', (Math.cos(a) * d).toFixed(1) + 'px');
+      s.style.setProperty('--dy', (Math.sin(a) * d + 30).toFixed(1) + 'px');
+      s.style.setProperty('--rot', (Math.random() * 360 - 180).toFixed(0) + 'deg');
+      s.style.setProperty('--sc', (.5 + Math.random() * .8).toFixed(2));
+      document.body.appendChild(s); s.addEventListener('animationend', function(){ this.remove(); });
+    }
+    var here = location.pathname.split('/').pop() || 'index.html';
+    if (here !== logo.getAttribute('href')) setTimeout(function(){ location.href = logo.getAttribute('href'); }, 450);
+  });
+
+  // the figures: glyph3d spins one on click and tells us; we count and say it
+  var names = {sparkWindow:['the window', 'окно'], dsComponent:['the diamonds', 'ромбы'], pen:['the pen', 'перо'], stMaze:['the maze', 'лабиринт'], vinyl:['the record', 'пластинку']};
+  window.addEventListener('glyph-spin', function(e){
+    var shape = e.detail.shape, n = store('md-spin-' + shape) + 1, name = names[shape] || ['it', 'фигуру'];
+    store('md-spin-' + shape, n);
+    say(isRu() ? 'Вы покрутили ' + name[1] + ' ' + n + ' ' + ruPlural(n, 'раз', 'раза', 'раз')
+               : "You've spun " + name[0] + ' ' + n + (n === 1 ? ' time' : ' times'));
+  });
+
   /* cells settle in one after another */
   document.querySelectorAll('.board > *').forEach(function(el, i){ el.style.setProperty('--i', i); });
 
@@ -37,7 +95,8 @@
      mouse does, and it settles back the same way when the pointer leaves. */
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canTilt = !still && window.matchMedia('(hover: hover)').matches;
-  var cards = [].slice.call(document.querySelectorAll('.card')).map(function(el){
+  // cards that hold long reading, video or large pictures stay still
+  var cards = [].slice.call(document.querySelectorAll('.card:not(.card--job):not(.card--still)')).map(function(el){
     // rest: the light sits top-left, nothing tilted
     return {el:el, foil:el.querySelector('.foil'), tx:-.4, ty:-.6, th:0, x:-.4, y:-.6, h:0, ax:0, ay:0, tax:0, tay:0, k:.14, w:1, hgt:1, amp:1};
   });
@@ -101,12 +160,58 @@
   measure();
   window.addEventListener('resize', measure);
 
+  /* experience: the timeline's lanes are tabs; the chosen job's card is the only one shown */
+  var lanes = [].slice.call(document.querySelectorAll('.tl-lane[role="tab"]'));
+  function pick(lane, focus){
+    lanes.forEach(function(l){
+      var on = l === lane, panel = document.getElementById(l.getAttribute('aria-controls'));
+      l.setAttribute('aria-selected', on); l.tabIndex = on ? 0 : -1;
+      if (!panel) return;
+      panel.hidden = !on;
+      panel.classList.toggle('is-shown', on && !still);
+    });
+    if (focus) lane.focus();
+    measure();
+  }
+  // the first pick by hand retires the hint
+  function used(l){ var p = l.closest('.cell--timeline'); p.classList.add('was-used'); p.classList.remove('is-coaching'); }
+  lanes.forEach(function(l, i){
+    l.addEventListener('click', function(){ pick(l); used(l); });
+    l.addEventListener('keydown', function(e){
+      var step = {ArrowDown:1, ArrowRight:1, ArrowUp:-1, ArrowLeft:-1}[e.key];
+      if (step){ e.preventDefault(); pick(lanes[(i + step + lanes.length) % lanes.length], true); used(l); }
+    });
+  });
+  if (lanes.length) pick(lanes[0]);
+
+  /* the coach: a ghost pointer taps the other two bars until the first real pick */
+  var tlPanel = document.querySelector('.cell--timeline'), ghost = tlPanel && tlPanel.querySelector('.tl-ghost');
+  function aim(){
+    if (!ghost || lanes.length < 3) return;
+    var box = ghost.offsetParent.getBoundingClientRect();
+    [['a', lanes[1]], ['b', lanes[2]]].forEach(function(p){
+      var r = p[1].querySelector('.tl-bar').getBoundingClientRect();
+      // the pointer's tip lands on the middle of the bar
+      tlPanel.style.setProperty('--' + p[0] + 'x', (r.left + r.width / 2 - box.left - 4).toFixed(1) + 'px');
+      tlPanel.style.setProperty('--' + p[0] + 'y', (r.top + r.height / 2 - box.top - 3).toFixed(1) + 'px');
+    });
+  }
+  if (ghost && !still){
+    aim(); window.addEventListener('resize', aim);
+    tlPanel.classList.add('is-coaching');
+  }
+
   /* the timeline's bars grow in once it scrolls into view */
   var tl = document.querySelector('.cell--timeline');
   if (tl && !still && 'IntersectionObserver' in window){
     tl.classList.add('is-pending');
     new IntersectionObserver(function(entries, io){
-      if (entries[0].isIntersecting){ tl.classList.remove('is-pending'); io.disconnect(); }
+      if (entries[0].isIntersecting){
+        tl.classList.remove('is-pending'); io.disconnect();
+        // replay the open card's entrance now that it can be seen
+        var open = document.querySelector('.card--job:not([hidden])');
+        if (open){ open.classList.remove('is-shown'); void open.offsetWidth; open.classList.add('is-shown'); }
+      }
     }, {threshold:.35}).observe(tl);
   }
 
@@ -165,9 +270,11 @@
             var g = Math.exp(-dist * dist / (2 * 34 * 34));
             p.tx = p.nx * 10 * g; p.ty = p.ny * 10 * g;
           } else {
-            // reach after the pointer: a narrow drop that thins as the pointer pulls away
-            var g2 = Math.exp(-dist * dist / (2 * (26 + gap * .3) * (26 + gap * .3))), hold = 1 - (gap / 60) * (gap / 60);
-            p.tx = vx * .92 * g2 * hold + p.nx * 4 * g2; p.ty = vy * .92 * g2 * hold + p.ny * 4 * g2;
+            // reach toward the pointer by bulging the edge outward along its own normal: a smooth bell,
+            // never points converging on the pointer, so the top of the drop always stays round
+            var sg = 46 + gap * .4, g2 = Math.exp(-dist * dist / (2 * sg * sg)), hold = 1 - (gap / 60) * (gap / 60);
+            var facing = Math.max(0, (vx * p.nx + vy * p.ny) / (dist || 1)), amp = (gap * .8 + 6) * hold;
+            p.tx = p.nx * amp * g2 * (.35 + .65 * facing); p.ty = p.ny * amp * g2 * (.35 + .65 * facing);
           }
         });
       }
@@ -179,6 +286,10 @@
           p.dx += p.vx; p.dy += p.vy;
           if (Math.abs(p.tx - p.dx) + Math.abs(p.ty - p.dy) + Math.abs(p.vx) + Math.abs(p.vy) > .03) moving = true;
         });
+        // relax each point toward its neighbours, so the outline can bend but never come to a point
+        var sx = pts.map(function(p, i){ var a = pts[(i - 1 + N) % N], b = pts[(i + 1) % N]; return p.dx * .7 + (a.dx + b.dx) * .15; }),
+            sy = pts.map(function(p, i){ var a = pts[(i - 1 + N) % N], b = pts[(i + 1) % N]; return p.dy * .7 + (a.dy + b.dy) * .15; });
+        pts.forEach(function(p, i){ p.dx = sx[i]; p.dy = sy[i]; });
         draw();
         if (moving) requestAnimationFrame(mFrame); else mRun = false;
       }
@@ -186,7 +297,10 @@
 
       if (svg){
         build(); draw(); btn.classList.add('is-blob');
-        window.addEventListener('resize', function(){ build(); draw(); });
+        // rebuild the outline whenever the button itself changes size (a longer label in Russian, a font arriving, a resize)
+        var reshape = function(){ build(); draw(); };
+        if ('ResizeObserver' in window) new ResizeObserver(reshape).observe(btn);
+        else window.addEventListener('resize', reshape);
         if (canTilt){
           window.addEventListener('pointermove', function(e){
             var r = btn.getBoundingClientRect(), s = r.width / bw || 1;
