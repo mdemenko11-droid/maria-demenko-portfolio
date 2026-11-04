@@ -86,6 +86,74 @@
                : "You've spun " + name[0] + ' ' + n + (n === 1 ? ' time' : ' times'));
   });
 
+  // the coffee cup: every click is a sip; three sips empty it (the steam stops), and the next click pours a new cup and counts it
+  var cup = document.querySelector('.coffee'), sips = 0;
+  var sipLines = [
+    ['Sip. Now we can talk design.', 'Глоток. Теперь можно и о дизайне.'],
+    ['Second sip. Ideas are loading…', 'Второй глоток. Идеи загружаются…'],
+    ['Empty. Pixel-perfect mode on.', 'Пусто. Режим pixel-perfect включён.']
+  ];
+  if (cup) cup.addEventListener('click', function(){
+    cup.classList.remove('is-sip'); void cup.offsetWidth; cup.classList.add('is-sip');
+    if (sips < 3){
+      sipLines[sips] && say(isRu() ? sipLines[sips][1] : sipLines[sips][0]);
+      sips++;
+    } else {
+      sips = 0;
+      var n = store('md-coffee') + 2; store('md-coffee', n - 1);
+      say(isRu() ? 'Наливаю чашку №' + n + ' ☕' : 'Pouring cup #' + n + ' ☕');
+    }
+    cup.classList.toggle('is-empty', sips === 3);
+  });
+
+  /* the case page as slides: each block arrives when it scrolls into view, blocks on one row one after another,
+     and a pill at the bottom names the current section and jumps between them */
+  var caseBoard = document.querySelector('.board--case');
+  if (caseBoard && root.classList.contains('js-slides') && 'IntersectionObserver' in window){
+    var blocks = [].slice.call(caseBoard.children);
+    var rowTop = null, k = 0;
+    blocks.forEach(function(el){
+      if (el.offsetTop !== rowTop){ rowTop = el.offsetTop; k = 0; }
+      el.style.setProperty('--k', k++);
+      [].forEach.call(el.querySelectorAll('.icon-chips li'), function(li, i){ li.style.setProperty('--c', i); });
+    });
+    var seen = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('is-in'); seen.unobserve(en.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:.12});
+    blocks.forEach(function(el){ seen.observe(el); });
+
+    var slides = [].slice.call(caseBoard.querySelectorAll('.cell--section[id]'));
+    var cta = caseBoard.querySelector('.cell--cta');
+    var pill = document.createElement('nav'); pill.className = 'slide-pill'; pill.setAttribute('aria-label', 'Sections');
+    pill.innerHTML = '<b class="sp-no"></b><span class="sp-name"></span><span class="slide-dots"></span>';
+    var dots = pill.querySelector('.slide-dots');
+    var name = function(s){ var k = s.querySelector('.kicker ' + (isRu() ? '.t-ru' : '.t-en')); return k ? k.textContent : ''; };
+    slides.forEach(function(s){
+      var b = document.createElement('button'); b.type = 'button';
+      b.addEventListener('click', function(){ s.scrollIntoView({behavior:'smooth', block:'start'}); });
+      dots.appendChild(b);
+    });
+    document.body.appendChild(pill);
+    var ticking = false;
+    function where(){
+      ticking = false;
+      var line = innerHeight * .45, cur = -1;
+      slides.forEach(function(s, i){ if (s.getBoundingClientRect().top < line) cur = i; });
+      var end = cta && cta.getBoundingClientRect().top < innerHeight * .85;
+      pill.classList.toggle('is-on', cur >= 0 && !end);
+      if (cur < 0) return;
+      pill.querySelector('.sp-no').textContent = slides[cur].getAttribute('data-slide');
+      pill.querySelector('.sp-name').textContent = name(slides[cur]);
+      [].forEach.call(dots.children, function(d, i){
+        d.setAttribute('aria-current', i === cur ? 'true' : 'false');
+        d.setAttribute('aria-label', name(slides[i]));
+      });
+    }
+    addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(where); } }, {passive:true});
+    langBtns.forEach(function(b){ b.addEventListener('click', function(){ setTimeout(where, 0); }); });
+    where();
+  }
+
   /* cells settle in one after another */
   document.querySelectorAll('.board > *').forEach(function(el, i){ el.style.setProperty('--i', i); });
 

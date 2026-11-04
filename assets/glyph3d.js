@@ -12,7 +12,7 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* rose gold: a pink-copper metal with only a faint film of iridescence left on it */
 function lacquer(){
   return new THREE.MeshPhysicalMaterial({
-    color:0xffd6c8, metalness:.92, roughness:.14,
+    color:0xece1db, metalness:.92, roughness:.14,
     iridescence:.25, iridescenceIOR:1.3, iridescenceThicknessRange:[200, 520],
     clearcoat:.7, clearcoatRoughness:.06, envMapIntensity:3
   });
@@ -338,6 +338,23 @@ const builders = {
     return g;
   },
 
+  // ---- the About portrait: a takeaway coffee cup, a tapered cup with a sleeve and a domed lid ----
+  coffee(){
+    const g = new THREE.Group(), m = lacquer();
+    const sleeveM = lacquer(); sleeveM.color.set(0xcfb0a1); sleeveM.roughness = .38;
+    const lidM = lacquer(); lidM.color.set(0xb75c7f); lidM.roughness = .22;
+    const V = (x, y) => new THREE.Vector2(x, y);
+    const body = new THREE.Mesh(new THREE.LatheGeometry([V(0, -1.1), V(.54, -1.1), V(.6, -1.07), V(.62, -1.02), V(.82, .76)], 96), m); g.add(body);
+    const sleeve = new THREE.Mesh(new THREE.LatheGeometry([V(.66, -.6), V(.71, -.58), V(.8, .3), V(.76, .33), V(.66, -.6)], 96), sleeveM); g.add(sleeve);
+    const lid = new THREE.Mesh(new THREE.LatheGeometry([V(.8, .7), V(.9, .74), V(.93, .82), V(.9, .92), V(.8, .95), V(.76, 1.04), V(.68, 1.1), V(0, 1.1)], 96), lidM); g.add(lid);
+    // the sip hole near the front edge of the lid
+    const hole = new THREE.Mesh(new RoundedBoxGeometry(.3, .05, .1, 3, .025), new THREE.MeshPhysicalMaterial({color:0x2a101a, roughness:.5}));
+    hole.position.set(0, 1.105, .42); g.add(hole);
+    g.rotation.x = .42; // seen a little from above, so the lid reads
+    g.userData.optical = 1.15;
+    return g;
+  },
+
   // ---- systems thinking: complex in, simple out ----
   // a funnel: many balls go in the top, one comes out below
   stFunnel(){
@@ -437,7 +454,7 @@ const builders = {
     const g = new THREE.Group(), m = lacquer();
     const frame = new THREE.Mesh(new RoundedBoxGeometry(2.1, 1.5, .2, 6, .16), m); g.add(frame);
     // the screen is rose gold too, a deeper satin tone so the bright star still stands out on it
-    const dark = new THREE.MeshPhysicalMaterial({color:0xc98c78, metalness:.95, roughness:.38, clearcoat:.5, clearcoatRoughness:.2, envMapIntensity:1.6});
+    const dark = new THREE.MeshPhysicalMaterial({color:0xc97897, metalness:.95, roughness:.38, clearcoat:.5, clearcoatRoughness:.2, envMapIntensity:1.6});
     const screen = new THREE.Mesh(new RoundedBoxGeometry(1.82, 1.08, .06, 4, .06), dark); screen.position.set(0, -.12, .1); g.add(screen);
     [-.78, -.62, -.46].forEach(x => { const d = new THREE.Mesh(new THREE.SphereGeometry(.05, 16, 12), m); d.position.set(x, .6, .12); g.add(d); });
     const s = sparkle(m, .5); s.position.set(.1, -.12, .3); g.add(s);
@@ -601,7 +618,7 @@ function mount(host){
   // a click spins the figure one full turn; the page keeps count and says so
   const spin = {v:0, t:0};
   host.style.cursor = 'pointer';
-  host.addEventListener('click', () => {
+  if (host.dataset.spin !== 'off') host.addEventListener('click', () => {
     spin.t += Math.PI * 2;
     window.dispatchEvent(new CustomEvent('glyph-spin', {detail:{shape}}));
   });

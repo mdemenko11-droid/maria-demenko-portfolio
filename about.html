@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Noto+Serif+Display:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/grid.css?v=47">
+<link rel="stylesheet" href="assets/grid.css?v=70">
 </head>
 <body>
 
@@ -31,7 +31,7 @@
 <nav class="nav" aria-label="Main">
   <a class="nav-logo" href="index.html" aria-label="Maria Demenko, home">
     <svg viewBox="4.5 13.5 50.5 28" aria-hidden="true" focusable="false">
-      <defs><linearGradient id="logo-rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FCE6DA"/><stop offset=".38" stop-color="#EBB39E"/><stop offset=".62" stop-color="#F8D4C4"/><stop offset="1" stop-color="#C4826B"/></linearGradient></defs>
+      <defs><linearGradient id="logo-rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F1E9E5"/><stop offset=".38" stop-color="#D7BEB2"/><stop offset=".62" stop-color="#E9DAD3"/><stop offset="1" stop-color="#C46B8D"/></linearGradient></defs>
       <path d="M8 38V24M8 26c0-6 4-9 8-9s8 3 8 9v12M24 26c0-6 4-9 8-9s8 3 8 9v12" fill="none" stroke="url(#logo-rg)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="50" cy="35.5" r="4.6" fill="url(#logo-rg)"/>
     </svg>
@@ -73,9 +73,15 @@
 
   <article class="card card--portrait">
     <span class="card-no">Product designer · UI/UX</span>
-    <span class="card-photo"><img src="assets/portrait.webp" alt="Maria Demenko" width="900" height="900"></span>
+    <span class="card-photo">
+      <img src="assets/portrait.webp" alt="Maria Demenko" width="900" height="900">
+    </span>
     <h2>Maria Demenko</h2>
     <ul class="chips"><li><span class="t-en">Minsk → Poland</span><span class="t-ru">Минск → Польша</span></li><li><span class="t-en">7 years</span><span class="t-ru">7 лет</span></li></ul>
+    <button class="coffee" type="button" aria-label="Have a sip of coffee" data-shape="coffee" data-spin="off">
+      <span class="coffee-steam" aria-hidden="true"><i></i><i></i><i></i></span>
+      <svg class="coffee-flat" viewBox="0 0 64 80" aria-hidden="true"><path d="M14 20h36l-4 52a6 6 0 0 1-6 5H24a6 6 0 0 1-6-5z" fill="#E2CFC6"/><path d="M15.5 36h33l-1.6 22H17.1z" fill="#C03368"/><path d="M10 14a4 4 0 0 1 4-4h36a4 4 0 0 1 4 4v6H10z" fill="#B75C7F"/></svg>
+    </button>
     <span class="foil" aria-hidden="true"></span>
     <span class="glass" aria-hidden="true"></span>
   </article>
@@ -217,8 +223,8 @@
   <button type="button" class="dont-press"><span class="t-en">Don't press</span><span class="t-ru">Не нажимать</span></button>
 </footer>
 
-<script src="assets/grid.js?v=21"></script>
+<script src="assets/grid.js?v=28"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<script type="module" src="assets/glyph3d.js?v=11"></script>
+<script type="module" src="assets/glyph3d.js?v=15"></script>
 </body>
 </html>

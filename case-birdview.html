@@ -12,7 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Noto+Serif+Display:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/grid.css?v=47">
+<link rel="stylesheet" href="assets/grid.css?v=70">
+<script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-slides');</script>
 </head>
 <body>
 
@@ -31,7 +32,7 @@
 <nav class="nav" aria-label="Main">
   <a class="nav-logo" href="index.html" aria-label="Maria Demenko, home">
     <svg viewBox="4.5 13.5 50.5 28" aria-hidden="true" focusable="false">
-      <defs><linearGradient id="logo-rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FCE6DA"/><stop offset=".38" stop-color="#EBB39E"/><stop offset=".62" stop-color="#F8D4C4"/><stop offset="1" stop-color="#C4826B"/></linearGradient></defs>
+      <defs><linearGradient id="logo-rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F1E9E5"/><stop offset=".38" stop-color="#D7BEB2"/><stop offset=".62" stop-color="#E9DAD3"/><stop offset="1" stop-color="#C46B8D"/></linearGradient></defs>
       <path d="M8 38V24M8 26c0-6 4-9 8-9s8 3 8 9v12M24 26c0-6 4-9 8-9s8 3 8 9v12" fill="none" stroke="url(#logo-rg)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="50" cy="35.5" r="4.6" fill="url(#logo-rg)"/>
     </svg>
@@ -49,18 +50,18 @@
 
 <main class="board board--about board--case" id="top">
 
-  <section class="cell cell--text cell--lead cell--case-head">
+  <section class="cell cell--text cell--lead cell--case-head" data-slide="00">
     <a class="back-link" href="cases.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span class="t-en">All cases</span><span class="t-ru">Все кейсы</span></a>
     <p class="kicker"><span class="t-en">Case study · B2B SaaS · 2023 — 2024</span><span class="t-ru">Кейс · B2B SaaS · 2023 — 2024</span></p>
     <h1><span class="t-en">Resource planning<br>in Birdview</span><span class="t-ru">Планирование ресурсов<br>в Birdview</span></h1>
-    <p class="about-lead"><span class="t-en">The workload of a whole company on one screen, conflicts resolved where they appear, and candidates matched to roles automatically.</span><span class="t-ru">Загрузка всей компании на одном экране, конфликты решаются там же, где возникли, а кандидаты подбираются к ролям автоматически.</span></p>
+    <p class="about-lead"><span class="t-en">Who is busy, who is free, and how to fix it — on one screen.</span><span class="t-ru">Кто занят, кто свободен и как это исправить — на одном экране.</span></p>
   </section>
 
   <section class="cell cell--text cell--intro cell--facts cell--case-meta">
     <ul class="facts">
       <li><span class="t-en">Role</span><span class="t-ru">Роль</span><small><span class="t-en">Product designer</span><span class="t-ru">Продуктовый дизайнер</span></small></li>
       <li><span class="t-en">Period</span><span class="t-ru">Период</span><small>2023 — 2024</small></li>
-      <li><span class="t-en">Team</span><span class="t-ru">Команда</span><small><span class="t-en">Product, engineering, sales</span><span class="t-ru">Продукт, разработка, сейлз</span></small></li>
+      <li><span class="t-en">Team</span><span class="t-ru">Команда</span><small><span class="t-en">PM, engineers, QA</span><span class="t-ru">PM, разработка, QA</span></small></li>
       <li><span class="t-en">Platform</span><span class="t-ru">Платформа</span><small><span class="t-en">Web, B2B SaaS</span><span class="t-ru">Веб, B2B SaaS</span></small></li>
     </ul>
     <a class="card-link card-link--light" href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
@@ -68,146 +69,175 @@
 
   <div class="card card--cover card--still"><span class="case-media"><img src="assets/case-birdview-planning.jpg" alt="Resource planning screen in Birdview"></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
 
-  <section class="cell cell--text cell--section">
-    <p class="kicker"><span class="t-en">Interactive prototype</span><span class="t-ru">Интерактивный прототип</span></p>
-    <h2 class="sec-title"><span class="t-en">Try the module yourself</span><span class="t-ru">Попробуйте модуль сами</span></h2>
+  <section class="cell cell--text cell--section" id="overview" data-slide="01">
+    <p class="kicker"><span class="sec-no">01</span><span class="t-en">Overview</span><span class="t-ru">Коротко</span></p>
+    <h2 class="sec-title"><span class="t-en">The case in one minute</span><span class="t-ru">Кейс за минуту</span></h2>
+  </section>
+  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg></span><p class="kicker"><span class="t-en">Product</span><span class="t-ru">Продукт</span></p><p class="brief-line"><span class="t-en">Birdview PSA: projects, people and finances in one place</span><span class="t-ru">Birdview PSA: проекты, люди и финансы в одном месте</span></p></section>
+  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 19.5H3z"/><path d="M12 10v4.5M12 17.2v.1"/></svg></span><p class="kicker"><span class="t-en">Problem</span><span class="t-ru">Проблема</span></p><p class="brief-line"><span class="t-en">Overload and idle time were invisible</span><span class="t-ru">Перегруз и простои было не видно</span></p></section>
+  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5z"/><path d="M13.5 7l3 3"/></svg></span><p class="kicker"><span class="t-en">My part</span><span class="t-ru">Моя роль</span></p><p class="brief-line"><span class="t-en">The module end to end, research to components</span><span class="t-ru">Модуль целиком, от исследования до компонентов</span></p></section>
+  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17 9 11.5l3.5 3.5L20.5 7"/><path d="M15 7h5.5v5.5"/></svg></span><p class="kicker"><span class="t-en">Impact</span><span class="t-ru">Результат</span></p><p class="brief-line"><span class="t-en">Sales-assisted conversion 1.67% → 2.78%</span><span class="t-ru">Конверсия sales-assisted 1.67% → 2.78%</span></p></section>
+
+  <section class="cell cell--text cell--section" id="context" data-slide="02">
+    <p class="kicker"><span class="sec-no">02</span><span class="t-en">Context and goal</span><span class="t-ru">Контекст и цель</span></p>
+    <h2 class="sec-title"><span class="t-en">Why the module was needed</span><span class="t-ru">Зачем понадобился модуль</span></h2>
+  </section>
+  <section class="cell cell--text cell--intro cell--quote">
+    <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/></svg></span>
+    <p class="quote"><span class="t-en">Give managers control over resources at every level — from one specialist to the whole project.</span><span class="t-ru">Дать менеджерам контроль над ресурсами на всех уровнях — от одного специалиста до всего проекта.</span></p>
+  </section>
+  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/></svg></span><p class="kicker"><span class="t-en">Resource manager</span><span class="t-ru">Ресурсный менеджер</span></p><p class="brief-line"><span class="t-en">Balances people across projects</span><span class="t-ru">Распределяет людей по проектам</span></p></section>
+  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg></span><p class="kicker"><span class="t-en">Project manager</span><span class="t-ru">Проектный менеджер</span></p><p class="brief-line"><span class="t-en">Needs the right roles in time</span><span class="t-ru">Нужны нужные роли вовремя</span></p></section>
+  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg></span><p class="kicker"><span class="t-en">Leadership</span><span class="t-ru">Руководство</span></p><p class="brief-line"><span class="t-en">Wants capacity at a glance</span><span class="t-ru">Хочет видеть ёмкость сразу</span></p></section>
+  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span><p class="kicker"><span class="t-en">Specialist</span><span class="t-ru">Специалист</span></p><p class="brief-line"><span class="t-en">Sees own load and bookings</span><span class="t-ru">Видит свою загрузку и брони</span></p></section>
+  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Before: how planning looked</span><span class="t-ru">До: как выглядело планирование</span></b><small><span class="t-en">The old Resources screen or the team spreadsheet</span><span class="t-ru">Старый экран Resources или таблица команды</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <section class="cell cell--text cell--intro cell--prose cell--todo">
+    <h3 class="prose-title"><span class="t-en">What was broken</span><span class="t-ru">Что было не так</span></h3>
+    <p class="cell-small"><span class="t-en">One line: double bookings, idle people, late staffing — and the cost.</span><span class="t-ru">Одна строка: двойные брони, простои, поздний стаффинг — и чего это стоило.</span></p>
   </section>
 
-  <section class="cell cell--text cell--intro cell--demo" id="prototype">
+  <section class="cell cell--text cell--section" id="process" data-slide="03">
+    <p class="kicker"><span class="sec-no">03</span><span class="t-en">Design process</span><span class="t-ru">Процесс</span></p>
+    <h2 class="sec-title"><span class="t-en">From research to release</span><span class="t-ru">От исследования до релиза</span></h2>
+  </section>
+  <article class="card card--step">
+    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span><span class="card-no">01</span></span>
+    <h2><span class="t-en">Discover</span><span class="t-ru">Исследование</span></h2>
+    <ul class="step-list"><li><span class="t-en">Audience and needs</span><span class="t-ru">Аудитория и потребности</span></li><li><span class="t-en">Competitors</span><span class="t-ru">Конкуренты</span></li><li><span class="t-en">Market trends</span><span class="t-ru">Тренды рынка</span></li></ul>
+    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
+  </article>
+  <article class="card card--step">
+    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/></svg></span><span class="card-no">02</span></span>
+    <h2><span class="t-en">Define</span><span class="t-ru">Постановка</span></h2>
+    <ul class="step-list"><li><span class="t-en">Requirements with PM</span><span class="t-ru">Требования с PM</span></li><li><span class="t-en">User flows</span><span class="t-ru">Сценарии</span></li><li><span class="t-en">Design sprints</span><span class="t-ru">Дизайн-спринты</span></li></ul>
+    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
+  </article>
+  <article class="card card--step">
+    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 8l-9 4.5L3 8z"/><path d="m3 12 9 4.5 9-4.5M3 16l9 4.5 9-4.5"/></svg></span><span class="card-no">03</span></span>
+    <h2><span class="t-en">Design</span><span class="t-ru">Проектирование</span></h2>
+    <ul class="step-list"><li><span class="t-en">Concept</span><span class="t-ru">Концепция</span></li><li><span class="t-en">Mockups</span><span class="t-ru">Макеты</span></li><li><span class="t-en">Prototype</span><span class="t-ru">Прототип</span></li></ul>
+    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
+  </article>
+  <article class="card card--step">
+    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8 12.3 2.6 2.6L16.2 9"/></svg></span><span class="card-no">04</span></span>
+    <h2><span class="t-en">Validate</span><span class="t-ru">Проверка</span></h2>
+    <ul class="step-list"><li><span class="t-en">User tests</span><span class="t-ru">Тесты с пользователями</span></li><li><span class="t-en">Iterations</span><span class="t-ru">Итерации</span></li><li><span class="t-en">Hand-off</span><span class="t-ru">Передача в разработку</span></li></ul>
+    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
+  </article>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Competitor analysis</span><span class="t-ru">Анализ конкурентов</span></b><small><span class="t-en">4–6 planning tools compared</span><span class="t-ru">Сравнение 4–6 инструментов</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">User flow</span><span class="t-ru">Сценарий</span></b><small><span class="t-en">Open position → booked person</span><span class="t-ru">Открытая позиция → бронь</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Sprint sketches</span><span class="t-ru">Скетчи со спринта</span></b><small><span class="t-en">2–3 directions of the timeline</span><span class="t-ru">2–3 направления таймлайна</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Before / after tests</span><span class="t-ru">До / после тестов</span></b><small><span class="t-en">One screen, two versions</span><span class="t-ru">Один экран, две версии</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+
+  <section class="cell cell--text cell--section" id="feature" data-slide="04">
+    <p class="kicker"><span class="sec-no">04</span><span class="t-en">Key feature</span><span class="t-ru">Главная фича</span></p>
+    <h2 class="sec-title"><span class="t-en">Resource planning</span><span class="t-ru">Ресурсное планирование</span></h2>
+  </section>
+  <section class="cell cell--text cell--intro cell--chips cell--wide"><ul class="icon-chips"><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="11" height="3.5" rx="1.5"/><rect x="7.5" y="10.5" width="13" height="3.5" rx="1.5"/><rect x="5" y="16" width="8" height="3.5" rx="1.5"/></svg></span><span class="t-en">Load at any scale</span><span class="t-ru">Загрузка в любом масштабе</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"/><circle cx="17" cy="12" r="3"/><path d="M10 12h4"/></svg></span><span class="t-en">Colour status</span><span class="t-ru">Цветовой статус</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h9M4 12h6M4 17.5h5"/><path d="m13 19 .6-2.8 5.6-5.6a1.6 1.6 0 0 1 2.2 2.2L15.8 18.4z"/></svg></span><span class="t-en">Priorities</span><span class="t-ru">Приоритеты</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="4.5" rx="1.6"/><rect x="3.5" y="10" width="17" height="4.5" rx="1.6"/><rect x="3.5" y="16" width="10" height="4.5" rx="1.6"/></svg></span><span class="t-en">Position status</span><span class="t-ru">Статусы позиций</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="3.2"/><path d="M3 19a5.5 5.5 0 0 1 11 0"/><path d="m15 12 2 2 4-4.5"/></svg></span><span class="t-en">Candidate matching</span><span class="t-ru">Подбор кандидатов</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8l4.5 4.5v12.5H6z"/><path d="M14 3.5V8h4.5M9 13h6M9 16.5h4"/></svg></span><span class="t-en">Project proposals</span><span class="t-ru">Предложения по проектам</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9.5" r="2.5"/><path d="M15.5 14.4a4.5 4.5 0 0 1 5.5 4.4"/></svg></span><span class="t-en">Generic and named</span><span class="t-ru">Дженерик и сотрудники</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5h17l-6.5 8v6l-4-2v-4z"/></svg></span><span class="t-en">Filters and granularity</span><span class="t-ru">Фильтры и гранулярность</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13.5 6 5h12l2.5 8.5V19a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z"/><path d="M3.5 13.5H8l1.5 2.5h5l1.5-2.5h4.5"/></svg></span><span class="t-en">Requests and booking</span><span class="t-ru">Заявки и бронь</span></li></ul></section>
+  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Load at a glance</span><span class="t-ru">Загрузка одним взглядом</span></b><small><span class="t-en">Planning screen with normal / over / under colours</span><span class="t-ru">Экран с цветами: норма / перегруз / недогруз</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <section class="cell cell--text cell--intro cell--prose cell--feat">
+    <span class="feat-no">01</span>
+    <h3 class="prose-title"><span class="t-en">Colour first, numbers second</span><span class="t-ru">Сначала цвет, потом цифры</span></h3>
+    <p class="cell-small"><span class="t-en">The state of the company reads before a single number.</span><span class="t-ru">Состояние компании считывается раньше первой цифры.</span></p>
+  </section>
+  <section class="cell cell--text cell--intro cell--prose cell--feat">
+    <span class="feat-no">02</span>
+    <h3 class="prose-title"><span class="t-en">Conflicts fixed in place</span><span class="t-ru">Конфликты — на месте</span></h3>
+    <p class="cell-small"><span class="t-en">Two projects, one person: compare and rebalance without leaving.</span><span class="t-ru">Два проекта, один человек: сравнить и перераспределить, не уходя.</span></p>
+  </section>
+  <figure class="card card--media card--video card--still card--shot"><video src="assets/video/resolve-conflicts.webm" muted loop playsinline controls preload="metadata"></video><figcaption><span class="t-en">Resolving a conflict</span><span class="t-ru">Разрешение конфликта</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Positions and candidates</span><span class="t-ru">Позиции и кандидаты</span></b><small><span class="t-en">Open / proposed / booked / filled + matched shortlist</span><span class="t-ru">Открыта / предложена / забронирована / занята + шортлист</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <section class="cell cell--text cell--intro cell--prose cell--feat">
+    <span class="feat-no">03</span>
+    <h3 class="prose-title"><span class="t-en">The shortlist comes to the role</span><span class="t-ru">Шортлист приходит к роли</span></h3>
+    <p class="cell-small"><span class="t-en">Matched by role and skills; manual choice kept.</span><span class="t-ru">Подбор по ролям и навыкам, ручной выбор остаётся.</span></p>
+  </section>
+  <section class="cell cell--text cell--intro cell--prose cell--feat">
+    <span class="feat-no">04</span>
+    <h3 class="prose-title"><span class="t-en">One person, every project</span><span class="t-ru">Один человек, все проекты</span></h3>
+    <p class="cell-small"><span class="t-en">Drill down: what they do and what a booking changes.</span><span class="t-ru">Детали: чем занят и что изменит бронь.</span></p>
+  </section>
+  <figure class="card card--media card--video card--still card--shot"><video src="assets/video/control-resource.webm" muted loop playsinline controls preload="metadata"></video><figcaption><span class="t-en">Controlling one person's load</span><span class="t-ru">Контроль загрузки одного человека</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Proposals and requests</span><span class="t-ru">Предложения и заявки</span></b><small><span class="t-en">Proposal form + requests list with approve / book</span><span class="t-ru">Форма предложения + список заявок с одобрением / бронью</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <section class="cell cell--text cell--intro cell--prose cell--feat">
+    <span class="feat-no">05</span>
+    <h3 class="prose-title"><span class="t-en">Requests with a clear status</span><span class="t-ru">Заявки с понятным статусом</span></h3>
+    <p class="cell-small"><span class="t-en">Send, approve, reject, book — in one list.</span><span class="t-ru">Отправить, одобрить, отклонить, забронировать — в одном списке.</span></p>
+  </section>
+
+  <section class="cell cell--text cell--section" id="prototype" data-slide="↗">
+    <p class="kicker"><span class="sec-no">↗</span><span class="t-en">Interactive prototype</span><span class="t-ru">Интерактивный прототип</span></p>
+    <h2 class="sec-title"><span class="t-en">Try it yourself</span><span class="t-ru">Попробуйте сами</span></h2>
+  </section>
+
+  <section class="cell cell--text cell--intro cell--demo">
     <div class="demo-head">
-      <p class="cell-small"><span class="t-en">An interactive prototype on sample data: resolve an overload, drag bookings, staff a role, test a scenario.</span><span class="t-ru">Интерактивный прототип на тестовых данных: разрулите перегруз, подвигайте брони, подберите человека на роль, проверьте сценарий.</span></p>
-      <a class="card-link card-link--light" href="birdview-demo.html" target="_blank" rel="noopener"><span class="t-en">Open full screen</span><span class="t-ru">Открыть на весь экран</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <p class="cell-small"><span class="t-en">Resolve an overload, drag bookings, staff a role.</span><span class="t-ru">Разрулите перегруз, подвигайте брони, подберите человека.</span></p>
+      <a class="card-link card-link--light" href="birdview-demo.html" target="_blank" rel="noopener"><span class="t-en">Open full screen</span><span class="t-ru">На весь экран</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     </div>
     <div class="demo-frame"><iframe src="birdview-demo.html?embed" title="Birdview resource planning, interactive prototype" loading="lazy"></iframe></div>
   </section>
 
-  <section class="cell cell--text cell--section">
-    <p class="kicker"><span class="t-en">Context</span><span class="t-ru">Контекст</span></p>
-    <h2 class="sec-title"><span class="t-en">Where it starts</span><span class="t-ru">С чего всё начиналось</span></h2>
+  <section class="cell cell--text cell--section" id="refresh" data-slide="05">
+    <p class="kicker"><span class="sec-no">05</span><span class="t-en">Bonus · UI refresh</span><span class="t-ru">Бонус · обновление UI</span></p>
+    <h2 class="sec-title"><span class="t-en">A calmer product</span><span class="t-ru">Продукт спокойнее</span></h2>
   </section>
+  <p class="cell cell--sub"><span class="t-en">What was wrong</span><span class="t-ru">Что было не так</span></p>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a1-load.jpg" alt="Loaded product → high cognitive load" loading="lazy"></span><figcaption><span class="t-en">Loaded product → high cognitive load</span><span class="t-ru">Перегруженный продукт → высокая когнитивная нагрузка</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a2-accents.jpg" alt="Too many accents → scattered attention" loading="lazy"></span><figcaption><span class="t-en">Too many accents → scattered attention</span><span class="t-ru">Много акцентов → рассеянное внимание</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a3-shapes.jpg" alt="Sharp shapes → formal, unfriendly" loading="lazy"></span><figcaption><span class="t-en">Sharp shapes → formal, unfriendly</span><span class="t-ru">Острые формы → формально и неприветливо</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a4-brand.jpg" alt="No brand colours → no recognition" loading="lazy"></span><figcaption><span class="t-en">No brand colours → no recognition</span><span class="t-ru">Нет бренд-цветов → нет узнаваемости</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <p class="cell cell--sub"><span class="t-en">What we changed</span><span class="t-ru">Что изменили</span></p>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a5-fonts.jpg" alt="Fonts: bold → medium" loading="lazy"></span><figcaption><span class="t-en">Fonts: bold → medium</span><span class="t-ru">Шрифты: bold → medium</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a6-icons.jpg" alt="Icons: sharp 1.6 → rounded 1.2" loading="lazy"></span><figcaption><span class="t-en">Icons: sharp 1.6 → rounded 1.2</span><span class="t-ru">Иконки: острые 1.6 → скруглённые 1.2</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a7-colors.jpg" alt="Brand + semantic colours, light and dark" loading="lazy"></span><figcaption><span class="t-en">Brand + semantic colours, light and dark</span><span class="t-ru">Бренд + семантика, светлая и тёмная</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a8-coding.jpg" alt="One colour coding for every status" loading="lazy"></span><figcaption><span class="t-en">One colour coding for every status</span><span class="t-ru">Одно цветовое кодирование для всех статусов</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
 
-  <section class="cell cell--text cell--intro cell--prose cell--half">
-    <h3 class="prose-title"><span class="t-en">Context</span><span class="t-ru">Контекст</span></h3>
-    <p class="cell-small"><span class="t-en">Birdview is a platform where organisations plan, manage and forecast projects, resources and finances in one place.</span><span class="t-ru">Birdview — платформа, где компании планируют, ведут и прогнозируют проекты, ресурсы и финансы в одном месте.</span></p>
-    <p class="cell-small"><span class="t-en">I designed the resource-planning module: the part that distributes people across projects and keeps that distribution visible.</span><span class="t-ru">Я проектировала модуль планирования ресурсов: ту часть, которая распределяет людей по проектам и держит это распределение прозрачным.</span></p>
-  </section>
-  <section class="cell cell--text cell--intro cell--prose cell--half">
-    <h3 class="prose-title"><span class="t-en">The brief</span><span class="t-ru">Постановка задачи</span></h3>
-    <p class="cell-small"><span class="t-en">Make the new module a visible advantage in sales conversations and deepen engagement among existing clients. In design terms: show the workload of an entire company on one screen and keep it readable — dozens of people, projects and months at once, without the user losing the thread or needing training.</span><span class="t-ru">Сделать модуль заметным преимуществом в продажах и усилить вовлечённость текущих клиентов. На языке дизайна: показать загрузку всей компании на одном экране и сохранить читаемость — десятки людей, проектов и месяцев разом, так чтобы пользователь не терял нить и не нуждался в обучении.</span></p>
-  </section>
-
-  <div class="card card--media card--still"><span class="ph"><span><span class="t-en">Screenshot: planning before the module</span><span class="t-ru">Скрин: как планировали до модуля</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose">
-    <h3 class="prose-title"><span class="t-en">Planning lived outside the product</span><span class="t-ru">Планирование жило вне продукта</span></h3>
-    <p class="cell-small"><span class="t-en">Describe here what the work looked like before: where the load was tracked, what broke, and what it cost the team. Without this the numbers at the end have nothing to be measured against.</span><span class="t-ru">Здесь описать, как работа выглядела раньше: где считали загрузку, что ломалось и чего это стоило команде. Без этого цифрам в конце не от чего отталкиваться.</span></p>
-  </section>
-
-  <section class="cell cell--text cell--section">
-    <p class="kicker"><span class="t-en">Process</span><span class="t-ru">Процесс</span></p>
-    <h2 class="sec-title"><span class="t-en">Four stages</span><span class="t-ru">Четыре этапа</span></h2>
-  </section>
-
-  <article class="card card--step">
-    <span class="ph"><span><span class="t-en">Research artefact</span><span class="t-ru">Артефакт исследования</span></span></span>
-    <span class="card-no">01</span>
-    <h2><span class="t-en">Research</span><span class="t-ru">Исследование</span></h2>
-    <p class="lead"><span class="t-en">Audience and their needs, competitors and market trends.</span><span class="t-ru">Аудитория и её потребности, конкуренты и тренды рынка.</span></p>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <article class="card card--step">
-    <span class="ph"><span><span class="t-en">Sprint photo or sketches</span><span class="t-ru">Фото со спринта или скетчи</span></span></span>
-    <span class="card-no">02</span>
-    <h2><span class="t-en">Design sprints</span><span class="t-ru">Дизайн-спринты</span></h2>
-    <p class="lead"><span class="t-en">Concept for how the feature integrates, worked out with product and engineering.</span><span class="t-ru">Концепция встраивания фичи, проработанная с продуктом и разработкой.</span></p>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <article class="card card--step">
-    <span class="ph"><span><span class="t-en">Intermediate mockup</span><span class="t-ru">Промежуточный макет</span></span></span>
-    <span class="card-no">03</span>
-    <h2><span class="t-en">Mockups and prototype</span><span class="t-ru">Макеты и прототип</span></h2>
-    <p class="lead"><span class="t-en">Layouts in the product style, assembled into a clickable prototype.</span><span class="t-ru">Макеты в стиле продукта, собранные в кликабельный прототип.</span></p>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <article class="card card--step">
-    <span class="ph"><span><span class="t-en">Before / after a test round</span><span class="t-ru">До и после раунда тестов</span></span></span>
-    <span class="card-no">04</span>
-    <h2><span class="t-en">Testing</span><span class="t-ru">Тестирование</span></h2>
-    <p class="lead"><span class="t-en">Feedback from users, corrections to the design, then the rollout.</span><span class="t-ru">Обратная связь от пользователей, правки в дизайне, затем выкатка.</span></p>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-
-  <section class="cell cell--text cell--section">
-    <p class="kicker"><span class="t-en">Solutions</span><span class="t-ru">Решения</span></p>
-    <h2 class="sec-title"><span class="t-en">What changed</span><span class="t-ru">Что изменилось</span></h2>
-  </section>
-
-  <div class="card card--media card--still"><span class="ph"><span><span class="t-en">Load colour scale: normal / over / idle</span><span class="t-ru">Цветовая шкала: норма / перегруз / простой</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose">
-    <h3 class="prose-title"><span class="t-en">Colour carries the signal, numbers carry the detail</span><span class="t-ru">Цвет несёт сигнал, цифры — детали</span></h3>
-    <p class="cell-small"><span class="t-en">Normal, excessive and idle load are separated by colour, so the state of a whole company is read before a single number is. Hours stay on the same cell for anyone who needs the precise value.</span><span class="t-ru">Нормальная, избыточная и недостаточная загрузка разведены цветом — состояние всей компании считывается раньше, чем первая цифра. Часы остаются в той же ячейке для тех, кому нужно точное значение.</span></p>
-  </section>
-
-  <section class="cell cell--text cell--intro cell--prose">
-    <h3 class="prose-title"><span class="t-en">Conflicts are resolved where they appear</span><span class="t-ru">Конфликты решаются там же, где возникли</span></h3>
-    <p class="cell-small"><span class="t-en">When two projects claim the same person, the manager compares the claims and redistributes hours without leaving the planning screen — no separate approval flow to switch into.</span><span class="t-ru">Когда два проекта претендуют на одного человека, менеджер сравнивает заявки и перераспределяет часы, не уходя с экрана планирования — без отдельного согласовательного флоу.</span></p>
-  </section>
-  <div class="card card--media card--still is-flip"><span class="ph"><span><span class="t-en">Conflict over one specialist</span><span class="t-ru">Конфликт за одного специалиста</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-
-  <div class="card card--media card--still"><span class="ph"><span><span class="t-en">Candidate matching by role and skills</span><span class="t-ru">Подбор кандидатов по ролям и навыкам</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose">
-    <h3 class="prose-title"><span class="t-en">The shortlist comes to the role</span><span class="t-ru">Шортлист приходит к роли</span></h3>
-    <p class="cell-small"><span class="t-en">Candidates are matched automatically by role and skills, with manual choice kept. The manager opens a role and immediately sees who fits, instead of searching people one by one.</span><span class="t-ru">Кандидаты подбираются автоматически по ролям и навыкам, ручной выбор остаётся. Менеджер открывает роль и сразу видит подходящих, а не ищет людей по одному.</span></p>
-  </section>
-
-  <div class="card card--media card--video card--still"><video src="assets/video/resolve-conflicts.webm" muted loop playsinline controls preload="metadata"></video><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose">
-    <h3 class="prose-title"><span class="t-en">Resolving conflicts</span><span class="t-ru">Разрешение конфликтов</span></h3>
-    <p class="cell-small"><span class="t-en">Two projects ask for the same specialist. The overload is visible on the timeline, the claims sit side by side, and hours are redistributed in place.</span><span class="t-ru">Два проекта претендуют на одного специалиста. Перегруз виден на таймлайне, заявки стоят рядом, часы перераспределяются на месте.</span></p>
-  </section>
-  <section class="cell cell--text cell--intro cell--prose">
-    <h3 class="prose-title"><span class="t-en">Controlling the load</span><span class="t-ru">Контроль загрузки</span></h3>
-    <p class="cell-small"><span class="t-en">From the overall picture down to one person: what they are busy with, how much room is left, and how a booking changes the load across the other projects.</span><span class="t-ru">От общей картины к конкретному человеку: чем занят, сколько места осталось и как бронирование меняет загрузку на других проектах.</span></p>
-  </section>
-  <div class="card card--media card--video card--still"><video src="assets/video/control-resource.webm" muted loop playsinline controls preload="metadata"></video><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-
-  <section class="cell cell--text cell--section">
-    <p class="kicker"><span class="t-en">Design system</span><span class="t-ru">Дизайн-система</span></p>
+  <section class="cell cell--text cell--section" id="system" data-slide="06">
+    <p class="kicker"><span class="sec-no">06</span><span class="t-en">Design system</span><span class="t-ru">Дизайн-система</span></p>
     <h2 class="sec-title"><span class="t-en">Built from parts, not screens</span><span class="t-ru">Собрано из частей, а не экранов</span></h2>
   </section>
+  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/ds-cover.jpg" alt="Birdview design system cover" loading="lazy"></span><figcaption><span class="t-en">Birdview design system</span><span class="t-ru">Дизайн-система Birdview</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
+  <section class="cell cell--text cell--intro cell--chips cell--half-chips"><ul class="icon-chips"><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.6-.9 1.2-1.8-.5-1.1.2-2.2 1.4-2.2h2.2a3.7 3.7 0 0 0 3.7-3.7C20.5 7.3 16.7 3.5 12 3.5z"/><circle cx="7.8" cy="11" r="1"/><circle cx="11" cy="7.5" r="1"/><circle cx="15.5" cy="8.5" r="1"/></svg></span><span class="t-en">Colours</span><span class="t-ru">Цвета</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5V5h14v1.5M12 5v14M9 19h6"/></svg></span><span class="t-en">Typography</span><span class="t-ru">Типографика</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.8 4.6 3.4 7.2 9 9-5.6 1.8-8.2 4.4-9 9-.8-4.6-3.4-7.2-9-9 5.6-1.8 8.2-4.4 9-9z"/></svg></span><span class="t-en">Icons</span><span class="t-ru">Иконки</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="4.5"/><rect x="12.5" y="12.5" width="8" height="8" rx="2"/><path d="m5 20 3-5 3 5z"/></svg></span><span class="t-en">Components</span><span class="t-ru">Компоненты</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M3.5 9h17M9.5 9v11.5"/></svg></span><span class="t-en">Layouts</span><span class="t-ru">Лейауты</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 8l-9 4.5L3 8z"/><path d="m3 12 9 4.5 9-4.5M3 16l9 4.5 9-4.5"/></svg></span><span class="t-en">Dark mode</span><span class="t-ru">Тёмная тема</span></li></ul></section>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Load cell: anatomy</span><span class="t-ru">Ячейка: анатомия</span></b><small><span class="t-en">Hours, %, status colour</span><span class="t-ru">Часы, %, цвет статуса</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Load cell: states</span><span class="t-ru">Ячейка: состояния</span></b><small><span class="t-en">Normal, over, under, empty, hover</span><span class="t-ru">Норма, перегруз, недогруз, пусто, ховер</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">System feedback</span><span class="t-ru">Уведомления</span></b><small><span class="t-en">Info, success, warning, error</span><span class="t-ru">Инфо, успех, предупреждение, ошибка</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Message board</span><span class="t-ru">Комментарии</span></b><small><span class="t-en">Component + empty state</span><span class="t-ru">Компонент + пустое состояние</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
+  <figure class="card card--cover card--still card--shot"><span class="case-media case-media--doc"><img src="assets/case-birdview-components.jpg" alt="Calendar component documentation" loading="lazy"></span><figcaption><span class="t-en">Calendar component and its states</span><span class="t-ru">Компонент календаря и его состояния</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
 
-  <section class="cell cell--text cell--intro cell--prose cell--wide">
-    <p class="cell-small"><span class="t-en">The module was assembled from components rather than one-off screens: the calendar, load cells, popovers, headers and all their states, documented so engineering could build screens without coming back with questions.</span><span class="t-ru">Модуль собран из компонентов, а не из отдельных экранов: календарь, ячейки загрузки, поповеры, шапки и все их состояния — задокументированы, чтобы разработка собирала экраны без дополнительных вопросов.</span></p>
-  </section>
-  <div class="card card--tile card--still"><span class="ph"><span><span class="t-en">Cell anatomy</span><span class="t-ru">Анатомия ячейки</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><span class="t-en">Cell states</span><span class="t-ru">Состояния ячейки</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><span class="t-en">Popover</span><span class="t-ru">Поповер</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><span class="t-en">Calendar header</span><span class="t-ru">Шапка календаря</span></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--cover card--still"><span class="case-media case-media--doc"><img src="assets/case-birdview-components.jpg" alt="Calendar component documentation" loading="lazy"></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-
-  <section class="cell cell--text cell--section">
-    <p class="kicker"><span class="t-en">Result</span><span class="t-ru">Результат</span></p>
-    <h2 class="sec-title"><span class="t-en">A planned feature became a sales argument</span><span class="t-ru">Запланированная функция стала аргументом продаж</span></h2>
-  </section>
-
-  <section class="cell cell--text cell--intro cell--prose cell--wide">
-    <p class="cell-small"><span class="t-en">The module turned from a planned feature into a sales argument: it is shown in demos, every new client starts with it, and the component documentation stayed in the design system — later screens were assembled from the same parts.</span><span class="t-ru">Модуль превратился из запланированной функции в аргумент для продаж: его показывают на демо, с него начинает каждый новый клиент, а документация компонентов осталась в дизайн-системе — следующие экраны собирали уже из этих же частей.</span></p>
+  <section class="cell cell--text cell--section" id="results" data-slide="07">
+    <p class="kicker"><span class="sec-no">07</span><span class="t-en">Results</span><span class="t-ru">Результаты</span></p>
+    <h2 class="sec-title"><span class="t-en">A feature became a sales argument</span><span class="t-ru">Фича стала аргументом продаж</span></h2>
   </section>
   <article class="card card--standout">
     <span class="card-no"><span class="t-en">Headline result</span><span class="t-ru">Главный результат</span></span>
-    <b class="standout-value">100%</b>
-    <p class="lead"><span class="t-en">of new clients use the new resource-planning module</span><span class="t-ru">новых клиентов используют новый модуль планирования ресурсов</span></p>
+    <b class="standout-value" data-count="100">100%</b>
+    <p class="lead"><span class="t-en">of new clients use the module</span><span class="t-ru">новых клиентов используют модуль</span></p>
     <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
   </article>
-  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">12%</b><p class="cell-small"><span class="t-en">of paid accounts enabled the feature during the feature-lab rollout</span><span class="t-ru">платных аккаунтов включили фичу на этапе feature lab</span></p></div>
-  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">4%</b><p class="cell-small"><span class="t-en">adoption rate across paid accounts</span><span class="t-ru">adoption rate среди платных аккаунтов</span></p></div>
+  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">12%</b><p class="cell-small"><span class="t-en">enabled it in the feature lab</span><span class="t-ru">включили на этапе feature lab</span></p></div>
+  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">4%</b><p class="cell-small"><span class="t-en">adoption across paid accounts</span><span class="t-ru">adoption среди платных аккаунтов</span></p></div>
   <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">10%</b><p class="cell-small"><span class="t-en">feature retention</span><span class="t-ru">retention фичи</span></p></div>
-  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">1.67 → 2.78%</b><p class="cell-small"><span class="t-en">growth in sales-assisted to paid conversion</span><span class="t-ru">рост конверсии sales-assisted в платящих</span></p></div>
+  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">1.67 → 2.78%</b><p class="cell-small"><span class="t-en">sales-assisted → paid</span><span class="t-ru">sales-assisted → платящие</span></p></div>
 
-  <section class="cell cell--text cell--intro cell--prose cell--actions">
-    <h3 class="prose-title"><span class="t-en">More on this case</span><span class="t-ru">Ещё по кейсу</span></h3>
+  <section class="cell cell--text cell--section" id="learnings" data-slide="08">
+    <p class="kicker"><span class="sec-no">08</span><span class="t-en">Reflection</span><span class="t-ru">Выводы</span></p>
+    <h2 class="sec-title"><span class="t-en">What I learned</span><span class="t-ru">Что я вынесла</span></h2>
+  </section>
+  <section class="cell cell--text cell--intro cell--prose cell--todo">
+    <h3 class="prose-title"><span class="t-en">What worked</span><span class="t-ru">Что сработало</span></h3>
+    <p class="cell-small"><span class="t-en">One or two lines.</span><span class="t-ru">Одна-две строки.</span></p>
+  </section>
+  <section class="cell cell--text cell--intro cell--prose cell--todo">
+    <h3 class="prose-title"><span class="t-en">What I would change</span><span class="t-ru">Что сделала бы иначе</span></h3>
+    <p class="cell-small"><span class="t-en">One or two lines.</span><span class="t-ru">Одна-две строки.</span></p>
+  </section>
+
+  <section class="cell cell--text cell--intro cell--prose cell--wide cell--actions">
     <div class="action-row">
       <a class="card-link card-link--light" href="#prototype"><span class="t-en">Try the prototype</span><span class="t-ru">Попробовать прототип</span></a>
-      <a class="card-link card-link--light" href="https://www.figma.com/design/RYyFgZM48P8RdCz3SBcHcw/Maria?node-id=0-1" target="_blank" rel="noopener"><span class="t-en">Prototype in Figma</span><span class="t-ru">Прототип в Figma</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a class="card-link card-link--light" href="https://www.figma.com/design/RYyFgZM48P8RdCz3SBcHcw/Maria?node-id=0-1" target="_blank" rel="noopener"><span class="t-en">Mockups in Figma</span><span class="t-ru">Макеты в Figma</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a class="card-link card-link--light" href="https://www.figma.com/design/dwIZDLfWIurSX5CYNiNWYq/DS-Birdview" target="_blank" rel="noopener"><span class="t-en">Design system in Figma</span><span class="t-ru">Дизайн-система в Figma</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
       <a class="card-link card-link--light" href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     </div>
   </section>
@@ -260,8 +290,8 @@
   <button type="button" class="dont-press"><span class="t-en">Don't press</span><span class="t-ru">Не нажимать</span></button>
 </footer>
 
-<script src="assets/grid.js?v=21"></script>
+<script src="assets/grid.js?v=28"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<script type="module" src="assets/glyph3d.js?v=11"></script>
+<script type="module" src="assets/glyph3d.js?v=15"></script>
 </body>
 </html>

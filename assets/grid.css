@@ -5,17 +5,17 @@
    4 columns, then 2, then 1 (eight cells never split evenly into 3). */
 
 :root{
-  --bg:#1A1715;
-  --ink:#EEEEF1;
+  --bg:#1A1919;
+  --ink:#ECE4D8;
   --ash:#9A9AA3;
   --line:rgba(238,238,241,.12);
-  /* the accent: a warm orange, with a red-orange partner for the glow. It sits behind the silver,
+  /* the accent: wine (Velvet Fade: carbon black, amaranth, bone), deep amaranth for the glow. It sits behind the silver,
      never in the type: --accent and --accent-2 light the page, --accent-soft marks states on the dark
      glass, --accent-ink states on the silver cards */
-  --accent:#FF6A2B;
-  --accent-soft:#FFB38A;
-  --accent-2:#E8452E;
-  --accent-ink:#D9480F;
+  --accent:#9E2F57;
+  --accent-soft:#E2B4C2;
+  --accent-2:#6E1E3B;
+  --accent-ink:#6E1E3B;
   --display:'Noto Serif Display', Georgia, serif;
   --sans:'Geist', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --side:clamp(16px, 3vw, 48px);
@@ -100,7 +100,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
    - ::after is the grain.
    grid.js eases the tilt and the lights every frame toward the pointer. */
 .card{--r:clamp(20px, 2vw, 30px); position:relative; display:flex; flex-direction:column; padding:clamp(18px, 1.8vw, 28px); border-radius:var(--r); color:#15151A;
-  background:linear-gradient(155deg, #FAF6F2 0%, #D3C6BB 30%, #F1EAE3 52%, #A99A8F 78%, #E3D9D0 100%);
+  background:linear-gradient(155deg, #F9F5F3 0%, #D3C3BB 30%, #F1E8E3 52%, #A98F98 78%, #E3D6D0 100%);
   border:1px solid rgba(255,255,255,.55);
   /* the card floats: a bevel on the edge, a tight contact shadow, a wide soft one,
      and a little silver light spilling onto the dark page. Static, so it never repaints. */
@@ -109,7 +109,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
     0 2px 3px rgba(0,0,0,.55),
     0 14px 24px -8px rgba(0,0,0,.6),
     0 46px 70px -18px rgba(0,0,0,.88),
-    0 0 90px -34px rgba(255,170,120,.32);
+    0 0 90px -34px rgba(209,180,166,.32);
   transform:perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--s, 1));
   will-change:transform;}
 .card::before{content:""; position:absolute; z-index:0; inset:0; border-radius:inherit; pointer-events:none;
@@ -124,15 +124,15 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 /* clip-path isolates the layers inside, so the whole foil now blends onto the metal as one */
 /* no z-index on .foil: a stacking context would cut the blend off from the metal underneath */
 .foil::after{content:""; position:absolute; top:-10%; bottom:-10%; left:-100%; width:300%; mix-blend-mode:overlay; opacity:.95;
-  background:linear-gradient(110deg, #FFB59A, #FFD59A 17%, #F99A86 33%, #FFE2B0 50%, #F7A27E 67%, #FFB59A 84%, #FFD59A);
+  background:linear-gradient(110deg, #DDC7BC, #DDC7BC 17%, #D4B9AB 33%, #E4D3CB 50%, #D0B3A5 67%, #DDC7BC 84%, #DDC7BC);
   animation:pearl 16s ease-in-out infinite alternate;}
 @keyframes pearl{from{transform:translate3d(-16%, 0, 0);} to{transform:translate3d(16%, 0, 0);}}
 .foil::before{content:""; position:absolute; left:-30%; top:-30%; width:160%; height:160%; opacity:var(--fo, .62); mix-blend-mode:color;
   background:
-    radial-gradient(26% 22% at 38% 36%, rgba(255,110,70,.95), transparent 72%),
-    radial-gradient(28% 24% at 64% 46%, rgba(255,170,50,.95), transparent 72%),
-    radial-gradient(26% 22% at 50% 68%, rgba(255,90,110,.85), transparent 72%),
-    radial-gradient(22% 20% at 66% 66%, rgba(255,215,120,.85), transparent 72%);
+    radial-gradient(26% 22% at 38% 36%, rgba(180,48,100,.95), transparent 72%),
+    radial-gradient(28% 24% at 64% 46%, rgba(169,45,79,.95), transparent 72%),
+    radial-gradient(26% 22% at 50% 68%, rgba(191,51,116,.85), transparent 72%),
+    radial-gradient(22% 20% at 66% 66%, rgba(209,180,166,.85), transparent 72%);
   filter:blur(18px) saturate(1.25);
   transform:translate3d(var(--fx, 0px), var(--fy, 0px), 0);}
 
@@ -141,10 +141,10 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .card-glyph svg{width:42%; height:auto; max-height:100%; overflow:visible;}
 .card h2{font-size:clamp(15px, 1.3vw, 21px); font-weight:500; line-height:1.15; letter-spacing:.01em; text-transform:uppercase;}
 .card p{margin-top:8px; max-width:38ch; font-size:clamp(12px, .85vw, 14px); line-height:1.45; color:rgba(21,21,26,.68);}
-.card-btn{align-self:flex-start; margin-top:14px; height:38px; display:inline-flex; align-items:center; padding:0 16px; border-radius:12px; background:#140805; color:var(--ink); font-size:14px; font-weight:500; transition:background-color .2s;}
+.card-btn{align-self:flex-start; margin-top:14px; height:38px; display:inline-flex; align-items:center; padding:0 16px; border-radius:12px; background:#14050b; color:var(--ink); font-size:14px; font-weight:500; transition:background-color .2s;}
 .card-btn:hover{background:#000;}
 .card-btn.copy-ok{background:#123b22;}
-.live{position:absolute !important; top:clamp(14px, 1.5vw, 24px); right:clamp(14px, 1.5vw, 24px); display:inline-flex; align-items:center; gap:7px; height:28px; padding:0 11px; border-radius:999px; background:rgba(20,8,5,.7); font-size:12.5px;}
+.live{position:absolute !important; top:clamp(14px, 1.5vw, 24px); right:clamp(14px, 1.5vw, 24px); display:inline-flex; align-items:center; gap:7px; height:28px; padding:0 11px; border-radius:999px; background:rgba(20,5,11,.7); font-size:12.5px;}
 .dot{width:7px; height:7px; border-radius:50%; background:#5BD38C; box-shadow:0 0 0 3px rgba(91,211,140,.2);}
 
 /* one orchestrated moment: the board fills in, cell by cell */
@@ -208,7 +208,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .blob-a{width:62%; height:58%; left:6%;  top:14%; background:#E79CC8; animation:drift-a 17s ease-in-out infinite alternate;}
 .blob-b{width:54%; height:70%; left:44%; top:2%;  background:#8DBFEA; opacity:.68; animation:drift-b 21s ease-in-out infinite alternate;}
 .blob-c{width:46%; height:40%; left:26%; top:52%; background:#94E2BF; opacity:.5; animation:drift-c 19s ease-in-out infinite alternate;}
-.blob-d{width:30%; height:30%; left:62%; top:46%; background:#F2D29C; opacity:.42; animation:drift-d 23s ease-in-out infinite alternate;}
+.blob-d{width:30%; height:30%; left:62%; top:46%; background:#D9C1B5; opacity:.42; animation:drift-d 23s ease-in-out infinite alternate;}
 @keyframes drift-a{to{transform:translate3d(14%, 8%, 0) scale(1.12, .92);}}
 @keyframes drift-b{to{transform:translate3d(-12%, 10%, 0) scale(.9, 1.1);}}
 @keyframes drift-c{to{transform:translate3d(10%, -14%, 0) scale(1.15);}}
@@ -237,24 +237,24 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .lb-body{position:absolute; inset:0; z-index:0; border-radius:inherit; overflow:hidden;
   background:rgba(255,255,255,.07); -webkit-backdrop-filter:blur(10px) saturate(1.4); backdrop-filter:blur(10px) saturate(1.4);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -1px 0 rgba(255,255,255,.12), inset 10px 10px 22px -14px rgba(255,255,255,.5), 0 16px 34px -14px rgba(0,0,0,.9);}
-.lb-silver{position:absolute; inset:0; background:linear-gradient(120deg, #FAF6F2, #D6C9BE 38%, #F2EBE4 60%, #BBAA9E); transition:opacity .55s ease;}
+.lb-silver{position:absolute; inset:0; background:linear-gradient(120deg, #F9F5F3, #D6C6BE 38%, #F1E9E5 60%, #BB9EA8); transition:opacity .55s ease;}
 /* the same pearl film as on the cards drifts across the silver, so the buttons share their holographic sheen */
 .lb-silver::after{content:""; position:absolute; top:0; bottom:0; left:-100%; width:300%; mix-blend-mode:overlay; opacity:.9;
-  background:linear-gradient(110deg, #FFB59A, #FFD59A 17%, #F99A86 33%, #FFE2B0 50%, #F7A27E 67%, #FFB59A 84%, #FFD59A);
+  background:linear-gradient(110deg, #DDC7BC, #DDC7BC 17%, #D4B9AB 33%, #E4D3CB 50%, #D0B3A5 67%, #DDC7BC 84%, #DDC7BC);
   animation:pearl 12s ease-in-out infinite alternate;}
 @media (prefers-reduced-motion:reduce){ .lb-silver::after{animation:none;} }
 .lb-pearl{position:absolute; inset:-60%; opacity:0; transition:opacity .6s ease; filter:blur(16px);
   background:
-    radial-gradient(22% 40% at 30% 50%, rgba(255,120,70,.8), transparent 70%),
-    radial-gradient(22% 40% at 55% 42%, rgba(255,190,80,.8), transparent 70%),
-    radial-gradient(22% 40% at 76% 58%, rgba(255,95,110,.7), transparent 70%);
+    radial-gradient(22% 40% at 30% 50%, rgba(180,48,98,.8), transparent 70%),
+    radial-gradient(22% 40% at 55% 42%, rgba(185,49,85,.8), transparent 70%),
+    radial-gradient(22% 40% at 76% 58%, rgba(194,51,118,.7), transparent 70%);
   animation:lb-swirl 7s linear infinite paused;}
 .lead-btn:hover .lb-pearl{animation-play-state:running;}
 @keyframes lb-swirl{to{transform:rotate(360deg);}}
 /* the rim: a 1.5px ring that only lights up near the pointer */
 .lb-rim{position:absolute; inset:0; z-index:2; border-radius:inherit; padding:1.5px; pointer-events:none;
   background:
-    radial-gradient(90px 90px at var(--px) var(--py), #fff, rgba(255,214,170,.95) 25%, rgba(255,140,90,.75) 50%, transparent 80%),
+    radial-gradient(90px 90px at var(--px) var(--py), #fff, rgba(226,208,199,.95) 25%, rgba(191,51,102,.75) 50%, transparent 80%),
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.12));
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
@@ -262,7 +262,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 /* the halo outside, centred on the pointer */
 /* the halo's box reaches well past the glow (160px each way, no rounded clip), so the light always fades out on its own and is never cut */
 .lb-halo{position:absolute; z-index:-1; inset:-160px; pointer-events:none; opacity:0; transition:opacity .5s ease;
-  background:radial-gradient(130px 110px at calc(var(--px) + 160px) calc(var(--py) + 160px), rgba(255,150,80,.34), rgba(255,100,70,.14) 50%, transparent 75%);
+  background:radial-gradient(130px 110px at calc(var(--px) + 160px) calc(var(--py) + 160px), rgba(185,49,95,.34), rgba(180,48,103,.14) 50%, transparent 75%);
   filter:blur(6px);}
 .lb-sparks{position:absolute; inset:0; z-index:4; pointer-events:none; overflow:visible;}
 .spark{position:absolute; left:0; top:0; width:var(--sz, 3px); height:var(--sz, 3px); border-radius:50%; background:#fff; box-shadow:0 0 6px 1px rgba(200,225,255,.9);
@@ -359,7 +359,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   color:var(--ink); font:inherit; text-align:left; text-decoration:none; cursor:pointer;
   transition:background-color .3s ease, box-shadow .3s ease, transform .3s cubic-bezier(.2,.75,.2,1);}
 .c-row:hover, .c-row:focus-visible{background:rgba(255,255,255,.08); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14), inset 0 1px 0 rgba(255,255,255,.12);}
-.c-row:focus-visible{outline:2px solid rgba(255,180,130,.85); outline-offset:2px;}
+.c-row:focus-visible{outline:2px solid rgba(212,186,172,.85); outline-offset:2px;}
 .c-row:active{transform:scale(.985);}
 .c-ico{flex:none; width:36px; height:36px; border-radius:12px; display:grid; place-items:center; color:#EDEFF4;
   background:linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.04)); box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 0 0 1px rgba(255,255,255,.08);}
@@ -382,7 +382,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
   box-shadow:0 10px 22px -10px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.12);}
 /* a pearl sheen laid over the silver, the same film as on the cards */
 .me-ava::before{content:""; position:absolute; inset:-30%; z-index:-1; mix-blend-mode:soft-light; opacity:.9;
-  background:conic-gradient(from 200deg, #FF9A6B, #FFD08A, #FF7B7B, #FFE3A3, #FF9A6B); filter:blur(6px);}
+  background:conic-gradient(from 200deg, #C8356B, #D7BEB2, #D2B6A8, #E0CCC2, #C8356B); filter:blur(6px);}
 /* the photo sits inside a thin silver-pearl ring */
 .me-ava img{position:absolute; inset:2px; width:calc(100% - 4px); height:calc(100% - 4px); border-radius:50%; object-fit:cover; display:block;
   box-shadow:0 0 0 1px rgba(255,255,255,.35);}
@@ -434,11 +434,10 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .about-lead{max-width:30ch; font-size:clamp(18px, 1.5vw, 24px); line-height:1.35; letter-spacing:-.01em; color:var(--ink);}
 
 /* the portrait: a silver ID card with the photo set into it */
-.card-photo{flex:1 1 auto; min-height:0; margin:12px 0 14px; border-radius:calc(var(--r) * .6); overflow:hidden;
-  /* the cut-out portrait stands on dark graphite, with a soft light behind the head */
-  background:radial-gradient(60% 50% at 50% 30%, #3A3B42, #1C1D22 60%, #101014);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), 0 10px 22px -12px rgba(0,0,0,.45);}
-.card-photo img{display:block; width:100%; height:100%; object-fit:cover; object-position:50% 18%;}
+/* the cut-out portrait stands straight on the card's pearl silver, no backdrop; a soft warm shadow keeps it off the surface */
+.card-photo{position:relative; flex:1 1 auto; min-height:0; margin:6px 0 14px; overflow:hidden; background:none;}
+.card-photo img{display:block; width:100%; height:100%; object-fit:cover; object-position:50% 18%;
+  filter:drop-shadow(0 14px 18px rgba(118,32,63,.28)) drop-shadow(0 2px 3px rgba(118,32,63,.18));}
 
 /* the facts panel beside it */
 .cell--facts{justify-content:space-between;}
@@ -518,7 +517,7 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .tl-lane .tl-bar, .tl-lane .tl-label{transition:opacity .35s ease, transform .9s cubic-bezier(.2,.75,.2,1), box-shadow .3s ease, height .3s ease;}
 .tl-lane[aria-selected="false"] .tl-bar{opacity:.45;}
 .tl-lane[aria-selected="false"] .tl-label{opacity:.55;}
-.tl-lane[aria-selected="true"] .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 38px -4px rgba(255,170,120,.75);}
+.tl-lane[aria-selected="true"] .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 38px -4px rgba(209,180,166,.75);}
 .tl-label{position:absolute; top:0; display:flex; flex-direction:column; gap:1px; white-space:nowrap; font-size:13px; line-height:1.3;}
 .tl-label b{font-size:15px; font-weight:500;}
 .tl-label span{color:var(--ash);}
@@ -526,16 +525,16 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .tl-label--end{right:calc(100% - var(--l) - var(--w)); text-align:right;}
 /* the bar: the same silver as the cards, with the pearl film drifting through it */
 .tl-bar{position:absolute; bottom:0; left:var(--l); width:var(--w); min-width:14px; height:16px; border-radius:999px; overflow:hidden;
-  background:linear-gradient(120deg, #FAF6F2, #D6C9BE 38%, #F2EBE4 60%, #BBAA9E);
-  box-shadow:inset 0 1px 0 #fff, 0 6px 16px -6px rgba(0,0,0,.9), 0 0 24px -8px rgba(255,170,120,.45);
+  background:linear-gradient(120deg, #F9F5F3, #D6C6BE 38%, #F1E9E5 60%, #BB9EA8);
+  box-shadow:inset 0 1px 0 #fff, 0 6px 16px -6px rgba(0,0,0,.9), 0 0 24px -8px rgba(209,180,166,.45);
   transform-origin:left center; transition:transform .9s cubic-bezier(.2,.75,.2,1), box-shadow .3s ease, height .3s ease;}
 .tl-sheen{position:absolute; inset:0 -100%; mix-blend-mode:soft-light; opacity:.9;
-  background:linear-gradient(110deg, #FFB59A, #FFD59A 17%, #F99A86 33%, #FFE2B0 50%, #F7A27E 67%, #FFB59A 84%, #FFD59A);
+  background:linear-gradient(110deg, #DDC7BC, #DDC7BC 17%, #D4B9AB 33%, #E4D3CB 50%, #D0B3A5 67%, #DDC7BC 84%, #DDC7BC);
   animation:pearl 12s ease-in-out infinite alternate;}
-.tl-lane:hover .tl-bar, .tl-lane:focus-visible .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 34px -6px rgba(255,170,120,.7);}
+.tl-lane:hover .tl-bar, .tl-lane:focus-visible .tl-bar{height:20px; box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 34px -6px rgba(209,180,166,.7);}
 .tl-lane:hover .tl-label b{text-decoration:underline; text-underline-offset:3px; text-decoration-color:rgba(255,255,255,.35);}
 .tl-lane:focus-visible{outline:none;}
-.tl-lane:focus-visible .tl-label b{outline:2px solid rgba(255,180,130,.85); outline-offset:2px; border-radius:4px;}
+.tl-lane:focus-visible .tl-label b{outline:2px solid rgba(212,186,172,.85); outline-offset:2px; border-radius:4px;}
 /* the bars grow in from the left when the timeline scrolls into view */
 .cell--timeline.is-pending .tl-bar{transform:scaleX(0);}
 .tl-lane:nth-child(2) .tl-bar{transition-delay:.12s;} .tl-lane:nth-child(3) .tl-bar{transition-delay:.24s;}
@@ -584,54 +583,65 @@ html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none !important;}
 .tl-hint{display:flex; align-items:center; gap:8px; margin:0 0 6px; font-size:13px; color:var(--ash); transition:opacity .4s ease;}
 .tl-hint svg{flex:none; width:16px; height:16px; color:var(--ink); opacity:.8;}
 .cell--timeline.was-used .tl-hint{opacity:.45;}
-/* until the first pick, a ghost pointer shows how it works: it glides to one bar, taps it (a ring
-   spreads and a glint runs along the bar), glides to the next and taps again, then fades and loops.
-   grid.js measures where the two bars are and hands the positions over as --ax/--ay and --bx/--by. */
-.tl-ghost{position:absolute; left:0; top:0; z-index:3; width:22px; height:22px; pointer-events:none; opacity:0;
-  filter:drop-shadow(0 4px 8px rgba(0,0,0,.6)) drop-shadow(0 0 10px rgba(255,170,120,.35));}
-.tl-ghost svg{display:block; width:100%; height:100%;}
-.cell--timeline.is-coaching .tl-ghost{animation:tl-ghost 6s cubic-bezier(.45,0,.25,1) infinite;}
+/* until the first pick, a ghost pointer shows how it works: it drifts in, settles on a bar and presses it
+   (the bar lights up as it would on hover, a small ripple spreads from the tip), drifts to the next, presses, fades.
+   One 7s loop; grid.js hands over the bar positions as --ax/--ay and --bx/--by. */
+.tl-ghost{position:absolute; left:0; top:0; z-index:3; width:20px; height:20px; pointer-events:none; opacity:0;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.55));}
+.tl-ghost svg{position:relative; display:block; width:100%; height:100%;}
+/* the ripple: a small soft circle centred on the pointer's tip */
+.tl-ghost::before{content:""; position:absolute; left:5px; top:3.5px; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(233,219,212,.55), rgba(209,180,166,.18) 70%, transparent); opacity:0; transform:scale(.2);}
+.cell--timeline.is-coaching .tl-ghost{animation:tl-ghost 7s cubic-bezier(.4,0,.2,1) infinite;}
+.cell--timeline.is-coaching .tl-ghost::before{animation:tl-ripple 7s ease-out infinite;}
 @keyframes tl-ghost{
-  0%  {opacity:0; transform:translate(calc(var(--ax) + 34px), calc(var(--ay) + 26px)) scale(1);}
-  10% {opacity:1;}
-  22% {opacity:1; transform:translate(var(--ax), var(--ay)) scale(1);}
-  26% {transform:translate(var(--ax), var(--ay)) scale(.82);}
-  31% {transform:translate(var(--ax), var(--ay)) scale(1);}
-  56% {transform:translate(var(--bx), var(--by)) scale(1);}
-  60% {transform:translate(var(--bx), var(--by)) scale(.82);}
-  65% {opacity:1; transform:translate(var(--bx), var(--by)) scale(1);}
-  80%, 100% {opacity:0; transform:translate(calc(var(--bx) + 24px), calc(var(--by) + 20px)) scale(1);}
+  0%  {opacity:0; transform:translate(calc(var(--ax) + 22px), calc(var(--ay) + 18px));}
+  8%  {opacity:1;}
+  20% {transform:translate(var(--ax), var(--ay)) scale(1);}
+  23% {transform:translate(var(--ax), var(--ay)) scale(.88);}
+  27% {transform:translate(var(--ax), var(--ay)) scale(1);}
+  34% {transform:translate(var(--ax), var(--ay));}
+  52% {transform:translate(var(--bx), var(--by)) scale(1);}
+  55% {transform:translate(var(--bx), var(--by)) scale(.88);}
+  59% {opacity:1; transform:translate(var(--bx), var(--by)) scale(1);}
+  72%, 100% {opacity:0; transform:translate(calc(var(--bx) + 10px), calc(var(--by) + 8px));}
 }
-/* the tap: a ring spreads from the bar and a glint sweeps along it, timed to the pointer */
+@keyframes tl-ripple{
+  0%, 22% {opacity:0; transform:scale(.2);} 23% {opacity:1; transform:scale(.3);} 33% {opacity:0; transform:scale(1.4);}
+  54% {opacity:0; transform:scale(.2);} 55% {opacity:1; transform:scale(.3);} 65%, 100% {opacity:0; transform:scale(1.4);}
+}
+/* the pressed bar lights up for a moment, like on hover, and a soft light runs along it */
 .tl-bar::after{content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0;
-  background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,.95) 50%, transparent 70%) no-repeat; background-size:200% 100%;}
-.tl-lane::after{content:""; position:absolute; bottom:-6px; left:var(--l); width:var(--w); min-width:14px; height:28px; border-radius:999px; pointer-events:none; opacity:0;
-  box-shadow:0 0 0 1.5px rgba(255,220,195,.9), 0 0 24px 2px rgba(255,106,43,.55);}
-.cell--timeline.is-coaching .tl-lane:nth-child(2)::after{animation:tl-ring 6s ease-out infinite; animation-delay:1.56s;}
-.cell--timeline.is-coaching .tl-lane:nth-child(3)::after{animation:tl-ring 6s ease-out infinite; animation-delay:3.6s;}
-.cell--timeline.is-coaching .tl-lane:nth-child(2) .tl-bar::after{animation:tl-glint 6s ease-out infinite; animation-delay:1.56s;}
-.cell--timeline.is-coaching .tl-lane:nth-child(3) .tl-bar::after{animation:tl-glint 6s ease-out infinite; animation-delay:3.6s;}
-@keyframes tl-ring{0%{opacity:.95; transform:scale(1, 1);} 12%{opacity:0; transform:scale(1.06, 1.9);} 100%{opacity:0;}}
-@keyframes tl-glint{0%{opacity:1; background-position:120% 0;} 12%{opacity:1; background-position:-20% 0;} 13%, 100%{opacity:0;}}
-@media (prefers-reduced-motion:reduce){ .cell--timeline.is-coaching .tl-ghost, .cell--timeline.is-coaching .tl-lane::after, .cell--timeline.is-coaching .tl-bar::after{animation:none;} }
+  background:linear-gradient(100deg, transparent 25%, rgba(244,238,235,.6) 50%, transparent 75%) no-repeat; background-size:220% 100%;}
+.cell--timeline.is-coaching .tl-lane:nth-child(2) .tl-bar{animation:tl-lit 7s ease-out infinite;}
+.cell--timeline.is-coaching .tl-lane:nth-child(3) .tl-bar{animation:tl-lit 7s ease-out infinite; animation-delay:2.24s;}
+.cell--timeline.is-coaching .tl-lane:nth-child(2) .tl-bar::after{animation:tl-glint 7s ease-out infinite;}
+.cell--timeline.is-coaching .tl-lane:nth-child(3) .tl-bar::after{animation:tl-glint 7s ease-out infinite; animation-delay:2.24s;}
+@keyframes tl-lit{0%, 22% {opacity:.45;} 24% {opacity:.9;} 40%, 100% {opacity:.45;}}
+@keyframes tl-glint{0%, 23% {opacity:0; background-position:130% 0;} 24% {opacity:1;} 36% {opacity:1; background-position:-30% 0;} 38%, 100% {opacity:0; background-position:-30% 0;}}
+@media (prefers-reduced-motion:reduce){ .cell--timeline.is-coaching .tl-ghost, .cell--timeline.is-coaching .tl-ghost::before, .cell--timeline.is-coaching .tl-bar, .cell--timeline.is-coaching .tl-bar::after{animation:none;} }
 
 /* ---------- the accent: in the light behind things, not in the type ---------- */
-/* the page: warm graphite with an orange glow rising from the bottom edge, left of centre, fading
-   up into the grey (a hot amber core low down, orange around it, a wider red-orange haze to the right) */
-body{background:
-  radial-gradient(30% 32% at 30% 104%, rgba(255,200,130,.6), transparent 70%),
-  radial-gradient(58% 66% at 30% 112%, rgba(255,106,43,.95) 0%, rgba(232,74,30,.55) 38%, rgba(160,45,20,.18) 60%, transparent 76%),
-  radial-gradient(70% 55% at 80% 118%, rgba(214,60,35,.42), transparent 72%),
-  var(--bg); background-attachment:fixed;}
+/* the page: carbon black with a soft wine glow rising from below. The glow lives on its own fixed layer
+   made of a few overlapping clouds and is blurred heavily, so there is no edge or ring anywhere, only a
+   haze: deep wine spreading wide, a warmer amaranth heart left of centre, a breath of bone at the very bottom,
+   and a faint echo of wine in the top right corner. The grain on top keeps the long fades free of banding. */
+body{background:var(--bg);}
+body::after{content:""; position:fixed; inset:-15%; z-index:-1; pointer-events:none; filter:blur(70px);
+  background:
+    radial-gradient(24% 18% at 34% 102%, rgba(222,192,180,.26), rgba(222,192,180,.08) 45%, transparent 75%),
+    radial-gradient(40% 32% at 36% 100%, rgba(160,44,88,.55), rgba(160,44,88,.22) 40%, rgba(160,44,88,.06) 70%, transparent),
+    radial-gradient(48% 34% at 80% 106%, rgba(120,32,64,.45), rgba(120,32,64,.14) 45%, transparent 80%),
+    radial-gradient(80% 42% at 50% 116%, rgba(90,24,48,.5), rgba(90,24,48,.12) 50%, transparent 85%);}
 /* the dark glass panels pick up a faint tint of it */
 /* frosted glass: a thin veil of white over a strong blur, so the glow behind shows through softened */
 .cell--intro, .cell--contact, .cell--timeline{background:linear-gradient(160deg, rgba(255,255,255,.075), rgba(255,255,255,.025)); -webkit-backdrop-filter:blur(28px) saturate(1.25); backdrop-filter:blur(28px) saturate(1.25);}
 /* and a fine grain on top, which is what makes glass read as matte rather than clear */
 .cell--intro::after, .cell--contact::after, .cell--timeline::after{content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background-image:var(--grain); opacity:.09; mix-blend-mode:overlay;}
 .cell--intro > *, .cell--contact > *, .cell--timeline > *{position:relative; z-index:1;}
-.nav a[aria-current="page"]{background:rgba(255,106,43,.24); color:#fff; box-shadow:inset 0 0 0 1px rgba(255,179,138,.32);}
+.nav a[aria-current="page"]{background:rgba(165,44,89,.24); color:#fff; box-shadow:inset 0 0 0 1px rgba(215,190,178,.32);}
 .tl-hint svg{color:var(--accent-soft); opacity:1;}
-.tl-lane[aria-selected="true"] .tl-bar{box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 40px -2px rgba(255,106,43,.9), 0 0 0 1px rgba(255,179,138,.55);}
+.tl-lane[aria-selected="true"] .tl-bar{box-shadow:inset 0 1px 0 #fff, 0 8px 20px -6px rgba(0,0,0,.9), 0 0 40px -2px rgba(165,44,89,.9), 0 0 0 1px rgba(215,190,178,.55);}
 .c-row:hover .c-go{background:var(--accent); color:#fff;}
 .c-row:hover .c-ico{color:var(--accent-soft);}
 .card-link:hover{background:var(--accent-ink);}
@@ -642,7 +652,7 @@ body{background:
    The silver cards keep their holographic foil; the dark panels and the nav are flat or frosted. */
 .cell--intro, .cell--contact, .cell--timeline, .cell--facts{box-shadow:inset 0 1px 0 rgba(255,255,255,.1), inset 0 0 0 1px rgba(255,255,255,.07), 0 24px 44px -26px rgba(0,0,0,.7);}
 .nav{background:#202024; -webkit-backdrop-filter:none; backdrop-filter:none; border-color:rgba(255,255,255,.06);}
-.c-row, .facts li{background:rgba(255,255,255,.04); box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
+.c-row, .facts li{background:rgba(236,225,219,.045); box-shadow:inset 0 0 0 1px rgba(236,225,219,.08);}
 
 /* on hover the holographic film deepens: richer colour, more contrast, the colour wash at full strength */
 /* the saturation goes on the film's own layers: a filter on .foil itself would isolate it from the
@@ -703,11 +713,11 @@ body{background:
 /* "don't press": a small outlined pill that dares you */
 .dont-press{height:34px; padding:0 16px !important; border-radius:999px; font-size:14px !important; color:rgba(255,255,255,.75) !important;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.18); transition:box-shadow .2s, color .2s, transform .2s;}
-.dont-press:hover{color:#fff !important; box-shadow:inset 0 0 0 1px rgba(255,106,43,.7); transform:translateY(-1px);}
+.dont-press:hover{color:#fff !important; box-shadow:inset 0 0 0 1px rgba(165,44,89,.7); transform:translateY(-1px);}
 .dont-press:active{transform:scale(.94);}
 /* the logo's confetti: small rose-gold stars that fly out and fall */
 .burst{position:fixed; z-index:200; width:12px; height:12px; pointer-events:none; animation:burst .95s cubic-bezier(.2,.7,.3,1) forwards;
-  background:linear-gradient(135deg, #FCE6DA, #EBB39E 50%, #C4826B);
+  background:linear-gradient(135deg, #F1E9E5, #D7BEB2 50%, #C46B8D);
   clip-path:polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);}
 @keyframes burst{from{opacity:1; transform:translate(-50%, -50%) scale(.3) rotate(0);} 70%{opacity:1;}
   to{opacity:0; transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(var(--sc, 1)) rotate(var(--rot));}}
@@ -737,7 +747,7 @@ body{background:
 .case-bar i{width:8px; height:8px; border-radius:50%; background:#C9C9CF;} .case-bar span{margin-left:8px;}
 .case-browser img{height:calc(100% - 28px); object-fit:cover; object-position:top left;}
 .live-chip{position:absolute; top:14px; right:14px; z-index:2; display:inline-flex; align-items:center; gap:7px; height:28px; padding:0 11px; border-radius:999px;
-  background:rgba(20,16,14,.72); color:#fff; font-size:12.5px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);}
+  background:rgba(20,14,16,.72); color:#fff; font-size:12.5px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);}
 .case-stats{display:flex; flex-wrap:wrap; gap:clamp(18px, 3vw, 44px); margin-top:18px;}
 .case-stats > span{display:flex; flex-direction:column; gap:2px;}
 .case-stats b{font-family:var(--display); font-weight:400; font-size:clamp(26px, 2.4vw, 40px); line-height:1; letter-spacing:-.02em; color:#15151A;}
@@ -758,7 +768,7 @@ body{background:
 .board--case > .cell--case-meta{grid-column:4; justify-content:space-between; gap:16px;}
 .back-link{align-self:flex-start; display:inline-flex; align-items:center; gap:8px; height:34px; padding:0 14px 0 10px; border-radius:999px; font-size:14px; color:rgba(255,255,255,.8);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.16); transition:box-shadow .2s, color .2s;}
-.back-link:hover{color:#fff; box-shadow:inset 0 0 0 1px rgba(255,106,43,.7);}
+.back-link:hover{color:#fff; box-shadow:inset 0 0 0 1px rgba(165,44,89,.7);}
 .back-link svg{width:15px; height:15px;}
 .cell--case-meta .facts li{justify-content:space-between;}
 .cell--case-meta .facts li small{margin-left:12px; color:var(--ink); font-size:13.5px; text-align:right; white-space:normal;}
@@ -810,6 +820,111 @@ body{background:
   .demo-frame{height:clamp(460px, 120vw, 640px);}
 }
 
+/* ---------- the case's interview structure ----------
+   numbered sections, short cells with icons, pictures with captions, placeholders that name what goes there.
+   As you scroll, every block arrives like the next slide (grid.js adds .is-in), and a pill at the bottom
+   shows which section you are on and jumps between them. */
+.board--case [id]{scroll-margin-top:24px;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
+.sec-no{margin-right:10px; color:var(--accent-soft);}
+.sec-lead{max-width:62ch; margin-top:6px; font-size:clamp(14px, 1.1vw, 17px); line-height:1.45; color:rgba(238,238,241,.72);}
+/* icons: a small warm glass tile on the dark panels, a pearl one on the silver cards */
+.ic{flex:none; display:inline-grid; place-items:center; width:42px; height:42px; border-radius:13px; color:var(--accent-soft);
+  background:linear-gradient(160deg, rgba(196,52,105,.22), rgba(165,44,89,.06)); box-shadow:inset 0 1px 0 rgba(238,227,222,.18), inset 0 0 0 1px rgba(215,190,178,.18);}
+.ic svg{width:22px; height:22px;}
+.ic--dark{color:#15151A; background:rgba(255,255,255,.65); box-shadow:inset 0 1px 0 #fff, 0 6px 14px -8px rgba(21,21,26,.35);}
+/* one short fact per cell */
+.board--case > .cell--brief{gap:12px; justify-content:flex-start; min-height:clamp(170px, 13vw, 220px);}
+.cell--brief .ic{margin-bottom:auto;}
+.brief-line{font-family:var(--display); font-weight:400; font-size:clamp(19px, 1.55vw, 26px); line-height:1.15; letter-spacing:-.01em; color:var(--ink); text-wrap:balance;}
+.cell--persona .brief-line{font-family:inherit; font-size:clamp(13.5px, 1.05vw, 16px); line-height:1.4; color:rgba(238,238,241,.72);}
+.cell--persona .kicker{color:var(--ink); text-transform:none; letter-spacing:0; font-size:clamp(17px, 1.3vw, 21px);}
+/* the goal, said once and large */
+.board--case > .cell--quote{grid-column:1 / -1; flex-direction:row; align-items:center; gap:clamp(16px, 2vw, 32px); padding-block:clamp(28px, 3vw, 48px);}
+.quote{font-family:var(--display); font-weight:300; font-size:clamp(24px, 2.6vw, 44px); line-height:1.12; letter-spacing:-.02em; max-width:28ch; text-wrap:balance;}
+.cell--quote .ic{width:60px; height:60px; border-radius:18px;} .cell--quote .ic svg{width:30px; height:30px;}
+/* process steps on silver */
+.step-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:auto; padding-bottom:28px;}
+.step-list{list-style:none; margin:14px 0 0; padding:0; display:grid; gap:0;}
+.step-list li{font-size:clamp(13px, 1vw, 15px); line-height:1.35; color:rgba(27,27,34,.72); padding:8px 0; border-top:1px solid rgba(21,21,26,.1);}
+.board--case > .card--step{min-height:clamp(280px, 22vw, 360px);}
+/* a feature told in a number, a title and one line */
+.board--case > .cell--feat{justify-content:flex-end; gap:10px;}
+.feat-no{font-family:var(--display); font-size:clamp(44px, 4.4vw, 76px); line-height:.9; color:transparent; -webkit-text-stroke:1px rgba(215,190,178,.6); margin-bottom:auto;}
+.cell--feat .cell-small{max-width:38ch;}
+/* capabilities as icon chips */
+.board--case > .cell--chips{padding:clamp(16px, 1.6vw, 24px);}
+.board--case > .cell--half-chips{grid-column:span 2; justify-content:center;}
+.icon-chips{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:10px;}
+.icon-chips li{display:flex; align-items:center; gap:12px; padding:10px 14px 10px 10px; border-radius:16px; font-size:clamp(13.5px, 1.05vw, 16px); color:var(--ink);
+  background:rgba(236,225,219,.045); box-shadow:inset 0 0 0 1px rgba(236,225,219,.08); transition:background .25s, transform .25s;}
+.icon-chips li:hover{background:rgba(165,44,89,.14); transform:translateY(-2px);}
+.icon-chips .ic{width:36px; height:36px; border-radius:11px;} .icon-chips .ic svg{width:19px; height:19px;}
+.cell--half-chips .icon-chips{grid-template-columns:repeat(2, minmax(0, 1fr));}
+@media (max-width:1000px){ .icon-chips{grid-template-columns:repeat(2, minmax(0, 1fr));} .board--case > .cell--half-chips{grid-column:1 / -1;} }
+@media (max-width:520px){ .icon-chips{grid-template-columns:minmax(0, 1fr);} }
+/* a small label that splits a section in two */
+.board--case > .cell--sub{grid-column:1 / -1; margin:clamp(6px, 1vw, 14px) 0 -4px; padding:0 2px; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-soft);}
+/* text still to be written: a dashed outline so it is easy to spot */
+.board--case > .cell--todo{box-shadow:inset 0 0 0 1px rgba(215,190,178,.35); outline:1px dashed rgba(215,190,178,.45); outline-offset:-8px;}
+/* pictures with a caption under them */
+.card--shot{margin:0; gap:10px;}
+.case-shot{flex:1 1 auto; display:grid; place-items:center; min-height:0; border-radius:calc(var(--r) * .6); overflow:hidden; background:#fff;
+  box-shadow:inset 0 0 0 1px rgba(21,21,26,.08);}
+.case-shot img{display:block; width:100%; height:100%; object-fit:contain;}
+.card--shot figcaption{font-size:13px; line-height:1.35; color:rgba(27,27,34,.7); padding:0 4px 2px;}
+.board--case > .card--shot .case-shot{aspect-ratio:16 / 10;}
+.board--case > .card--wide{grid-column:1 / -1;}
+.board--case > .cell--actions.cell--wide{grid-column:1 / -1;}
+/* a placeholder names the picture and says what it should show */
+.ph b{display:block; font-weight:500; font-size:14.5px; color:rgba(21,21,26,.75); margin-bottom:6px;}
+.ph small{display:block; font-size:12.5px; line-height:1.4; color:rgba(21,21,26,.5);}
+.ph > span{max-width:34ch;}
+/* the headline number holds two rows, the four smaller numbers fill the square beside it */
+.board--case > .card--standout{grid-row:span 2;}
+@media (max-width:1000px){ .board--case > .card--shot{grid-column:1 / -1;} .board--case > .card--standout{grid-row:auto;} .board--case > .cell--quote{flex-direction:column; align-items:flex-start;} }
+
+/* ---- slides: blocks arrive as you scroll ----
+   individual translate/scale, so they add to the cards' own tilt transform instead of replacing it */
+.board--case > *{animation:none;}
+.js-slides .board--case > :where(:not(.cell--case-head):not(.cell--case-meta)){opacity:0; translate:0 56px; scale:.96; filter:blur(6px);
+  transition:opacity .8s cubic-bezier(.2,.7,.2,1), translate .9s cubic-bezier(.2,.7,.2,1), scale .9s cubic-bezier(.2,.7,.2,1), filter .8s ease;
+  transition-delay:calc(var(--k, 0) * 90ms);}
+.js-slides .board--case > .is-in{opacity:1; translate:0 0; scale:1; filter:none;}
+/* a section title slides in from the side, its number counts the slides */
+.js-slides .board--case > .cell--section{translate:-60px 0; scale:1;}
+.js-slides .board--case > .cell--section.is-in{translate:0 0;}
+.js-slides .board--case > .cell--section .sec-no{display:inline-block; transition:transform 1s cubic-bezier(.3,1.5,.5,1) .2s;}
+.js-slides .board--case > .cell--section:not(.is-in) .sec-no{transform:translateY(100%) rotate(-12deg);}
+/* pictures wipe open from the bottom like a slide being revealed */
+.js-slides .board--case .case-shot img, .js-slides .board--case .case-media img, .js-slides .board--case .card--video video{clip-path:inset(100% 0 0 0 round 12px); transition:clip-path 1.1s cubic-bezier(.7,0,.2,1) .25s;}
+.js-slides .board--case .is-in .case-shot img, .js-slides .board--case .is-in .case-media img, .js-slides .board--case .is-in.card--video video{clip-path:inset(0 0 0 0 round 12px);}
+/* icons pop after their cell lands */
+.js-slides .board--case .ic{transition:transform .6s cubic-bezier(.3,1.6,.5,1) .35s, background .25s;}
+.js-slides .board--case > :not(.is-in) .ic{transform:scale(.4) rotate(-20deg);}
+.js-slides .icon-chips li{transition:opacity .5s ease, translate .6s cubic-bezier(.2,.7,.2,1), background .25s, transform .25s; transition-delay:calc(var(--c, 0) * 60ms + .2s);}
+.js-slides .board--case > :not(.is-in) .icon-chips li{opacity:0; translate:0 14px;}
+/* the slide counter: a pill at the bottom with the section name and a dot per section */
+.slide-pill{position:fixed; z-index:60; left:50%; bottom:max(16px, env(safe-area-inset-bottom)); translate:-50% 0; display:flex; align-items:center; gap:14px;
+  height:44px; padding:0 8px 0 16px; border-radius:999px; font-size:13px; color:var(--ink);
+  background:rgba(32,28,26,.72); -webkit-backdrop-filter:blur(18px) saturate(1.3); backdrop-filter:blur(18px) saturate(1.3);
+  box-shadow:inset 0 0 0 1px rgba(236,225,219,.12), 0 18px 40px -16px rgba(0,0,0,.8);
+  opacity:0; translate:-50% 20px; transition:opacity .4s ease, translate .5s cubic-bezier(.2,.7,.2,1); pointer-events:none;}
+.slide-pill.is-on{opacity:1; translate:-50% 0; pointer-events:auto;}
+.slide-pill b{font-weight:500; font-variant-numeric:tabular-nums; color:var(--accent-soft);}
+.slide-pill .sp-name{min-width:11ch; white-space:nowrap;}
+.slide-dots{display:flex; gap:4px;}
+.slide-dots button{width:26px; height:26px; padding:0; border:0; background:none; cursor:pointer; display:grid; place-items:center;}
+.slide-dots button::before{content:""; width:6px; height:6px; border-radius:999px; background:rgba(255,255,255,.28); transition:width .35s cubic-bezier(.2,.7,.2,1), background .25s;}
+.slide-dots button:hover::before{background:rgba(255,255,255,.6);}
+.slide-dots button[aria-current="true"]::before{width:18px; background:var(--accent);}
+@media (max-width:520px){ .slide-pill .sp-name{display:none;} .slide-dots button{width:20px;} }
+@media (prefers-reduced-motion:reduce){
+  .js-slides .board--case > *, .js-slides .board--case .ic, .js-slides .icon-chips li{opacity:1 !important; translate:none !important; scale:none !important; filter:none !important; transform:none !important; transition:none !important;}
+  .js-slides .board--case img, .js-slides .board--case video{clip-path:none !important; transition:none !important;}
+}
+
 /* the cases page: one featured case across the board, then the projects still being written up */
 .board--cases > .card--feature{grid-column:1 / -1; display:grid; grid-template-columns:minmax(0, 1.25fr) minmax(0, 1fr); column-gap:clamp(24px, 3.5vw, 64px); align-items:stretch;}
 .card--feature .case-media{margin:0; aspect-ratio:auto; min-height:clamp(300px, 30vw, 460px);}
@@ -826,3 +941,28 @@ body{background:
 .card--soon .case-media{aspect-ratio:16 / 8;}
 @media (max-width:1000px){ .board--cases > .card--feature{grid-template-columns:minmax(0, 1fr); row-gap:18px;} }
 @media (max-width:520px){ .board--case > .card--tile{aspect-ratio:auto; min-height:180px;} .board--case > .card--step, .board--case > .card--standout, .board--case > .card--media, .board--case > .card--cover{min-height:0;} }
+
+/* the dark glass carries the same warmth as the silver and the glow: a peach veil and a warm rim, never a cool grey */
+.cell--intro, .cell--contact, .cell--timeline{background:linear-gradient(160deg, rgba(230,214,206,.09), rgba(212,186,172,.025) 60%, rgba(40,18,26,.15));}
+.cell--intro, .cell--contact, .cell--timeline, .cell--facts{box-shadow:inset 0 1px 0 rgba(238,227,222,.12), inset 0 0 0 1px rgba(233,219,212,.08), 0 24px 44px -26px rgba(0,0,0,.7);}
+
+/* a takeaway cup in the portrait card's bottom right corner, the same rose-gold 3D as the figures on the home page (flat SVG if WebGL is off);
+   steam rises while there is coffee, each click is a sip, three sips empty it and the next click pours a new one */
+.card-photo img{position:relative; z-index:1;}
+.card.card--portrait > .coffee{position:absolute; z-index:3; right:clamp(14px, 1.4vw, 22px); bottom:clamp(10px, 1vw, 16px);}
+.coffee{width:clamp(64px, 20%, 88px); aspect-ratio:4/5; padding:0; border:0; background:none; cursor:pointer;
+  transform-origin:50% 90%; transition:transform .3s cubic-bezier(.3,1.4,.5,1);}
+.coffee-flat{display:block; width:100%; height:100%; filter:drop-shadow(0 8px 10px rgba(118,32,63,.28));}
+.coffee.is-3d .coffee-flat{visibility:hidden;}
+.coffee .glyph3d{position:absolute; left:-25%; top:-15%; width:150%; height:130%;}
+.coffee:hover{transform:rotate(-5deg) scale(1.04);}
+.coffee:focus-visible{outline:2px solid var(--accent); outline-offset:4px; border-radius:12px;}
+.coffee.is-sip{animation:sip .6s ease-in-out;}
+@keyframes sip{40%{transform:rotate(-22deg) translate(-8%, -10%);}}
+.coffee-steam{position:absolute; z-index:1; left:30%; right:30%; top:-34%; height:40%; pointer-events:none;}
+.coffee-steam i{position:absolute; bottom:0; width:3px; height:100%; border-radius:3px; opacity:0;
+  background:linear-gradient(to top, rgba(190,95,131,0), rgba(190,95,131,.55) 40%, rgba(190,95,131,0)); filter:blur(1.4px); animation:steam 2.8s ease-out infinite;}
+.coffee-steam i:nth-child(1){left:10%;} .coffee-steam i:nth-child(2){left:48%; animation-delay:.9s;} .coffee-steam i:nth-child(3){left:84%; animation-delay:1.8s;}
+@keyframes steam{0%{opacity:0; transform:translateY(30%) scaleY(.6) skewX(0);} 35%{opacity:.9;} 100%{opacity:0; transform:translateY(-40%) scaleY(1.1) skewX(-12deg);}}
+.coffee.is-empty .coffee-steam{display:none;}
+@media (prefers-reduced-motion:reduce){ .coffee-steam i{animation:none; opacity:.5;} .coffee.is-sip{animation:none;} }
