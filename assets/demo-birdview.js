@@ -152,7 +152,8 @@
   }
   function st(l){
     if (!l.avail && !l.booked) return 'off';
-    return l.pct > 100.5 ? 'over' : l.pct >= 80 ? 'ok' : l.pct > 0 ? 'under' : 'free';
+    // healthy stays quiet; only real deviations get colour (under 50% = idle capacity worth acting on)
+    return l.pct > 100.5 ? 'over' : l.pct >= 50 ? 'ok' : l.pct > 0 ? 'under' : 'free';
   }
   function visMonths(){ var a = []; for (var k = 0; k < S.n; k++) a.push(S.view + k); return a; }
   function overCount(d){
@@ -249,22 +250,24 @@
       var lv = person(S.live, p.id) ? load(S.live, p.id, m) : null;
       if (!lv || lv.booked !== l.booked) chg = ' chg';
     }
+    var fill = l.avail ? Math.min(l.pct, 100) : 0;
     return '<button type="button" class="cell st-' + s + chg + '" data-action="cell" data-p="' + p.id + '" data-m="' + m + '" style="left:' + (xOf(m) + 4) + 'px;width:' + (S.col - 8) + 'px">' +
-      '<span class="v">' + ic('hour') + main + '</span><small>' + sub + '</small></button>';
+      '<span class="top"><span class="v">' + main + '</span><small>' + sub + '</small></span><span class="cb"><i style="width:' + fill + '%"></i></span></button>';
   }
   function barHtml(d, b){
     var pj = project(d, b.project);
     var left = xOf(b.start) + 4, width = (b.end - b.start + 1) * S.col - 8;
     var pad = left < 0 ? (-left + 10) : 10;
     var label = b.person ? b.pct + '% (' + totalHrs(b) + 'h)' : 'Unassigned · ' + b.pct + '% (' + totalHrs(b) + 'h)';
-    return '<div class="bar' + (b.person ? '' : ' req') + (drag && drag.id === b.id ? ' drag' : '') + '" data-b="' + b.id + '" style="left:' + left + 'px;width:' + width + 'px;--pc:' + pj.color + ';padding-left:' + pad + 'px" title="' + esc(pj.name) + ' · ' + mLabel(b.start) + ' – ' + mLabel(b.end) + '">' +
+    var tent = S.tab === 'simulation' && !project(S.live, b.project);
+    return '<div class="bar' + (b.person ? '' : ' req') + (tent ? ' tent' : '') + (drag && drag.id === b.id ? ' drag' : '') + '" data-b="' + b.id + '" style="left:' + left + 'px;width:' + width + 'px;--pc:' + pj.color + ';padding-left:' + pad + 'px" title="' + esc(pj.name) + ' · ' + mLabel(b.start) + ' – ' + mLabel(b.end) + '">' +
       '<span class="h l" data-h="l"></span><span class="bl">' + label + '</span><span class="h r" data-h="r"></span></div>';
   }
   function personRows(d, p){
     var k = 'p:' + p.id, open = isOpen(k), r = role(p.role);
     var name = tw(k) + avatar(p) + '<span class="txt"><b>' + esc(p.name) + '</b><small>' + r.name + '</small></span>' +
       '<button type="button" class="hd-btn row-act" data-action="book" data-p="' + p.id + '" title="Book on a project">' + ic('plus') + '</button>';
-    var h = row('person', name, visMonths().map(function(m){ return cellHtml(d, p, m); }).join(''));
+    var h = row('person', name, visMonths().map(function(m){ return cellHtml(d, p, m); }).join(''), ' data-p="' + p.id + '"');
     if (!open) return h;
     if (p.vac){
       var chips = '';
@@ -278,7 +281,7 @@
       .sort(function(a, b){ return a.start - b.start; })
       .forEach(function(b){
         var pj = project(d, b.project);
-        h += row('booking', pbadge(pj) + '<span class="txt"><b>' + esc(pj.name) + '</b></span>', barHtml(d, b));
+        h += row('booking', pbadge(pj) + '<span class="txt"><b>' + esc(pj.name) + '</b></span>', barHtml(d, b), ' data-p="' + p.id + '" data-j="' + b.project + '"');
       });
     return h;
   }
@@ -333,7 +336,7 @@
         var p = b.person ? person(d, b.person) : null;
         var name = avatar(p, 'sm') + '<span class="txt"><b>' + (p ? esc(p.name) : 'Unassigned') + '</b><small>' + role(b.role).name + '</small></span>' +
           (p ? '' : '<button type="button" class="btn-p sm" data-action="shortlist" data-b="' + b.id + '">Find people</button>');
-        h += row('booking proj-b', name, barHtml(d, b));
+        h += row('booking proj-b', name, barHtml(d, b), p ? ' data-p="' + p.id + '" data-j="' + b.project + '"' : '');
       });
     });
     return any ? h : '<div class="empty">No projects match these filters.</div>';
@@ -444,22 +447,63 @@
     S.sim.bookings.forEach(function(b){ if (a[b.id] !== JSON.stringify(b)) c++; delete a[b.id]; });
     return c + Object.keys(a).length;
   }
+  // free hours of everyone in the months on screen — the "idle capacity" the sandbox tries to use up
+  function idleHours(d){
+    var t = 0;
+    d.people.forEach(function(p){ visMonths().forEach(function(m){ var l = load(d, p.id, m); t += Math.max(l.avail - l.booked, 0); }); });
+    return t;
+  }
   function renderSimBanner(){
     var el = $('#simBanner');
     if (S.tab !== 'simulation'){ el.hidden = true; return; }
-    var ch = simChanges(), o1 = overCount(S.live), o2 = overCount(S.sim);
+    var ch = simChanges(), o1 = overCount(S.live), o2 = overCount(S.sim), i1 = idleHours(S.live), i2 = idleHours(S.sim);
+    var tent = S.sim.projects.filter(function(pj){ return !project(S.live, pj.id); });
+    var title = tent.length ? 'What if we win ' + esc(tent[tent.length - 1].name) + '?' : 'What if…? Try changes safely';
+    function delta(a, b, lowerIsGood, unit){
+      var cls = a === b ? '' : (b < a) === lowerIsGood ? 'good' : 'bad';
+      return '<b>' + a + unit + '</b> → <span class="' + cls + '">' + b + unit + '</span>';
+    }
     el.hidden = false;
     el.innerHTML = '<span class="sim-ic">' + ic('flask') + '</span>' +
-      '<div class="stat"><span><b>Sandbox.</b> Nothing here reaches the live plan until you apply it.</span>' +
-      '<span>Changes: <b>' + ch + '</b></span>' +
-      '<span>Overloaded person-months: <b>' + o1 + '</b> → <span class="' + (o2 < o1 ? 'good' : o2 > o1 ? 'bad' : '') + '">' + o2 + '</span></span></div>' +
+      '<span class="sim-t"><b>' + title + '</b><small>Sandbox — nothing reaches the live plan until you apply it</small></span>' +
+      '<span class="sim-k"><small>Overloaded</small><span>' + delta(o1, o2, true, '') + ' person-months</span></span>' +
+      '<span class="sim-k"><small>Idle hours</small><span>' + delta(i1, i2, true, 'h') + '</span></span>' +
+      '<span class="grow"></span>' +
       '<button type="button" class="btn-s sm" data-action="new-project">' + ic('plus') + 'Tentative project</button>' +
       '<button type="button" class="btn-s sm" data-action="sim-discard"' + (ch ? '' : ' disabled') + '>Discard</button>' +
-      '<button type="button" class="btn-p sm" data-action="sim-apply"' + (ch ? '' : ' disabled') + '>Apply to plan</button>';
+      '<button type="button" class="btn-p sm" data-action="sim-apply"' + (ch ? '' : ' disabled') + '>' + (ch ? 'Apply ' + ch + ' change' + (ch > 1 ? 's' : '') : 'Apply to plan') + '</button>';
+  }
+
+  /* "Needs attention" — turns scanning for red into a short queue */
+  function attnStats(d){
+    var ms = visMonths(), overP = {}, overPM = 0, under = 0, idle = 0;
+    d.people.forEach(function(p){
+      var bk = 0, av = 0;
+      ms.forEach(function(m){ var l = load(d, p.id, m); if (st(l) === 'over'){ overP[p.id] = 1; overPM++; } bk += l.booked; av += l.avail; });
+      if (av && bk / av < 0.5){ under++; idle += av - bk; }
+    });
+    return {over:Object.keys(overP).length, overPM:overPM, under:under, idle:idle, reqs:d.bookings.filter(function(b){ return !b.person; })};
+  }
+  function renderAttn(){
+    var el = $('#attn');
+    if (S.tab === 'workload'){ el.hidden = true; return; }
+    el.hidden = false;
+    var a = attnStats(D()), h = '<span class="attn-l">Needs attention</span>';
+    h += a.over
+      ? '<button type="button" class="achip over' + (S.show === 'over' ? ' on' : '') + '" data-action="attn" data-k="over"><i></i><b>' + a.over + ' overloaded</b><span>· ' + a.overPM + ' person-month' + (a.overPM > 1 ? 's' : '') + '</span></button>'
+      : '<span class="achip good">' + ic('check') + '<b>No overloads in view</b></span>';
+    if (a.reqs.length){
+      var pj = project(D(), a.reqs[0].project);
+      h += '<button type="button" class="achip req" data-action="attn" data-k="req"><i></i><b>' + a.reqs.length + ' open role' + (a.reqs.length > 1 ? 's' : '') + '</b><span>· ' + esc(pj.name) + '</span></button>';
+    }
+    if (a.under) h += '<button type="button" class="achip under' + (S.show === 'free' ? ' on' : '') + '" data-action="attn" data-k="under"><i></i><b>' + a.under + ' under 50%</b><span>· ' + a.idle + 'h idle</span></button>';
+    if (S.show !== 'all') h += '<button type="button" class="attn-clear" data-action="attn" data-k="clear">' + ic('x') + 'Show everyone</button>';
+    el.innerHTML = h;
   }
 
   function renderGrid(){
     if (S.tab === 'workload') renderWorkload(); else renderPlanning();
+    renderAttn(); renderSimBanner();
     var r = $('#tbRange'); if (r) r.textContent = mLabel(S.view) + ' – ' + mLabel(S.view + S.n - 1);
   }
   function render(){
@@ -490,7 +534,10 @@
     popEl.style.left = x + 'px'; popEl.style.top = y + 'px';
     return popEl;
   }
-  function closePanel(){ if (panelEl){ panelEl.forEach(function(e){ e.remove(); }); panelEl = null; } }
+  function closePanel(){
+    if (panelEl){ panelEl.forEach(function(e){ e.remove(); }); panelEl = null; }
+    var g = grid.querySelector('.paint'); if (g) g.remove();
+  }
   function openPanel(cls, html){
     closePop(); closePanel();
     var scrim = document.createElement('div'); scrim.className = 'scrim'; scrim.setAttribute('data-action', 'close');
@@ -523,9 +570,18 @@
       var pj = project(d, it.b.project);
       return '<li>' + pbadge(pj) + '<span>' + esc(pj.name) + '</span><em>' + it.h + 'h · ' + it.b.pct + '%</em></li>';
     }).join('');
-    var free = l.avail - l.booked;
+    var free = l.avail - l.booked, hint = '';
+    if (s === 'over'){
+      var mate = null;
+      d.people.forEach(function(c){
+        if (c.role !== p.role || c.id === p.id) return;
+        var lc = load(d, c.id, m), fc = lc.avail - lc.booked;
+        if (fc > 0 && (!mate || fc > mate.f)) mate = {c:c, f:fc};
+      });
+      hint = '<span class="pop-hint">' + (mate ? esc(mate.c.name) + ' has ' + mate.f + 'h free' : 'No free ' + role(p.role).name.toLowerCase() + ' this month') + '</span>';
+    }
     var foot = s === 'over'
-      ? '<button type="button" class="btn-p" data-action="resolve" data-p="' + p.id + '" data-m="' + m + '">' + ic('spark') + 'Resolve overload</button>'
+      ? hint + '<button type="button" class="btn-p" data-action="resolve" data-p="' + p.id + '" data-m="' + m + '">' + ic('spark') + 'Resolve</button>'
       : free > 0 ? '<button type="button" class="btn-p" data-action="book" data-p="' + p.id + '" data-m="' + m + '">' + ic('plus') + 'Book ' + free + 'h</button>' : '';
     openPop(
       '<div class="pop-h">' + avatar(p) + '<span class="txt"><b>' + esc(p.name) + '</b><small>' + mLabel(m) + ' · ' + role(p.role).name + '</small></span><span class="pill st-' + s + '">' + (l.avail ? Math.round(l.pct) + '%' : '—') + '</span></div>' +
@@ -567,90 +623,147 @@
     });
   }
 
-  /* conflict resolution drawer */
+  /* conflict resolution drawer: pick an outcome, see who it lands on, tweak by hand if needed */
   function openResolve(pid, focusM){
     var d = D(), p = person(d, pid);
-    var draft = clone(d.bookings);
     var overM = [];
     for (var m = 0; m < MN; m++) if (st(load(d, pid, m)) === 'over') overM.push(m);
-    var involved = draft.filter(function(b){
+    var involvedIds = d.bookings.filter(function(b){
       return b.person === pid && overM.some(function(m){ return m >= b.start && m <= b.end; });
-    });
-    var from = Math.min.apply(null, involved.map(function(b){ return b.start; }));
-    var to = Math.max.apply(null, involved.map(function(b){ return b.end; }));
-    if (to - from > 7) to = from + 7;
+    }).map(function(b){ return b.id; });
+    var orig = d.bookings.map(function(b){ return find(d.bookings, b.id); });
+    var from = Math.min.apply(null, overM), to = Math.max.apply(null, overM);
+    from = Math.max(0, from - 1); to = Math.min(MN - 1, to + 1);
+    if (to - from > 6) to = from + 6;
     var span = []; for (var mm = from; mm <= to; mm++) span.push(mm);
     var cols = 'grid-template-columns:repeat(' + span.length + ',1fr)';
+    var first = p.name.split(' ')[0];
 
-    function candidates(b){
-      return d.people.filter(function(c){ return c.role === b.role && c.id !== pid; }).map(function(c){
-        var worst = Infinity, fits = true;
-        for (var m = b.start; m <= b.end; m++){
-          var l = load(d, c.id, m, draft.filter(function(x){ return x.id !== b.id; }));
-          var free = l.avail - l.booked; worst = Math.min(worst, free);
-          if (free < hrs(b, m)) fits = false;
+    function overMonths(who, dr, a, b){ var c = 0; for (var m = (a || 0); m <= (b === undefined ? MN - 1 : b); m++) if (st(load(d, who, m, dr)) === 'over') c++; return c; }
+    function peak(who, dr, a, b){ var x = 0; for (var m = a; m <= b; m++){ var l = load(d, who, m, dr); if (l.avail) x = Math.max(x, l.pct); } return Math.round(x); }
+    function fits(dr){ return !overMonths(pid, dr) && dr.every(function(b){ return !b.person || b.person === pid || involvedIds.indexOf(b.id) < 0 || !overMonths(b.person, dr, b.start, b.end); }); }
+
+    // build the candidate outcomes from the live data
+    var opts = [];
+    involvedIds.map(function(id){ return booking(d, id); }).sort(function(a, b){ return a.pct - b.pct; }).forEach(function(b){
+      if (opts.length) return;
+      var best = null;
+      d.people.filter(function(c){ return c.role === b.role && c.id !== pid; }).forEach(function(c){
+        var dr = clone(d.bookings); find(dr, b.id).person = c.id;
+        if (!fits(dr)) return;
+        var pk = peak(c.id, dr, b.start, b.end);
+        if (!best || pk < best.pk) best = {c:c, dr:dr, pk:pk};
+      });
+      if (!best) return;
+      var pj = project(d, b.project), cb = peak(best.c.id, d.bookings, b.start, b.end);
+      opts.push({id:'move', title:'Move ' + esc(pj.name) + ' to ' + esc(best.c.name), tag:'Recommended',
+        desc:'Same role, only ' + cb + '% busy in ' + mShort(b.start) + '–' + mShort(b.end) + '. Nobody goes over capacity and every project keeps its dates.',
+        draft:best.dr, who:[pid, best.c.id], a:b.start, b:b.end});
+    });
+    (function(){ // lower everything proportionally
+      var dr = clone(d.bookings), factor = 1;
+      for (var m = 0; m < MN; m++){ var l = load(d, pid, m, dr); if (l.pct > 100.5) factor = Math.min(factor, l.avail / l.booked); }
+      var parts = [], lost = 0;
+      involvedIds.forEach(function(id){
+        var b = find(dr, id), was = b.pct, before = totalHrs(b);
+        b.pct = Math.max(5, Math.floor(b.pct * factor / 5) * 5);
+        lost += before - totalHrs(b);
+        parts.push(esc(project(d, b.project).name.split(' ')[0]) + ' ' + was + ' → ' + b.pct + '%');
+      });
+      if (fits(dr)) opts.push({id:'lower', title:'Lower ' + (involvedIds.length > 1 ? 'both allocations' : 'the allocation'), cost:'slows delivery',
+        desc:parts.join(', ') + '. Fits, but the projects lose ' + lost + 'h of ' + first + '’s time.', draft:dr, who:[pid]});
+    })();
+    (function(){ // push the latest-starting booking until the overlap is gone
+      var ids = involvedIds.slice().sort(function(a, b){ return booking(d, b).start - booking(d, a).start; });
+      var b0 = booking(d, ids[0]);
+      for (var k = 1; k <= 8 && b0.end + k < MN; k++){
+        var dr = clone(d.bookings), b = find(dr, b0.id); b.start += k; b.end += k;
+        if (fits(dr)){
+          opts.push({id:'shift', title:'Start ' + esc(project(d, b0.project).name) + ' in ' + mShort(b.start), cost:'moves a client date',
+            desc:first + ' is free from ' + mShort(b.start) + '. The project finishes ' + k + ' month' + (k > 1 ? 's' : '') + ' later, in ' + mLabel(b.end) + '.', draft:dr, who:[pid]});
+          return;
         }
-        return {p:c, free:Math.max(0, worst), fits:fits};
-      }).sort(function(a, c){ return c.free - a.free; });
-    }
-    var cards = involved.map(function(b){
-      var pj = project(d, b.project);
-      var opts = '<option value="' + pid + '">Keep on ' + esc(p.name) + '</option>' + candidates(b).map(function(c){
-        return '<option value="' + c.p.id + '">Move to ' + esc(c.p.name) + ' — ' + (c.fits ? 'fits, ' : 'tight, ') + c.free + 'h free/mo</option>';
-      }).join('');
-      return '<div class="card" data-card="' + b.id + '"><div class="card-h">' + pbadge(pj) + '<b>' + esc(pj.name) + '</b><em>' + mShort(b.start) + ' – ' + mLabel(b.end) + '</em></div>' +
-        '<label class="fld"><span>Allocation <output data-out="' + b.id + '">' + b.pct + '%</output></span><input type="range" min="0" max="100" step="5" value="' + b.pct + '" data-rs-pct="' + b.id + '"></label>' +
-        '<label class="fld" style="margin:0"><select data-rs-who="' + b.id + '">' + opts + '</select></label></div>';
-    }).join('');
+      }
+    })();
 
-    var el = openPanel('drawer',
-      '<div class="dr-h">' + avatar(p, 'lg') + '<span class="txt"><h2>Resolve overload</h2><p>' + esc(p.name) + ' is booked over capacity in ' + overM.map(mShort).join(', ') + '. Lower allocations or move work to a free colleague — the load updates as you go.</p></span><button type="button" class="x-btn" data-action="close">' + ic('x') + '</button></div>' +
-      '<div class="dr-b"><div class="sec-t">' + esc(p.name.split(' ')[0]) + '’s load</div><div class="strip" id="rsStrip" style="' + cols + '"></div>' +
-      '<div class="strip-l" style="' + cols + '">' + span.map(function(m){ return '<span>' + mShort(m) + '</span>'; }).join('') + '</div>' +
-      '<div class="sec-t">Competing bookings</div>' + cards + '</div>' +
-      '<div class="dr-f"><span class="grow" id="rsStatus"></span><button type="button" class="btn-s" data-action="rs-auto">' + ic('spark') + 'Auto-balance</button><button type="button" class="btn-p" data-action="rs-apply">Apply</button></div>');
+    var sel = opts.length ? opts[0].id : 'manual';
+    var manual = clone(opts.length ? opts[0].draft : d.bookings), manOpen = !opts.length;
+    function cur(){ if (sel === 'manual') return manual; for (var i = 0; i < opts.length; i++) if (opts[i].id === sel) return opts[i].draft; return d.bookings; }
+
+    function whoChips(o){
+      return (o.who || []).map(function(id){
+        var x = person(d, id), a = o.a === undefined ? from : o.a, b = o.b === undefined ? to : o.b;
+        var p0 = peak(id, d.bookings, a, b), p1 = peak(id, o.draft, a, b);
+        return '<span class="who">' + avatar(x, 'xs') + '<span>' + esc(x.name.split(' ')[0]) + '</span><s class="' + (p0 > 100 ? 'ov' : p0 < 50 ? 'un' : '') + '">' + p0 + '%</s><b class="' + (p1 > 100 ? 'ov' : 'ok') + '">' + p1 + '%</b></span>';
+      }).join('');
+    }
+    function optHtml(o){
+      return '<button type="button" class="opt' + (sel === o.id ? ' on' : '') + '" data-action="rs-opt" data-o="' + o.id + '"><span class="radio"></span><span class="opt-b">' +
+        '<span class="opt-t"><b>' + o.title + '</b>' + (o.tag ? '<span class="tag">' + o.tag + '</span>' : '<em>' + o.cost + '</em>') + '</span>' +
+        '<span class="opt-d">' + o.desc + '</span>' + (sel === o.id && o.who.length > 1 ? '<span class="opt-p">' + whoChips(o) + '</span>' : '') + '</span></button>';
+    }
+    function manualHtml(){
+      return manual.filter(function(b){ return involvedIds.indexOf(b.id) >= 0; }).map(function(b){
+        var pj = project(d, b.project);
+        var others = d.people.filter(function(c){ return c.role === b.role && c.id !== pid; });
+        var sel2 = '<option value="' + pid + '">Keep on ' + esc(p.name) + '</option>' + others.map(function(c){
+          return '<option value="' + c.id + '"' + (b.person === c.id ? ' selected' : '') + '>Move to ' + esc(c.name) + '</option>';
+        }).join('');
+        return '<div class="card"><div class="card-h">' + pbadge(pj) + '<b>' + esc(pj.name) + '</b><em>' + mShort(b.start) + ' – ' + mLabel(b.end) + '</em></div>' +
+          '<label class="fld"><span>Allocation <output data-out="' + b.id + '">' + b.pct + '%</output></span><input type="range" min="0" max="100" step="5" value="' + b.pct + '" data-rs-pct="' + b.id + '"></label>' +
+          '<label class="fld" style="margin:0"><select data-rs-who="' + b.id + '">' + sel2 + '</select></label></div>';
+      }).join('');
+    }
+
+    var el = openPanel('drawer rs',
+      '<div class="dr-h">' + avatar(p, 'lg') + '<span class="txt"><h2>Resolve ' + esc(first) + '’s overload</h2><p id="rsLead"></p></span><button type="button" class="x-btn" data-action="close">' + ic('x') + '</button></div>' +
+      '<div class="dr-b"><div class="sec-row"><span class="sec-t">' + esc(first) + '’s load</span><span class="sec-n">before → after the fix</span></div>' +
+      '<div class="strip" id="rsStrip" style="' + cols + '"></div>' +
+      (opts.length ? '<div class="sec-t" style="margin-top:18px">Ways to fix it</div><div id="rsOpts"></div>' : '') +
+      '<button type="button" class="man-tg' + (manOpen ? ' open' : '') + '" data-action="rs-manual">' + ic('chevR') + 'Adjust bookings manually</button>' +
+      '<div id="rsMan"' + (manOpen ? '' : ' hidden') + '>' + manualHtml() + '</div></div>' +
+      '<div class="dr-f"><span class="grow" id="rsStatus"></span><button type="button" class="btn-s" data-action="close">Cancel</button><button type="button" class="btn-p" data-action="rs-apply">Apply fix</button></div>');
+
+    var extra = 0; overM.forEach(function(m){ var l = load(d, pid, m); extra += l.booked - l.avail; });
+    $('#rsLead', el).innerHTML = 'Over capacity in ' + overM.map(mShort).join(', ') + ' — <b class="ov">' + extra + 'h</b> more than ' + esc(first) + ' can do. Pick a fix; the plan updates as you go.';
 
     function update(){
-      var over = 0;
+      var dr = cur(), over = 0;
       $('#rsStrip', el).innerHTML = span.map(function(m){
-        var l = load(d, pid, m, draft), s = st(l); if (s === 'over') over++;
-        return '<div class="sc st-' + s + '">' + (l.avail ? Math.round(l.pct) + '%' : '—') + '<small>' + l.booked + '/' + l.avail + 'h</small></div>';
+        var l0 = load(d, pid, m), l1 = load(d, pid, m, dr), s = st(l1); if (s === 'over') over++;
+        var a = l1.avail ? Math.round(l1.pct) + '%' : '—', b = l0.avail ? Math.round(l0.pct) + '%' : '—';
+        var changed = l0.booked !== l1.booked;
+        return '<div class="sc st-' + (changed && s !== 'over' ? 'fixed' : s) + '"><em>' + mShort(m) + '</em>' + a + '<small>' + (changed ? '<s>' + b + '</s>' : 'no change') + '</small></div>';
       }).join('');
-      // a reassigned booking can overload the colleague it moved to — surface that too
-      var moved = draft.filter(function(b){ return b.person !== pid && involved.indexOf(b) >= 0; });
-      var hurt = moved.filter(function(b){
-        for (var m = b.start; m <= b.end; m++) if (st(load(d, b.person, m, draft)) === 'over') return true;
-        return false;
-      });
+      if ($('#rsOpts', el)) $('#rsOpts', el).innerHTML = opts.map(optHtml).join('');
+      var hurt = dr.filter(function(b){ return involvedIds.indexOf(b.id) >= 0 && b.person && b.person !== pid && overMonths(b.person, dr, b.start, b.end); });
       var s = $('#rsStatus', el);
       if (over) s.innerHTML = '<span class="status-line bad">' + ic('alert') + 'Still over in ' + over + ' month' + (over > 1 ? 's' : '') + '</span>';
       else if (hurt.length) s.innerHTML = '<span class="status-line bad">' + ic('alert') + esc(person(d, hurt[0].person).name) + ' becomes overloaded</span>';
-      else s.innerHTML = '<span class="status-line good">' + ic('check') + 'Everyone fits</span>';
-      involved.forEach(function(b){
-        $('[data-out="' + b.id + '"]', el).textContent = b.pct + '% · ' + hrs(b, clamp(focusM, b.start, b.end)) + 'h in ' + mShort(clamp(focusM, b.start, b.end));
-      });
+      else s.innerHTML = '<span class="status-line good">' + ic('check') + 'Everyone fits after this change</span>';
+      manual.forEach(function(b){ var o = $('[data-out="' + b.id + '"]', el); if (o) o.textContent = b.pct + '%'; });
     }
     update();
+    el._sel = function(id){ sel = id; update(); };
+    el._manual = function(){
+      manOpen = !manOpen;
+      $('.man-tg', el).classList.toggle('open', manOpen);
+      $('#rsMan', el).hidden = !manOpen;
+      if (manOpen){ manual = clone(cur()); $('#rsMan', el).innerHTML = manualHtml(); sel = 'manual'; update(); }
+    };
     el.addEventListener('input', function(e){
       var id = e.target.dataset.rsPct; if (!id) return;
-      find(draft, id).pct = +e.target.value; update();
+      find(manual, id).pct = +e.target.value; sel = 'manual'; update();
     });
     el.addEventListener('change', function(e){
       var id = e.target.dataset.rsWho; if (!id) return;
-      find(draft, id).person = e.target.value; update();
+      find(manual, id).person = e.target.value; sel = 'manual'; update();
     });
-    el._auto = function(){
-      autoBalance(d, pid, draft, involved);
-      involved.forEach(function(b){
-        $('[data-rs-pct="' + b.id + '"]', el).value = b.pct;
-        $('[data-rs-who="' + b.id + '"]', el).value = b.person;
-      });
-      update();
-    };
+    el._auto = function(){ if (opts.length) el._sel(opts[0].id); };
     el._apply = function(){
-      draft = draft.filter(function(b){ return b.pct > 0; });
+      var dr = clone(cur()).filter(function(b){ return b.pct > 0; });
       closePanel();
-      commit('Overload resolved for ' + esc(p.name), function(dd){ dd.bookings = draft; });
+      commit('Overload resolved for ' + esc(p.name), function(dd){ dd.bookings = dr; });
       done('resolve');
       flashCells(pid);
     };
@@ -702,21 +815,35 @@
     }).sort(function(a, b){ return b.score - a.score; });
 
     var best = list[0];
+    // the most skilled role-match, if it isn't already the top pick — that trade-off is the interesting one
+    var skilled = need.length ? list.filter(function(x, i){ return i > 0 && x.roleMatch && x.skillHit === need.length; })[0] : null;
     var rows = list.map(function(x, i){
-      var tags = (x.roleMatch ? '<span class="tag">Role match</span>' : '<span class="tag warn">' + role(x.c.role).name + '</span>') +
-        (x.fitM === range.length ? '<span class="tag ok">Available</span>' : '<span class="tag warn">Over in ' + (range.length - x.fitM) + ' mo</span>');
+      var tags = (i === 0 && x.roleMatch ? '<span class="tag">Best fit</span>' : '') +
+        (x === skilled ? '<span class="tag ok">Skills match</span>' : '') +
+        (x.roleMatch ? '' : '<span class="tag warn">' + role(x.c.role).name + '</span>');
+      var sub = (x.roleMatch ? role(x.c.role).name : 'Other role') + ' · ' +
+        (x.fitM === range.length ? 'free in all ' + range.length + ' months' : '<span class="ov">over in ' + (range.length - x.fitM) + ' month' + (range.length - x.fitM > 1 ? 's' : '') + '</span>');
       var skills = x.c.skills.map(function(s){ return '<span class="chip' + (need.indexOf(s) >= 0 ? ' match' : '') + '">' + (need.indexOf(s) >= 0 ? ic('check') : '') + s + '</span>'; }).join('');
-      var mini = '<div class="mini">' + x.after.map(function(a){ return '<span class="st-' + a.s + '">' + Math.round(a.pct) + '%</span>'; }).join('') + '</div>' +
-        '<div class="mini-l">' + x.after.map(function(a){ return '<span>' + mShort(a.m) + '</span>'; }).join('') + '</div>';
-      return '<div class="cand' + (i === 0 && x.roleMatch ? ' best' : '') + (x.roleMatch ? '' : ' dim') + '">' + avatar(x.c, 'lg') +
-        '<div class="txt"><div class="nm">' + esc(x.c.name) + tags + '</div><small>' + x.score + '% fit · load after booking:</small>' + mini +
-        '<div class="chips" style="margin-top:8px">' + skills + '</div></div>' +
-        '<button type="button" class="' + (i === 0 ? 'btn-p' : 'btn-s') + ' sm" data-action="assign" data-b="' + b.id + '" data-p="' + x.c.id + '">Assign</button></div>';
-    }).join('');
+      var miss = need.filter(function(s){ return x.c.skills.indexOf(s) < 0; });
+      var mini = '<div class="mini">' + x.after.map(function(a){ return '<span class="st-' + a.s + '">' + mShort(a.m) + ' ' + Math.round(a.pct) + '%</span>'; }).join('') + '</div>';
+      return '<div class="cand' + (i === 0 && x.roleMatch ? ' best' : '') + (x.roleMatch ? '' : ' dim') + '">' +
+        '<div class="cand-h">' + avatar(x.c, 'lg') + '<div class="txt"><div class="nm">' + esc(x.c.name) + tags + '</div><small>' + sub + '</small></div><span class="score">' + x.score + '%</span></div>' +
+        (x.roleMatch ? '<div class="mini-t">Load after booking</div>' + mini : '') +
+        '<div class="cand-f"><div class="chips">' + skills + (miss.length && x.roleMatch ? '<span class="miss">no ' + miss.join(', ') + ' yet</span>' : '') + '</div>' +
+        '<button type="button" class="' + (i === 0 ? 'btn-p' : 'btn-s') + ' sm" data-action="assign" data-b="' + b.id + '" data-p="' + x.c.id + '">' + (i === 0 ? 'Book ' + esc(x.c.name.split(' ')[0]) : x.fitM === range.length ? 'Book' : 'Book anyway') + '</button></div></div>';
+    });
+    if (skilled && best.roleMatch && best.skillHit < need.length){
+      var freeFrom = null; skilled.after.some(function(a){ if (a.s !== 'over'){ freeFrom = a.m; return true; } });
+      rows.splice(2, 0, '<div class="tip">' + ic('spark') + '<div><b>Or split the role</b><span>' + esc(best.c.name.split(' ')[0]) + ' starts now' +
+        (freeFrom !== null ? ', ' + esc(skilled.c.name.split(' ')[0]) + ' joins in ' + mShort(freeFrom) + ' when free' : ', ' + esc(skilled.c.name.split(' ')[0]) + ' reviews ' + need.join(' and ').toLowerCase()) +
+        ' and brings the ' + need.join(' and ').toLowerCase() + ' expertise. Nobody goes over 100%.</span></div></div>');
+    } else if (best && best.fitM < range.length){
+      rows.unshift('<p class="note">' + ic('info') + ' Nobody with this role is fully free — consider a lower allocation or a split between two people.</p>');
+    }
     openPanel('drawer',
-      '<div class="dr-h">' + pbadge(pj) + '<span class="txt"><h2>' + (b.person ? 'Reassign' : 'Find people for') + ' ' + esc(pj.name) + '</h2><p>' + role(b.role).name + ' · ' + b.pct + '% · ' + mLabel(b.start) + ' – ' + mLabel(b.end) +
-      (need.length ? ' · skills: ' + need.join(', ') : '') + '. Ranked by role, availability and skills; every card shows how the person’s load would look after the booking.</p></span><button type="button" class="x-btn" data-action="close">' + ic('x') + '</button></div>' +
-      '<div class="dr-b">' + (best && best.fitM < range.length ? '<p class="note">' + ic('info') + ' Nobody with this role is fully free — consider a lower allocation or a split between two people.</p>' : '') + rows + '</div>');
+      '<div class="dr-h">' + pbadge(pj) + '<span class="txt"><h2>' + (b.person ? 'Reassign ' + esc(pj.name) : 'Find ' + (/^[aeiou]/i.test(role(b.role).name) ? 'an ' : 'a ') + role(b.role).name.toLowerCase()) + '</h2><p>' + esc(pj.name) + ' · ' + b.pct + '% · ' + mLabel(b.start) + ' – ' + mLabel(b.end) + '</p>' +
+      '<div class="rank">Ranked by <span>Role</span><span>Availability</span>' + (need.length ? '<span>' + need.join(', ') + '</span>' : '') + '</div></span><button type="button" class="x-btn" data-action="close">' + ic('x') + '</button></div>' +
+      '<div class="dr-b">' + rows.join('') + '</div>');
   }
   function assign(bid, pid){
     var d = D(), b = booking(d, bid), wasReq = !b.person, p = person(d, pid);
@@ -732,25 +859,50 @@
   }
 
   /* book a person / create a project */
-  function openBook(pid, m){
-    var d = D(), p = person(d, pid);
+  // biggest allocation that still fits every month of the range — a sensible default, not a blind 50%
+  function fitPct(d, pid, s, e){
+    var best = 100;
+    for (var m = s; m <= e; m++){ var l = load(d, pid, m); if (CAP[m]) best = Math.min(best, (l.avail - l.booked) / CAP[m] * 100); }
+    return clamp(Math.floor(best / 5) * 5, 5, 100);
+  }
+  function openBook(pid, m, e, pref){
+    var d = D(), p = person(d, pid), drawn = e !== undefined && !isNaN(e);
     m = isNaN(m) ? Math.max(S.view, TODAY) : m;
-    var el = openPanel('modal narrow',
-      '<div class="dr-h">' + avatar(p, 'lg') + '<span class="txt"><h2>Book ' + esc(p.name) + '</h2><p>' + role(p.role).name + '</p></span><button type="button" class="x-btn" data-action="close">' + ic('x') + '</button></div>' +
-      '<div class="dr-b"><label class="fld"><span>Project</span><select id="bkProj">' + d.projects.map(function(pj){ return '<option value="' + pj.id + '">' + esc(pj.name) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fld"><span>Allocation <output id="bkOut">50%</output></span><input id="bkPct" type="range" min="5" max="100" step="5" value="50"></label>' +
-      '<div class="two"><label class="fld"><span>From</span><select id="bkS">' + monthOptions(m) + '</select></label><label class="fld"><span>To</span><select id="bkE">' + monthOptions(Math.min(m + 2, MN - 1)) + '</select></label></div>' +
-      '<p class="note" id="bkNote"></p></div>' +
-      '<div class="dr-f"><span class="grow"></span><button type="button" class="btn-s" data-action="close">Cancel</button><button type="button" class="btn-p" data-action="bk-create" data-p="' + pid + '">Book</button></div>');
+    e = drawn ? e : Math.min(m + 2, MN - 1);
+    var pct0 = fitPct(d, pid, m, e);
+    var mine = {}; d.bookings.forEach(function(b){ if (b.person === pid) mine[b.project] = 1; });
+    var projs = d.projects.filter(function(pj){ return !mine[pj.id]; }).concat(d.projects.filter(function(pj){ return mine[pj.id]; }));
+    if (pref) projs.sort(function(a, b){ return (b.id === pref) - (a.id === pref); });
+    var n = e - m + 1;
+    var el = openPanel('modal narrow bk',
+      '<div class="dr-h">' + avatar(p, 'lg') + '<span class="txt"><h2>' + (drawn ? 'Confirm booking' : 'Book ' + esc(p.name)) + '</h2><p>' + esc(p.name) + ' · ' + role(p.role).name +
+      (drawn ? ' · <b>' + (n > 1 ? mShort(m) + ' – ' + mLabel(e) : mLabel(m)) + '</b>, ' + n + ' month' + (n > 1 ? 's' : '') : '') + '</p></span><button type="button" class="x-btn" data-action="close">' + ic('x') + '</button></div>' +
+      '<div class="dr-b"><label class="fld"><span>Project</span><select id="bkProj">' + projs.map(function(pj){ return '<option value="' + pj.id + '">' + esc(pj.name) + (mine[pj.id] ? ' · already booked' : '') + '</option>'; }).join('') + '</select></label>' +
+      '<label class="fld"><span>Allocation <output id="bkOut">' + pct0 + '%</output></span><input id="bkPct" type="range" min="5" max="100" step="5" value="' + pct0 + '"></label>' +
+      '<div class="two"><label class="fld"><span>From</span><select id="bkS">' + monthOptions(m) + '</select></label><label class="fld"><span>To</span><select id="bkE">' + monthOptions(e) + '</select></label></div>' +
+      '<div class="sec-row"><span class="sec-t">' + esc(p.name.split(' ')[0]) + '’s load after booking</span><span class="sec-n" id="bkSum"></span></div><div class="mini bk-mini" id="bkMini"></div>' +
+      '<p class="bk-st" id="bkNote"></p></div>' +
+      '<div class="dr-f"><span class="grow"></span><button type="button" class="btn-s" data-action="close">Cancel</button><button type="button" class="btn-p" data-action="bk-create" data-p="' + pid + '" id="bkGo">Book</button></div>');
     function note(){
-      var b = {person:pid, pct:+$('#bkPct', el).value, start:+$('#bkS', el).value, end:Math.max(+$('#bkS', el).value, +$('#bkE', el).value)};
+      var s0 = +$('#bkS', el).value, e0 = Math.max(s0, +$('#bkE', el).value);
+      var b = {person:pid, pct:+$('#bkPct', el).value, start:s0, end:e0}, peak = 0, over = 0, tot = 0;
       $('#bkOut', el).textContent = b.pct + '%';
-      var peak = 0;
-      for (var mm = b.start; mm <= b.end; mm++){ var l = load(d, pid, mm, d.bookings.concat([b])); peak = Math.max(peak, l.pct); }
-      $('#bkNote', el).innerHTML = 'Peak load after booking: <b style="color:' + (peak > 100.5 ? 'var(--ov-tx)' : 'var(--ok-tx)') + '">' + Math.round(peak) + '%</b>';
+      var cells = [];
+      for (var mm = b.start; mm <= b.end; mm++){
+        var l = load(d, pid, mm, d.bookings.concat([b])), s = st(l);
+        peak = Math.max(peak, l.pct); if (s === 'over') over++; tot += hrs(b, mm);
+        cells.push('<span class="st-' + s + '">' + mShort(mm) + ' ' + Math.round(l.pct) + '%</span>');
+      }
+      $('#bkMini', el).innerHTML = cells.join('');
+      $('#bkSum', el).textContent = tot + 'h in total';
+      $('#bkNote', el).innerHTML = over
+        ? '<span class="status-line bad">' + ic('alert') + 'Over capacity in ' + over + ' month' + (over > 1 ? 's' : '') + ' — try ' + fitPct(d, pid, b.start, b.end) + '% to fit</span>'
+        : '<span class="status-line good">' + ic('check') + 'Fits — peak load ' + Math.round(peak) + '%</span>';
+      $('#bkGo', el).textContent = over ? 'Book anyway' : 'Book ' + b.pct + '%';
     }
     note();
     el.addEventListener('input', note);
+    el.addEventListener('change', note);
   }
   function createBooking(pid){
     var el = panelEl && panelEl[1]; if (!el) return;
@@ -761,6 +913,7 @@
       d.bookings.push({id:'b' + (++d.seq), project:proj, person:pid, role:p.role, start:s, end:e, pct:pct});
       S.tog['p:' + pid] = true; S.tog['r:' + p.role] = true;
     });
+    done('paint');
     flashCells(pid);
   }
   function openNewProject(){
@@ -808,6 +961,7 @@
   var STEPS = [
     {id:'resolve', en:'Click a red cell and resolve the overload', ru:'Кликните красную ячейку и разрулите перегруз'},
     {id:'drag',    en:'Drag a booking bar or stretch its edge', ru:'Перетащите бронь или потяните её за край'},
+    {id:'paint',   en:'Drag across free cells to book someone', ru:'Протяните по свободным ячейкам, чтобы забронировать человека'},
     {id:'staff',   en:'Find someone for Central Station refit', ru:'Подберите человека на Central Station refit'},
     {id:'sim',     en:'Try a what-if in Simulation and apply it', ru:'Проверьте сценарий в Simulation и примените его'}
   ];
@@ -833,6 +987,12 @@
     } else if (id === 'staff'){
       var req = D().bookings.filter(function(b){ return !b.person; })[0];
       if (req) openShortlist(req.id); else toast('Every role is staffed — create a New project to try again');
+    } else if (id === 'paint'){
+      var free = [].filter.call(grid.querySelectorAll('.cell'), function(c){ return paintable(c) && !c.classList.contains('st-ok'); });
+      free.forEach(function(c){ c.classList.add('hint'); });
+      setTimeout(function(){ free.forEach(function(c){ c.classList.remove('hint'); }); }, 1600);
+      if (free[0]) free[0].scrollIntoView({block:'center', behavior:'smooth'});
+      toast('Press on a cell with free time and drag across the months you need');
     } else if (id === 'drag'){
       var bar = grid.querySelector('.bar:not(.req)');
       if (bar){ bar.scrollIntoView({block:'center', behavior:'smooth'}); bar.classList.add('drag'); setTimeout(function(){ bar.classList.remove('drag'); }, 900); }
@@ -872,6 +1032,16 @@
     'np-create': createProject,
     chip: function(el){ el.classList.toggle('on'); },
     menu: openMenu,
+    attn: function(el){
+      var k = el.dataset.k;
+      if (k === 'req'){ var r = D().bookings.filter(function(b){ return !b.person; })[0]; if (r) openShortlist(r.id); return; }
+      var v = k === 'over' ? 'over' : k === 'under' ? 'free' : 'all';
+      S.show = S.show === v ? 'all' : v;
+      if (S.show !== 'all') ROLES.forEach(function(r){ S.tog['r:' + r.id] = true; });
+      renderToolbar(); renderGrid();
+    },
+    'rs-opt': function(el){ panelEl[1]._sel(el.dataset.o); },
+    'rs-manual': function(){ panelEl[1]._manual(); },
     set: function(el){ S[el.dataset.key] = el.dataset.val; closePop(); renderToolbar(); renderGrid(); },
     export: exportCsv,
     'sim-apply': function(){
@@ -903,6 +1073,7 @@
   }
 
   document.addEventListener('click', function(e){
+    if (paintClick){ paintClick = false; return; }       // the click that ends a paint gesture is not a cell click
     if (e.target.closest('.bar')) return;                 // bars are handled by the pointer logic below
     var a = e.target.closest('[data-action]');
     if (!e.target.closest('.pop')){
@@ -921,6 +1092,67 @@
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape'){ closeAll(); return; }
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){ e.preventDefault(); undo(); }
+  });
+
+  /* ---------- paint a new booking: press on a cell with free time and drag across months ---------- */
+  var paint = null, paintClick = false;
+  function paintable(c){
+    if (!c || S.tab === 'workload') return false;
+    var l = load(D(), c.dataset.p, +c.dataset.m);
+    return l.avail - l.booked > 0;
+  }
+  function monthAt(track, x){ var r = track.getBoundingClientRect(); return clamp(S.view + Math.floor((x - r.left) / S.col), S.view, S.view + S.n - 1); }
+  function paintRow(t){
+    if (S.tab === 'workload' || t.closest('.bar, .vchip, button:not(.cell)')) return null;
+    var tr = t.closest('.g-track'), rw = tr && tr.parentNode;
+    return rw && rw.dataset && rw.dataset.p ? {track:tr, pid:rw.dataset.p, j:rw.dataset.j || null} : null;
+  }
+  grid.addEventListener('pointerdown', function(e){
+    if (e.button !== 0) return;
+    var r = paintRow(e.target); if (!r) return;
+    var m = monthAt(r.track, e.clientX);
+    paint = {pid:r.pid, j:r.j, s:m, e:m, x:e.clientX, track:r.track, moved:false, el:null, empty:!e.target.closest('.cell')};
+    hideSlot();
+  });
+  // hover hint on empty timeline space: shows where a drag would start
+  var slot = null;
+  function hideSlot(){ if (slot){ slot.remove(); slot = null; } }
+  grid.addEventListener('pointermove', function(e){
+    if (paint || drag) return;
+    var r = paintRow(e.target);
+    if (!r || e.target.closest('.cell')){ hideSlot(); return; }
+    var m = monthAt(r.track, e.clientX);
+    if (!slot){ slot = document.createElement('div'); slot.className = 'slot'; slot.innerHTML = ic('plus') + '<span>Drag to book</span>'; }
+    if (slot.parentNode !== r.track) r.track.appendChild(slot);
+    slot.style.left = (xOf(m) + 4) + 'px'; slot.style.width = (S.col - 8) + 'px';
+  });
+  grid.addEventListener('pointerleave', hideSlot);
+  window.addEventListener('pointermove', function(e){
+    if (!paint) return;
+    if (!paint.moved && Math.abs(e.clientX - paint.x) < 6) return;
+    if (!paint.moved){
+      paint.moved = true; closePop();
+      document.body.classList.add('painting');
+      paint.el = document.createElement('div'); paint.el.className = 'paint';
+      paint.track.appendChild(paint.el);
+    }
+    paint.e = monthAt(paint.track, e.clientX);
+    var a = Math.min(paint.s, paint.e), b = Math.max(paint.s, paint.e), n = b - a + 1;
+    paint.el.style.left = (xOf(a) + 4) + 'px';
+    paint.el.style.width = (n * S.col - 8) + 'px';
+    paint.el.innerHTML = '<span>' + ic('plus') + (n > 1 ? mShort(a) + ' – ' + mShort(b) : mShort(a)) + '</span><small>' + n + ' mo · ' + fitPct(D(), paint.pid, a, b) + '% fits</small>';
+  });
+  window.addEventListener('pointerup', function(){
+    if (!paint) return;
+    var p0 = paint; paint = null;
+    document.body.classList.remove('painting');
+    if (!p0.moved && !p0.empty) return;                      // a plain click on a cell opens its details as before
+    if (!p0.el){ p0.el = document.createElement('div'); p0.el.className = 'paint'; }  // a click on empty space books that one month
+    paintClick = true; setTimeout(function(){ paintClick = false; }, 0);
+    openBook(p0.pid, Math.min(p0.s, p0.e), Math.max(p0.s, p0.e), p0.j);
+    var a0 = Math.min(p0.s, p0.e), n0 = Math.abs(p0.e - p0.s) + 1;
+    p0.el.style.left = (xOf(a0) + 4) + 'px'; p0.el.style.width = (n0 * S.col - 8) + 'px';
+    p0.track.appendChild(p0.el);                             // keep the drawn range visible behind the modal
   });
 
   /* ---------- drag and resize bars ---------- */
