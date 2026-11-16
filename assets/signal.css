@@ -1,0 +1,330 @@
+/* Signal: the portfolio concept built from Maria's references.
+   Pure black, one iridescent glass object per screen, a huge expanded grotesk, mono technical labels,
+   one warm pearl accent, like the light side of the buttons. One section per screen, equal edges, quiet motion. */
+:root{
+  --bg:#0B0809; --ink:#F3EAEE; --mute:rgba(243,234,238,.62); --line:rgba(243,234,238,.14);
+  --accent:#E9D8DF; --accent-ink:#0B0809;
+  --display:'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --sans:'Geist', system-ui, sans-serif;
+  --mono:'Geist Mono', ui-monospace, Menlo, monospace;
+  --side:clamp(20px, 4vw, 64px); --max:1600px;
+  --ease-out:cubic-bezier(.23, 1, .32, 1);
+}
+*{box-sizing:border-box; margin:0;}
+html{background:var(--bg); color:var(--ink); scroll-behavior:smooth; overflow-x:clip;}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
+body{font-family:var(--sans); font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased;}
+a{color:inherit; text-decoration:none;}
+/* the animated silk ground (signal-bg.js) sits behind everything, fixed to the viewport */
+.bg-fx{position:fixed; inset:0; width:100%; height:100%; z-index:-1; pointer-events:none; display:block;}
+img{display:block; max-width:100%;}
+html[data-lang="en"] .t-ru, html[data-lang="ru"] .t-en{display:none;}
+::selection{background:var(--accent); color:var(--accent-ink);}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+.skip-link{position:absolute; left:var(--side); top:-60px; z-index:100; height:44px; display:inline-flex; align-items:center; padding:0 16px;
+  border-radius:999px; background:var(--ink); color:var(--bg); font-weight:500; transition:top .15s var(--ease-out);}
+.skip-link:focus-visible{top:12px;}
+
+.wrap{width:100%; max-width:var(--max); margin:0 auto; padding:0 var(--side);}
+.mono{font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--mute);}
+
+/* nav: a dark pill in the middle, like the references' product navs */
+.nav{position:fixed; z-index:50; top:16px; left:0; right:0;}
+/* a scrim under the fixed nav, so text scrolling past fades out instead of crossing the pills */
+.nav::before{content:""; position:absolute; z-index:-1; left:0; right:0; top:-16px; height:104px; pointer-events:none; background:linear-gradient(var(--bg) 45%, transparent);}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+.logo{display:inline-flex; align-items:center; min-height:44px; min-width:44px;}
+.logo svg{height:18px; width:auto;}
+.pill{display:flex; gap:4px; padding:4px; border-radius:999px; background:rgba(20,20,20,.72); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+  box-shadow:inset 0 0 0 1px var(--line);}
+.pill a, .pill button{display:inline-flex; align-items:center; height:40px; padding:0 16px; border:0; border-radius:999px; background:none; font:inherit; font-size:14px;
+  color:var(--mute); cursor:pointer; transition:color .2s ease, background-color .2s ease, transform .14s var(--ease-out);}
+.pill a:hover, .pill button:hover{color:var(--ink);}
+.pill a:active, .pill button:active{transform:scale(.97);}
+.pill [aria-current="page"], .pill [aria-pressed="true"]{color:var(--ink); background:rgba(242,239,234,.1);}
+
+/* Buttons: the galaxy glow pill. At rest a near-black pill with a hairline rim and nothing lit.
+   On hover a warm arc of light runs along the rim and a soft oval halo blooms around the pointer (--mx/--my, set in
+   signal.js), and specks of light are thrown out from the pointer as it moves. The label rolls, the arrow swaps,
+   press: .97. */
+.btn{--mx:50%; --my:50%; --glow:#F7D7C2; --glow2:#E7B3C6; --lit:0;
+  position:relative; isolation:isolate; display:inline-flex; align-items:center; justify-content:center; gap:14px; height:58px; padding:0 34px; border-radius:999px; border:0;
+  color:#F3EAEE; background:linear-gradient(180deg, #121012, #070607);
+  font-family:var(--sans); font-weight:500; font-size:15px; letter-spacing:.01em; cursor:pointer;
+  box-shadow:inset 0 0 0 1px rgba(243,234,238,.18), 0 18px 40px -20px rgba(0,0,0,.95);
+  transition:transform .14s var(--ease-out), box-shadow .3s ease;}
+/* the lit arc on the rim, under the pointer */
+.btn::before{content:""; position:absolute; inset:0; border-radius:inherit; padding:2px; z-index:1; pointer-events:none;
+  background:radial-gradient(190px 120px at var(--mx) var(--my), rgba(255,246,239,.95), rgba(247,215,194,.75) 20%, rgba(231,179,198,.4) 45%, rgba(231,179,198,.12) 70%, rgba(231,179,198,0) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude;
+  opacity:var(--lit); transition:opacity .35s ease;}
+/* the soft oval halo around the pointer: fades to nothing at its own edge, so there is no box */
+.btn::after{content:""; position:absolute; z-index:-1; pointer-events:none; left:var(--mx); top:var(--my); width:420px; height:280px; translate:-50% -50%;
+  border-radius:50%; filter:blur(18px);
+  background:radial-gradient(closest-side, rgba(247,215,194,.42) 0%, rgba(244,206,196,.3) 14%, rgba(236,190,200,.17) 30%, rgba(231,179,198,.08) 48%, rgba(231,179,198,.025) 66%, rgba(231,179,198,.006) 84%, rgba(231,179,198,0) 100%);
+  opacity:var(--lit); transition:opacity .35s ease;}
+/* specks thrown out from the pointer (made by signal.js): each flies off in its own direction, twinkles and fades */
+.btn-spark{position:absolute; z-index:-1; left:0; top:0; width:var(--s); height:var(--s); margin:calc(var(--s) / -2) 0 0 calc(var(--s) / -2); border-radius:50%;
+  background:#fff4ea; box-shadow:0 0 5px rgba(255,236,220,.95); pointer-events:none;
+  animation:spark var(--d) cubic-bezier(.2,.7,.3,1) forwards;}
+@keyframes spark{0%{opacity:0; transform:translate(0, 0) scale(.6);} 12%{opacity:1;} 55%{opacity:.5;} 70%{opacity:.95;}
+  100%{opacity:0; transform:translate(var(--dx), var(--dy)) scale(1);}}
+
+.btn > *{position:relative; z-index:2;}
+.btn > .btn-spark{position:absolute; z-index:-1;}
+/* the rolling label */
+.btn .lbl{display:inline-block; overflow:hidden; height:1.3em; line-height:1.3em;}
+.btn .roll{display:inline-block; position:relative; transition:transform .45s var(--ease-out);}
+.btn .roll::after{content:attr(data-text); position:absolute; left:0; top:100%;}
+.btn-ic{display:grid; place-items:center; overflow:hidden; width:20px; height:20px; flex:none; color:#F7D7C2;}
+.btn-ic svg{width:20px; height:20px;}
+
+/* the secondary button is bare: no rim, no fill, no shadow, just the label (the glow still comes on hover) */
+.btn--ghost, .btn--ghost:hover{background:none; box-shadow:none;}
+
+/* the main button stands out at rest: a warm light runs slowly round its rim, the inside is a touch warmer.
+   On hover the running light hands over to the light under the pointer. */
+@property --spin{syntax:'<angle>'; inherits:false; initial-value:0deg;}
+.btn--primary{background:radial-gradient(120% 160% at 50% 120%, rgba(247,215,194,.14), transparent 60%), linear-gradient(180deg, #171315, #0A0809);
+  box-shadow:inset 0 0 0 1px rgba(247,215,194,.22), 0 0 34px -10px rgba(247,215,194,.28), 0 18px 40px -20px rgba(0,0,0,.95);}
+.btn--primary .run{position:absolute; inset:0; border-radius:inherit; padding:1.5px; z-index:1; pointer-events:none;
+  background:conic-gradient(from var(--spin), transparent 0deg, rgba(247,215,194,0) 200deg, rgba(247,215,194,.9) 300deg, #fff6ef 330deg, rgba(231,179,198,.6) 345deg, transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude;
+  animation:rim-run 8s linear infinite; transition:opacity .35s ease;}
+@keyframes rim-run{to{--spin:360deg;}}
+@media (hover:hover) and (pointer:fine){ .btn--primary:hover .run{opacity:0;} }
+@media (prefers-reduced-motion:reduce){ .btn--primary .run{animation:none;} }
+.btn > .run{position:absolute; z-index:1;}
+
+/* icons light up on hover: the warm peach turns bright */
+.btn-ic, .socials a{transition:color .3s ease;}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover .btn-ic, .socials a:hover{color:#FFF6F0;}
+  .socials a:hover svg{filter:drop-shadow(0 0 6px rgba(255,236,224,.55));}   /* not on .btn-ic: its clipping box would show the glow as a square */
+}
+@keyframes arrow-swap{0%{transform:none;} 45%{transform:translateX(160%);} 46%{transform:translateX(-160%);} 100%{transform:none;}}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{--lit:1; box-shadow:inset 0 0 0 1px rgba(243,234,238,.28), 0 18px 40px -20px rgba(0,0,0,.95);}
+  .btn:hover .roll{transform:translateY(-100%);}
+  .btn:hover .btn-ic svg{animation:arrow-swap .5s var(--ease-out);}
+}
+.btn:focus-visible{outline:none; --lit:1;}
+.btn:active{transform:scale(.97);}
+@media (prefers-reduced-motion:reduce){
+  .btn, .btn .roll{transition:none;}
+  .btn-spark{display:none;}
+  .btn:hover .btn-ic svg{animation:none;}
+}
+.link{display:inline-flex; align-items:center; min-height:44px; color:var(--ink); background:linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat;
+  transition:background-size .3s var(--ease-out);}
+.link:hover{background-size:100% 1px;}
+
+/* sections: each one screen, its heading first */
+main > section{min-height:100svh; display:flex; align-items:center; padding:120px 0 72px; position:relative;}
+main > section > .wrap{width:100%;}
+main > section.hero{padding-bottom:40px;}
+.sec-head{display:flex; justify-content:space-between; align-items:baseline; gap:24px; padding-bottom:20px; margin-bottom:clamp(28px, 4vw, 56px); border-bottom:1px solid var(--line);}
+h1, h2{font-family:var(--display); font-stretch:125%; font-weight:800; letter-spacing:-.035em; line-height:.92; text-transform:uppercase;}
+h2{font-size:clamp(40px, 6vw, 104px);}
+
+/* hero: the object over the type, the way the references cross a 3D mark with a big word */
+.hero, main > section{overflow-x:clip; overflow-y:visible;}   /* clip only sideways (the wide glow), so the button glow still spills below */
+.hero .wrap{display:grid; grid-template-rows:auto 1fr auto; min-height:calc(100svh - 192px); gap:24px;}
+.hero-top, .hero-bottom{display:flex; justify-content:space-between; gap:24px; align-items:flex-end;}
+.hero h1{position:relative; z-index:2; align-self:center; color:rgba(243,234,238,.9); font-size:clamp(34px, 10.2vw, 184px); mix-blend-mode:difference;}
+.hero h1 span.row{display:block;}
+.hero h1 .row--in{padding-left:12%;}
+.hero-copy{max-width:44ch; font-size:clamp(16px, 1.25vw, 19px); color:var(--mute);}
+.hero-copy b{color:var(--ink); font-weight:500;}
+.hero-actions{display:flex; gap:12px; flex-wrap:nowrap; align-items:center; flex:none;}
+/* quick contacts after the main button: round pills in the main button's look (dark, warm rim and fill), no running light.
+   Hover: the pill rises a touch, its warm rim brightens and the icon grows softly and lights up. */
+.socials--hero{margin:0;}
+.hero .socials--hero a, .hero .socials--hero a:hover{width:58px; height:58px; border-radius:999px; color:#F7D7C2; background:radial-gradient(120% 160% at 50% 120%, rgba(247,215,194,.14), transparent 60%), linear-gradient(180deg, #171315, #0A0809);
+  box-shadow:inset 0 0 0 1px rgba(247,215,194,.22), 0 0 34px -10px rgba(247,215,194,.28), 0 18px 40px -20px rgba(0,0,0,.95);}
+.hero .socials--hero svg{width:20px; height:20px; transition:transform .45s var(--ease-out), color .3s ease;}
+.hero .socials--hero a{transition:transform .35s var(--ease-out), box-shadow .35s ease;}
+@media (hover:hover) and (pointer:fine){
+  .hero .socials--hero a:hover{transform:translateY(-2px); box-shadow:inset 0 0 0 1px rgba(247,215,194,.55), 0 0 40px -8px rgba(247,215,194,.4), 0 20px 40px -18px rgba(0,0,0,.95);}
+  .hero .hero-actions .socials--hero a:hover{color:#FFF6F0;}
+  .hero .socials--hero a:hover svg{animation:none; transform:scale(1.14);}
+}
+.hero .socials--hero a:active{transform:scale(.94);}
+/* CV in the nav: a link out, with a small arrow that steps up-right on hover */
+.pill .nav-cv{gap:6px;}
+.nav-cv svg{width:14px; height:14px; opacity:.55; transition:transform .3s var(--ease-out), opacity .3s ease;}
+.nav-cv:hover svg{opacity:1; transform:translate(1.5px, -1.5px);}
+.glow{position:absolute; inset:-20% -10%; z-index:0; pointer-events:none;
+  background:radial-gradient(28% 22% at 62% 46%, rgba(241,215,226,.16), transparent 70%), radial-gradient(30% 18% at 40% 60%, rgba(150,96,120,.18), transparent 70%);
+  filter:blur(40px);}
+.stage{position:absolute; z-index:1; inset:0; pointer-events:none;}
+.stage canvas{width:100%; height:100%; display:block;}
+
+/* the hero arrives once: words rise, the object fades up */
+.js [data-enter] .rise{opacity:0; transform:translateY(24px);}
+.js [data-enter].is-in .rise{opacity:1; transform:none; transition:opacity .7s var(--ease-out), transform .9s var(--ease-out); transition-delay:calc(var(--d, 0) * 70ms);}
+.js .stage{opacity:0; transform:scale(.96); transition:opacity 1.2s var(--ease-out) .2s, transform 1.4s var(--ease-out) .2s;}
+.js .hero.is-in .stage{opacity:1; transform:none;}
+
+.case-actions{display:flex; gap:12px; flex-wrap:wrap; align-items:center;}
+
+
+/* contact: the closing line set as large as the hero, the ways to reach her in mono */
+.reach{list-style:none; padding:0; display:flex; gap:28px; flex-wrap:wrap;}
+.reach a, .reach button{display:inline-flex; gap:16px; align-items:center; min-height:44px; padding:0; border:0; background:none; font:inherit; color:var(--ink); cursor:pointer;}
+.reach .val{background:linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition:background-size .3s var(--ease-out);}
+.reach a:hover .val, .reach button:hover .val{background-size:100% 1px;}
+.foot{border-top:1px solid var(--line);}
+.foot .wrap{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; padding-top:12px; padding-bottom:20px;}
+.foot .reach a, .foot .reach button{font-size:14px; color:var(--mute); transition:color .2s ease;}
+.foot .reach a:hover, .foot .reach button:hover{color:var(--ink);}
+
+/* work: title and story in one row, then the product screen at full width */
+.case-top{display:grid; grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); gap:clamp(32px, 5vw, 96px); align-items:end; margin-bottom:clamp(32px, 5vh, 56px);}
+.case-top h3{font-family:var(--display); font-stretch:110%; font-weight:700; font-size:clamp(32px, 3.4vw, 60px); line-height:1; letter-spacing:-.025em; margin-top:14px;}
+.case-side p{color:var(--mute); max-width:44ch; margin-bottom:24px;}
+.case-screen{position:relative; display:block; height:clamp(300px, 50vh, 560px); border-radius:20px 20px 0 0; overflow:hidden;
+  box-shadow:0 0 0 1px rgba(242,239,234,.14), 0 -30px 120px -40px rgba(241,215,226,.4);
+  -webkit-mask:linear-gradient(#000 55%, transparent); mask:linear-gradient(#000 55%, transparent);
+  transform-origin:50% 100%; transition:translate .3s var(--ease-out);}
+.case-screen img{width:100%; height:100%; object-fit:cover; object-position:top left; transition:scale .4s var(--ease-out);}
+@media (hover:hover) and (pointer:fine){
+  .case-screen:hover{translate:0 -2px;}
+  .case-screen:hover img{scale:1.02;}
+}
+/* the screen rises out of a slight perspective as the section scrolls in (scroll-driven, where supported) */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    .case-screen{animation:screen-rise linear both; animation-timeline:view(); animation-range:entry 0% cover 40%;}
+  }
+}
+.case + .case{margin-top:clamp(96px, 14vh, 160px);}
+/* a placeholder screen until the project's picture is added */
+.case-screen--empty{display:grid; place-items:center; background:linear-gradient(180deg, rgba(242,239,234,.06), rgba(242,239,234,.015));
+  background-image:linear-gradient(rgba(242,239,234,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(242,239,234,.05) 1px, transparent 1px), linear-gradient(180deg, rgba(242,239,234,.06), rgba(242,239,234,.015));
+  background-size:48px 48px, 48px 48px, auto;}
+@keyframes screen-rise{from{transform:perspective(1600px) rotateX(24deg) scale(.92); opacity:.35;} to{transform:none; opacity:1;}}
+
+/* the scroll transition from the hero to the work. Tied to the scroll position (scroll-driven animations, where
+   supported; elsewhere nothing moves): the whole hero recedes as it leaves, smaller, higher, blurred and fading,
+   and the work's heading rises out from under a mask while its hairline draws left to right. Reverses on the way back. */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    main > section.hero{animation:hero-out linear both; animation-timeline:view(); animation-range:exit 15% exit 100%; transform-origin:50% 0;}
+    #work .sec-head h2{animation:title-in linear both; animation-timeline:view(); animation-range:entry 20% cover 35%;}
+    #work .sec-head .mono{animation:fade-in linear both; animation-timeline:view(); animation-range:entry 40% cover 40%;}
+    #work .sec-head{border-bottom-color:transparent; position:relative;}
+    #work .sec-head::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:var(--line); transform-origin:0 50%;
+      animation:rule-draw linear both; animation-timeline:view(); animation-range:entry 30% cover 45%;}
+  }
+}
+@keyframes hero-out{to{transform:scale(.9) translateY(-4%); opacity:0; filter:blur(6px);}}
+@keyframes title-in{from{transform:translateY(70%); clip-path:inset(0 0 100% 0); opacity:0;} to{transform:none; clip-path:inset(0 0 -10% 0); opacity:1;}}
+@keyframes fade-in{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;}}
+@keyframes rule-draw{from{transform:scaleX(0);} to{transform:scaleX(1);}}
+main > section#work{min-height:0; display:block; padding-top:clamp(56px, 9vh, 96px);}
+
+/* footer contacts: small lens tiles in the same pearl-to-black glass; hover pours the light in, the icon rolls */
+.socials{list-style:none; padding:0; display:flex; gap:10px;}
+.socials a{position:relative; isolation:isolate; overflow:hidden; width:48px; height:48px; display:grid; place-items:center; border-radius:16px; color:#F7D7C2;
+  background:linear-gradient(135deg, #7A7075 0%, #3A3437 30%, #121011 60%, #070607 100%) 0 0 / 100% 100% no-repeat;
+  box-shadow:inset 0 0 0 1px rgba(255,244,248,.4), inset 0 1px 0 rgba(255,255,255,.25), 0 10px 22px -12px rgba(0,0,0,.95);
+  transition:background-size .6s var(--ease-out), transform .14s var(--ease-out);}
+.socials svg{position:relative; z-index:1; width:20px; height:20px;}
+@keyframes icon-roll{0%{transform:none;} 45%{transform:translateY(-160%);} 46%{transform:translateY(160%);} 100%{transform:none;}}
+@media (hover:hover) and (pointer:fine){
+  .socials a:hover{background-size:180% 180%;}
+  .socials a:hover svg{animation:icon-roll .5s var(--ease-out);}
+}
+.socials a:active{transform:scale(.94);}
+@media (prefers-reduced-motion:reduce){ .socials a{transition:none;} .socials a:hover svg{animation:none;} }
+/* the footer name, cut by the bottom edge of the page; sized so "Maria Demenko" (10.8em wide) spans the content edges */
+.foot{padding-top:clamp(48px, 8vw, 120px);}
+.foot-name{overflow:hidden; height:.62em; font-family:var(--display); font-stretch:125%; font-weight:800; text-transform:uppercase; letter-spacing:-.04em; line-height:.8;
+  font-size:calc((min(100vw, var(--max)) - 2 * var(--side)) / 10.9); white-space:nowrap; text-align:center; user-select:none;}
+.foot-name span{display:block; background:linear-gradient(180deg, var(--ink), rgba(242,239,234,.12) 90%); -webkit-background-clip:text; background-clip:text; color:transparent;}
+@media (max-width:1000px){
+  .case-top{grid-template-columns:minmax(0, 1fr); align-items:start;}
+}
+
+@media (max-width:1000px){
+  .pill a, .pill button{padding:0 11px; font-size:13px;}   /* all three links stay on phones, so About and Work always lead to each other */
+}
+@media (max-width:620px){
+  .hero h1 .row--in{padding-left:0;}
+  .hero-top .mono:last-child{display:none;}
+  .hero-bottom{flex-direction:column; align-items:flex-start;}
+  .btn{width:100%; justify-content:center;}
+  .btn:has(.btn-ic){justify-content:center;}
+  .hero-actions{width:100%;}
+  .hero-actions .btn{width:auto; flex:1; min-width:0;}
+  .sec-head{flex-direction:column; gap:8px;}
+}
+/* ---------- About page (about-signal.html) ---------- */
+.about-hero .wrap{grid-template-rows:auto 1fr;}
+.about-grid{display:grid; grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); gap:clamp(32px, 5vw, 96px); align-items:center;}
+.about-hero h1{font-size:clamp(48px, 9vw, 168px); mix-blend-mode:normal; color:rgba(243,234,238,.9);}
+.about-lead{max-width:40ch; margin:clamp(20px, 3vw, 36px) 0 clamp(28px, 4vw, 44px); font-size:clamp(17px, 1.4vw, 21px); color:var(--mute);}
+.about-text .hero-actions{justify-content:flex-start;}
+/* the portrait: the cut-out photo alone, no frame or glow; it fades into the ground at the bottom */
+.portrait{position:relative; margin:0; justify-self:end; align-self:center; width:min(100%, 560px, calc((100svh - 220px)));}
+.portrait img{width:100%; height:auto; -webkit-mask:linear-gradient(#000 70%, transparent); mask:linear-gradient(#000 70%, transparent);}
+
+main > section.about-intro, main > section#experience, main > section.about-cta{min-height:0; display:block; padding:clamp(72px, 12vh, 140px) 0 0;}
+.intro-grid{display:grid; grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); gap:clamp(32px, 5vw, 96px); align-items:start;}
+.intro-copy{font-size:clamp(20px, 2vw, 30px); line-height:1.35; letter-spacing:-.01em; max-width:34ch;}
+.facts{list-style:none; padding:0; display:grid; gap:0;}
+.facts li{display:flex; align-items:center; gap:12px; padding:16px 0; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--mute);}
+.facts li:first-child{border-top:1px solid var(--line); color:var(--ink);}
+.facts-dot{position:relative; width:8px; height:8px; border-radius:50%; background:#9FE0B0; box-shadow:0 0 10px rgba(159,224,176,.7); flex:none;}
+.facts-dot::after{content:""; position:absolute; inset:0; border-radius:50%; background:#9FE0B0; animation:facts-ping 2.4s cubic-bezier(.2,.7,.3,1) infinite;}
+@keyframes facts-ping{0%{transform:scale(1); opacity:.6;} 80%,100%{transform:scale(2.8); opacity:0;}}
+
+/* experience: one block per job, like the cases on the home page */
+.job + .job{margin-top:clamp(64px, 9vh, 112px); padding-top:clamp(40px, 6vh, 64px); border-top:1px solid var(--line);}
+.job-top{display:grid; grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); gap:clamp(32px, 5vw, 96px); align-items:end; margin-bottom:clamp(28px, 4vh, 44px);}
+.job-top h3{font-family:var(--display); font-stretch:110%; font-weight:700; font-size:clamp(32px, 3.4vw, 60px); line-height:1; letter-spacing:-.025em; margin-top:14px;}
+.job-side p{color:var(--ink); font-size:17px; margin-bottom:16px;}
+.chips{list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;}
+.chips li{height:30px; display:inline-flex; align-items:center; padding:0 12px; border-radius:999px; font-size:13px; color:var(--mute); box-shadow:inset 0 0 0 1px var(--line);}
+.job-link{display:inline-flex; align-items:center; gap:8px; min-height:44px; color:#F7D7C2; font-weight:500;
+  background:linear-gradient(currentColor, currentColor) 0 calc(100% - 8px) / 0 1px no-repeat; transition:background-size .3s var(--ease-out), color .3s ease;}
+.job-link svg{width:16px; height:16px; transition:transform .3s var(--ease-out);}
+.job-link:hover{background-size:100% 1px; color:#FFF6F0;}
+.job-link:hover svg{transform:translateX(2px);}
+.job .points{list-style:none; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px clamp(24px, 4vw, 64px);}
+.job .points li{display:flex; gap:14px; align-items:flex-start; padding:16px 18px; border-radius:16px; color:var(--mute);
+  background:linear-gradient(180deg, rgba(242,239,234,.045), rgba(242,239,234,.012)); box-shadow:inset 0 0 0 1px rgba(243,234,238,.08);}
+.pt-ico{flex:none; width:22px; height:22px; color:#F7D7C2;}
+.pt-ico svg{width:22px; height:22px;}
+
+.about-cta h2{margin-bottom:clamp(28px, 4vw, 48px);}
+main > section.about-cta{padding-bottom:clamp(72px, 12vh, 140px);}
+
+@media (max-width:1000px){
+  .about-grid, .intro-grid, .job-top{grid-template-columns:1fr;}
+  .portrait{justify-self:start; width:min(100%, 420px);}
+  .job .points{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){ .facts-dot::after{animation:none;} }
+
+/* the narrowest phones: the language switch shows only the other language, headings shrink to fit one word per line */
+@media (max-width:400px){
+  .nav .wrap{gap:8px;}
+  .pill a, .pill button{padding:0 9px;}
+  .pill [data-set-lang][aria-pressed="true"]{display:none;}
+  h2{font-size:min(40px, 9.5vw);}
+}
+/* narrow phones: the main button takes the full row, the two contact pills share the row under it */
+@media (max-width:430px){
+  .hero-actions{flex-wrap:wrap;}
+  .hero-actions .btn{flex:1 1 100%;}
+  .hero .socials--hero{flex:1 1 100%; display:flex; gap:12px;}
+  .hero .socials--hero li{flex:1;}
+  .hero .hero-actions .socials--hero a{width:100%;}
+}
+}
+@media (prefers-reduced-motion:reduce){
+  .js [data-enter] .rise, .js .stage{opacity:1; transform:none; transition:none;}
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maria Demenko — Product Designer</title>
+<meta name="description" content="One designer, two views. Drag the divider between design and build.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Concept: the bridge.
+   "I bridge the gap between design, product and engineering."
+   The hero is the same content rendered twice — once as the design,
+   once as its implementation — and the visitor drags the seam between them. */
+:root{
+  --gallery:#F4F2EC;
+  --gallery-ink:#23211C;
+  --gallery-dim:#8B867A;
+  --slate:#14181F;
+  --slate-ink:#D8DEE9;
+  --slate-dim:#5E6878;
+  --token:#7FB4A2;            /* value green on the code side */
+  --prop:#8FA3C7;             /* property blue on the code side */
+  --serif:'Newsreader', Georgia, serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; font-family:var(--serif); font-size:17px; line-height:1.6; background:var(--gallery); color:var(--gallery-ink)}
+a{color:inherit}
+h1,h2,h3,p{margin:0}
+:focus-visible{outline:2px solid currentColor; outline-offset:3px}
+
+/* ---------- the split hero ---------- */
+.split{position:relative; height:100svh; min-height:560px; overflow:hidden; touch-action:pan-y}
+.pane{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:0 clamp(20px,6vw,90px)}
+.pane .inner{max-width:880px; margin:0 auto; width:100%}
+
+.design{background:var(--gallery); color:var(--gallery-ink)}
+.design .hello{font-style:italic; font-size:19px; color:var(--gallery-dim)}
+.design h1{font-size:clamp(46px,8.2vw,104px); font-weight:300; line-height:1.0; letter-spacing:-0.01em; margin-top:14px}
+.design h1 em{font-weight:400}
+.design p.lede{margin-top:26px; max-width:46ch; font-size:19px}
+
+.build{background:var(--slate); color:var(--slate-ink); font-family:var(--mono); clip-path:inset(0 0 0 var(--cut,58%))}
+/* the code column rides the seam: it starts where the dark side begins */
+.build .inner{font-size:clamp(11px,1.45vw,14.5px); line-height:1.75; white-space:pre; max-width:none; width:max-content; margin:0 0 0 calc(var(--cut,58%) + 3%)}
+.build .c{color:var(--slate-dim)}
+.build .p{color:var(--prop)}
+.build .v{color:var(--token)}
+
+.seam{position:absolute; top:0; bottom:0; left:var(--cut,58%); width:0; z-index:4}
+.seam::before{content:""; position:absolute; top:0; bottom:0; left:-1px; width:2px; background:#fff; mix-blend-mode:difference}
+.handle{
+  position:absolute; top:50%; left:0; transform:translate(-50%,-50%);
+  width:46px; height:46px; border-radius:50%; border:0; cursor:ew-resize;
+  background:#fff; color:#14181F; font-size:15px; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 14px rgba(0,0,0,.28); font-family:var(--mono);
+}
+.hint{position:absolute; left:50%; transform:translateX(-50%); bottom:22px; z-index:5; font-family:var(--mono); font-size:12px; color:#8B867A; background:rgba(244,242,236,.85); padding:5px 12px; border-radius:14px; pointer-events:none}
+
+/* ---------- below the fold: neutral ground ---------- */
+.ground{max-width:880px; margin:0 auto; padding:clamp(60px,10vh,110px) clamp(20px,6vw,44px) 70px}
+.ground h2{font-size:clamp(26px,3.6vw,38px); font-weight:300; font-style:italic; max-width:26ch}
+.ground .intro{margin-top:18px; max-width:56ch; color:#5d594f}
+
+.work{margin-top:clamp(40px,7vh,70px); border-top:1px solid #DDD9CE}
+.row{display:grid; grid-template-columns:minmax(130px,200px) 1fr minmax(120px,170px); gap:18px; padding:22px 0; border-bottom:1px solid #DDD9CE; align-items:baseline}
+.row h3{font-size:20px; font-weight:400}
+.row .what{font-size:16px; color:#44403a; max-width:52ch}
+.row .what a{text-decoration:underline; text-underline-offset:3px; text-decoration-color:#CFC9BA}
+.row .what a:hover{text-decoration-color:var(--gallery-ink)}
+.row .when{font-family:var(--mono); font-size:12.5px; color:var(--gallery-dim); text-align:right}
+
+.contact{margin-top:clamp(50px,8vh,80px); display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap}
+.contact a.mail{font-size:clamp(20px,3vw,28px); font-style:italic; text-decoration:underline; text-underline-offset:5px; text-decoration-color:#CFC9BA}
+.contact a.mail:hover{text-decoration-color:var(--gallery-ink)}
+.contact small{font-family:var(--mono); font-size:12px; color:var(--gallery-dim)}
+
+@media (max-width:720px){
+  .row{grid-template-columns:1fr; gap:6px}
+  .row .when{text-align:left}
+  .split{min-height:480px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<section class="split" id="split" style="--cut:58%" aria-label="Design and build views of the same page">
+
+  <div class="pane design" aria-hidden="false">
+    <div class="inner">
+      <p class="hello">Hello, I'm</p>
+      <h1>Maria <em>Demenko</em></h1>
+      <p class="lede">A product designer who stays until the build. Seven years of complex B2B interfaces, design systems and prototypes that developers can take at their word.</p>
+    </div>
+  </div>
+
+  <div class="pane build" aria-hidden="true">
+    <div class="inner"><span class="c">// hero.spec — same content, engineering view</span>
+
+<span class="p">.hello</span> {
+  <span class="p">font</span>: <span class="v">italic 19px/1.6 'Newsreader'</span>;
+  <span class="p">color</span>: <span class="v">var(--gallery-dim)</span>;
+  <span class="p">content</span>: <span class="v">"Hello, I'm"</span>;
+}
+
+<span class="p">h1.name</span> {
+  <span class="p">font-size</span>: <span class="v">clamp(46px, 8.2vw, 104px)</span>;
+  <span class="p">font-weight</span>: <span class="v">300</span>;
+  <span class="p">letter-spacing</span>: <span class="v">-0.01em</span>;
+  <span class="p">content</span>: <span class="v">"Maria Demenko"</span>;
+}
+
+<span class="p">.lede</span> {
+  <span class="p">max-width</span>: <span class="v">46ch</span>;
+  <span class="p">years</span>: <span class="v">7</span>;
+  <span class="p">domains</span>: <span class="v">SaaS, PSA, POS, mobile</span>;
+  <span class="p">deliverables</span>: <span class="v">design-systems, prototypes, specs</span>;
+}
+
+<span class="c">// drag the seam — both sides are mine.</span></div>
+  </div>
+
+  <div class="seam" style="left:var(--cut)">
+    <button class="handle" id="handle" aria-label="Drag to reveal the engineering view. Arrow keys also work." title="Drag me">⇤⇥</button>
+  </div>
+
+  <div class="hint">drag the seam between design and build</div>
+
+</section>
+
+<main class="ground">
+  <h2>Both sides of the handoff, for seven years.</h2>
+  <p class="intro">Project and resource management, point of sale, back-office, marketplaces, iOS and Android. Design systems built and maintained; prototypes in Axure and, lately, in code with Claude Code and AI-assisted workflows.</p>
+
+  <div class="work">
+    <div class="row">
+      <h3>Synesis</h3>
+      <p class="what">Design systems and AI-built interactive prototypes for <a href="https://frisbee.ms">Frisbee</a>, validating ideas before development.</p>
+      <span class="when">2024—2026</span>
+    </div>
+    <div class="row">
+      <h3>Birdview PSA</h3>
+      <p class="what">Redesign and design-system care for a <a href="https://birdviewpsa.com">professional services automation platform</a> — projects, resources, finances.</p>
+      <span class="when">2023—2024</span>
+    </div>
+    <div class="row">
+      <h3>Aterise</h3>
+      <p class="what">A focused part-time engagement on <a href="https://aterise.com">aterise.com</a>.</p>
+      <span class="when">2022</span>
+    </div>
+    <div class="row">
+      <h3>Telesphor Software</h3>
+      <p class="what">POS, driver and distribution apps plus two corporate sites — <a href="https://indicaonline.com">IndicaOnline</a> and <a href="https://sweede.io">Sweede</a> — designed and supported for almost four years.</p>
+      <span class="when">2019—2022</span>
+    </div>
+  </div>
+
+  <div class="contact">
+    <a class="mail" href="mailto:m.demenko11@gmail.com">m.demenko11@gmail.com</a>
+    <small><a href="https://www.linkedin.com/in/maria-demenko-129083176">LinkedIn</a> · Maria Demenko, 2026</small>
+  </div>
+</main>
+
+<script>
+(function(){
+  var split = document.getElementById('split');
+  var handle = document.getElementById('handle');
+  var dragging = false;
+
+  function setCut(pct){
+    pct = Math.max(8, Math.min(92, pct));
+    split.style.setProperty('--cut', pct + '%');
+  }
+  function fromEvent(e){
+    var x = (e.touches ? e.touches[0].clientX : e.clientX);
+    var r = split.getBoundingClientRect();
+    setCut((x - r.left) / r.width * 100);
+  }
+  handle.addEventListener('pointerdown', function(e){
+    dragging = true; handle.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  window.addEventListener('pointermove', function(e){ if(dragging) fromEvent(e); });
+  window.addEventListener('pointerup', function(){ dragging = false; });
+  handle.addEventListener('keydown', function(e){
+    var cur = parseFloat(getComputedStyle(split).getPropertyValue('--cut')) || 58;
+    if(e.key === 'ArrowLeft'){ setCut(cur - 4); e.preventDefault(); }
+    if(e.key === 'ArrowRight'){ setCut(cur + 4); e.preventDefault(); }
+  });
+})();
+</script>
+
+</body>
+</html>
