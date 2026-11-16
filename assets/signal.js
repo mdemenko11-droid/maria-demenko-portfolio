@@ -139,6 +139,7 @@ const t0 = performance.now();
 function frame(t){
   requestAnimationFrame(frame);
   const s = reduced ? 0 : (t - t0) / 1000;
+  sparkleClock.value = s;
   views.forEach(v => {
     if (!v.visible || !v.w) return;
     v.cur.x += (v.aim.x - v.cur.x) * .06; v.cur.y += (v.aim.y - v.cur.y) * .06;
@@ -177,15 +178,33 @@ function crystal(glowAt = [.15, -.45], glowSize = 2, face = .35, glowK = .6, edg
   };
   return m;
 }
+// the specks shimmer: each one slowly swells, brightens and warms on its own rhythm (a per-point phase and speed),
+// driven by one shared clock that frame() advances
+const sparkleClock = {value:0};
+function twinkle(points){
+  const n = points.geometry.attributes.position.count, ph = new Float32Array(n), sp = new Float32Array(n);
+  for (let i = 0; i < n; i++){ ph[i] = Math.random() * Math.PI * 2; sp[i] = .6 + Math.random() * 1.1; }
+  points.geometry.setAttribute('phase', new THREE.BufferAttribute(ph, 1));
+  points.geometry.setAttribute('speed', new THREE.BufferAttribute(sp, 1));
+  points.material.onBeforeCompile = sh => {
+    sh.uniforms.uTime = sparkleClock;
+    sh.vertexShader = 'uniform float uTime;\nattribute float phase;\nattribute float speed;\nvarying float vTw;\n' + sh.vertexShader
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\n  vTw = .5 + .5 * sin(uTime * speed + phase);')
+      .replace('gl_PointSize = size;', 'gl_PointSize = size * mix(.55, 1.35, vTw);');
+    sh.fragmentShader = 'varying float vTw;\n' + sh.fragmentShader
+      .replace('vec4 diffuseColor = vec4( diffuse, opacity );', 'vec4 diffuseColor = vec4( mix(vec3(1.0, .82, .72), diffuse, vTw), opacity * mix(.18, 1.0, vTw * vTw) );');
+  };
+  return points;
+}
 // glitter: tiny bright specks scattered inside the given 2D outlines, through the thickness
-function glitter(outlines, depth, count = 220, holes = []){
+function glitter(outlines, depth, count = 220, holes = [], size = .032){
   const inside = (x, y, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++){ const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
   const all = outlines.flat(), xs = all.map(p => p[0]), ys = all.map(p => p[1]);
   const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
   const pts = [];
   while (pts.length < count * 3){ const x = x0 + Math.random() * (x1 - x0), y = y0 + Math.random() * (y1 - y0); if (outlines.some(o => inside(x, y, o)) && !holes.some(o => inside(x, y, o))) pts.push(x, y, Math.random() * depth); }
   const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  return new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size:.032, transparent:true, opacity:.9, depthWrite:false}));
+  return twinkle(new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size, transparent:true, opacity:.9, depthWrite:false})));
 }
 // glitter with fixed places: a seeded random and a minimum gap between specks, so the scatter is the same on every
 // visit and evenly spread (no clumps, no bare patches)
@@ -202,7 +221,7 @@ function glitterFixed(outlines, depth, count, holes = [], seed = 1, gap = .08, s
     placed.push([x, y]); pts.push(x, y, rnd() * depth);
   }
   const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  return new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size, transparent:true, opacity, depthWrite:false}));
+  return twinkle(new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size, transparent:true, opacity, depthWrite:false})));
 }
 const block = (poly, depth, bevel = .05) => { const s = new THREE.Shape(); s.moveTo(...poly[0]); poly.slice(1).forEach(p => s.lineTo(...p)); s.closePath();
   return new THREE.ExtrudeGeometry(s, {depth, bevelEnabled:true, bevelThickness:bevel, bevelSize:bevel, bevelSegments:4, curveSegments:32}); };

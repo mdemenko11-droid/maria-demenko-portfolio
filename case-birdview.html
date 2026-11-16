@@ -1,297 +1,231 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+<html lang="en" data-lang="en" data-type="service">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Birdview case — Maria Demenko</title>
-<meta name="description" content="Case study by Maria Demenko: the resource-planning module in Birdview, a B2B SaaS platform, with an interactive prototype.">
-<link rel="icon" href="assets/favicon.ico" sizes="32x32">
+<meta name="description" content="Case study: the resource planning module in Birdview PSA. Research, design, design system and results.">
+<meta name="page-type" content="service">
+<meta name="site-kind" content="other">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Resource planning in Birdview — Maria Demenko">
+<meta property="og:description" content="Complex software, simple screens. 7 years in B2B SaaS, retail and delivery.">
+<meta property="og:image" content="https://mdemenko11-droid.github.io/maria-demenko-portfolio/assets/og-home.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B0809">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#0E0E11">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Noto+Serif+Display:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/grid.css?v=85">
-<script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-slides');</script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/signal.css?v=104">
+<script>document.documentElement.classList.add('js'); try{ var l = localStorage.getItem('md-lang'); if (l) document.documentElement.setAttribute('data-lang', l); }catch(e){}</script>
 </head>
 <body>
+<!-- The Birdview case in the Signal style: the same nav, ground, type, buttons and scroll reveals as the home page (index.html). -->
+<a class="skip-link" href="#main"><span class="t-en">Skip to content</span><span class="t-ru">Перейти к содержимому</span></a>
 
-<!-- the black glyphs share one glossy fill and one cast shadow -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#3a3533"/><stop offset=".45" stop-color="#121010"/><stop offset="1" stop-color="#030303"/>
-    </linearGradient>
-    <filter id="cast" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="5" dy="9" stdDeviation="6" flood-color="#2b2e36" flood-opacity=".55"/>
-    </filter>
-  </defs>
-</svg>
-
-<nav class="nav" aria-label="Main">
-  <a class="nav-logo" href="index.html" aria-label="Maria Demenko, home">
-    <svg viewBox="4.5 13.5 50.5 28" aria-hidden="true" focusable="false">
-      <defs><linearGradient id="logo-rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F1E9E5"/><stop offset=".38" stop-color="#D7BEB2"/><stop offset=".62" stop-color="#E9DAD3"/><stop offset="1" stop-color="#C46B8D"/></linearGradient></defs>
-      <path d="M8 38V24M8 26c0-6 4-9 8-9s8 3 8 9v12M24 26c0-6 4-9 8-9s8 3 8 9v12" fill="none" stroke="url(#logo-rg)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="35.5" r="4.6" fill="url(#logo-rg)"/>
-    </svg>
-  </a>
-  <span class="nav-links">
-    <a href="index.html"><span class="t-en">Home</span><span class="t-ru">Главная</span></a>
-    <a href="about.html"><span class="t-en">About</span><span class="t-ru">Обо мне</span></a>
-    <a href="cases.html" aria-current="page"><span class="t-en">Cases</span><span class="t-ru">Кейсы</span></a>
-  </span>
-  <span class="nav-end">
-    <button type="button" class="nav-lang" data-set-lang="en">EN</button>
-    <button type="button" class="nav-lang" data-set-lang="ru">RU</button>
-  </span>
-</nav>
-
-<main class="board board--about board--case" id="top">
-
-  <section class="cell cell--text cell--lead cell--case-head" data-slide="00">
-    <a class="back-link" href="cases.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span class="t-en">All cases</span><span class="t-ru">Все кейсы</span></a>
-    <p class="kicker"><span class="t-en">Case study · B2B SaaS · 2023 — 2024</span><span class="t-ru">Кейс · B2B SaaS · 2023 — 2024</span></p>
-    <h1><span class="t-en">Resource planning<br>in Birdview</span><span class="t-ru">Планирование ресурсов<br>в Birdview</span></h1>
-    <p class="about-lead"><span class="t-en">Who is busy, who is free, and how to fix it — on one screen.</span><span class="t-ru">Кто занят, кто свободен и как это исправить — на одном экране.</span></p>
-  </section>
-
-  <section class="cell cell--text cell--intro cell--facts cell--case-meta">
-    <ul class="facts">
-      <li><span class="t-en">Role</span><span class="t-ru">Роль</span><small><span class="t-en">Product designer</span><span class="t-ru">Продуктовый дизайнер</span></small></li>
-      <li><span class="t-en">Period</span><span class="t-ru">Период</span><small>2023 — 2024</small></li>
-      <li><span class="t-en">Team</span><span class="t-ru">Команда</span><small><span class="t-en">PM, engineers, QA</span><span class="t-ru">PM, разработка, QA</span></small></li>
-      <li><span class="t-en">Platform</span><span class="t-ru">Платформа</span><small><span class="t-en">Web, B2B SaaS</span><span class="t-ru">Веб, B2B SaaS</span></small></li>
-    </ul>
-    <a class="card-link card-link--light" href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-  </section>
-
-  <div class="card card--cover card--still"><span class="case-media"><img src="assets/case-birdview-planning.jpg" alt="Resource planning screen in Birdview"></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-
-  <section class="cell cell--text cell--section" id="overview" data-slide="01">
-    <p class="kicker"><span class="sec-no">01</span><span class="t-en">Overview</span><span class="t-ru">Коротко</span></p>
-    <h2 class="sec-title"><span class="t-en">The case in one minute</span><span class="t-ru">Кейс за минуту</span></h2>
-  </section>
-  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg></span><p class="kicker"><span class="t-en">Product</span><span class="t-ru">Продукт</span></p><p class="brief-line"><span class="t-en">Birdview PSA: projects, people and finances in one place</span><span class="t-ru">Birdview PSA: проекты, люди и финансы в одном месте</span></p></section>
-  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 19.5H3z"/><path d="M12 10v4.5M12 17.2v.1"/></svg></span><p class="kicker"><span class="t-en">Problem</span><span class="t-ru">Проблема</span></p><p class="brief-line"><span class="t-en">Overload and idle time were invisible</span><span class="t-ru">Перегруз и простои было не видно</span></p></section>
-  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5z"/><path d="M13.5 7l3 3"/></svg></span><p class="kicker"><span class="t-en">My part</span><span class="t-ru">Моя роль</span></p><p class="brief-line"><span class="t-en">The module end to end, research to components</span><span class="t-ru">Модуль целиком, от исследования до компонентов</span></p></section>
-  <section class="cell cell--text cell--intro cell--brief"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17 9 11.5l3.5 3.5L20.5 7"/><path d="M15 7h5.5v5.5"/></svg></span><p class="kicker"><span class="t-en">Impact</span><span class="t-ru">Результат</span></p><p class="brief-line"><span class="t-en">Sales-assisted conversion 1.67% → 2.78%</span><span class="t-ru">Конверсия sales-assisted 1.67% → 2.78%</span></p></section>
-
-  <section class="cell cell--text cell--section" id="context" data-slide="02">
-    <p class="kicker"><span class="sec-no">02</span><span class="t-en">Context and goal</span><span class="t-ru">Контекст и цель</span></p>
-    <h2 class="sec-title"><span class="t-en">Why the module was needed</span><span class="t-ru">Зачем понадобился модуль</span></h2>
-  </section>
-  <section class="cell cell--text cell--intro cell--quote">
-    <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/></svg></span>
-    <p class="quote"><span class="t-en">Give managers control over resources at every level — from one specialist to the whole project.</span><span class="t-ru">Дать менеджерам контроль над ресурсами на всех уровнях — от одного специалиста до всего проекта.</span></p>
-  </section>
-  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/></svg></span><p class="kicker"><span class="t-en">Resource manager</span><span class="t-ru">Ресурсный менеджер</span></p><p class="brief-line"><span class="t-en">Balances people across projects</span><span class="t-ru">Распределяет людей по проектам</span></p></section>
-  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg></span><p class="kicker"><span class="t-en">Project manager</span><span class="t-ru">Проектный менеджер</span></p><p class="brief-line"><span class="t-en">Needs the right roles in time</span><span class="t-ru">Нужны нужные роли вовремя</span></p></section>
-  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg></span><p class="kicker"><span class="t-en">Leadership</span><span class="t-ru">Руководство</span></p><p class="brief-line"><span class="t-en">Wants capacity at a glance</span><span class="t-ru">Хочет видеть ёмкость сразу</span></p></section>
-  <section class="cell cell--text cell--intro cell--brief cell--persona"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span><p class="kicker"><span class="t-en">Specialist</span><span class="t-ru">Специалист</span></p><p class="brief-line"><span class="t-en">Sees own load and bookings</span><span class="t-ru">Видит свою загрузку и брони</span></p></section>
-  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Before: how planning looked</span><span class="t-ru">До: как выглядело планирование</span></b><small><span class="t-en">The old Resources screen or the team spreadsheet</span><span class="t-ru">Старый экран Resources или таблица команды</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose cell--todo">
-    <h3 class="prose-title"><span class="t-en">What was broken</span><span class="t-ru">Что было не так</span></h3>
-    <p class="cell-small"><span class="t-en">One line: double bookings, idle people, late staffing — and the cost.</span><span class="t-ru">Одна строка: двойные брони, простои, поздний стаффинг — и чего это стоило.</span></p>
-  </section>
-
-  <section class="cell cell--text cell--section" id="process" data-slide="03">
-    <p class="kicker"><span class="sec-no">03</span><span class="t-en">Design process</span><span class="t-ru">Процесс</span></p>
-    <h2 class="sec-title"><span class="t-en">From research to release</span><span class="t-ru">От исследования до релиза</span></h2>
-  </section>
-  <article class="card card--step">
-    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span><span class="card-no">01</span></span>
-    <h2><span class="t-en">Discover</span><span class="t-ru">Исследование</span></h2>
-    <ul class="step-list"><li><span class="t-en">Audience and needs</span><span class="t-ru">Аудитория и потребности</span></li><li><span class="t-en">Competitors</span><span class="t-ru">Конкуренты</span></li><li><span class="t-en">Market trends</span><span class="t-ru">Тренды рынка</span></li></ul>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <article class="card card--step">
-    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/></svg></span><span class="card-no">02</span></span>
-    <h2><span class="t-en">Define</span><span class="t-ru">Постановка</span></h2>
-    <ul class="step-list"><li><span class="t-en">Requirements with PM</span><span class="t-ru">Требования с PM</span></li><li><span class="t-en">User flows</span><span class="t-ru">Сценарии</span></li><li><span class="t-en">Design sprints</span><span class="t-ru">Дизайн-спринты</span></li></ul>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <article class="card card--step">
-    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 8l-9 4.5L3 8z"/><path d="m3 12 9 4.5 9-4.5M3 16l9 4.5 9-4.5"/></svg></span><span class="card-no">03</span></span>
-    <h2><span class="t-en">Design</span><span class="t-ru">Проектирование</span></h2>
-    <ul class="step-list"><li><span class="t-en">Concept</span><span class="t-ru">Концепция</span></li><li><span class="t-en">Mockups</span><span class="t-ru">Макеты</span></li><li><span class="t-en">Prototype</span><span class="t-ru">Прототип</span></li></ul>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <article class="card card--step">
-    <span class="step-top"><span class="ic ic--dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8 12.3 2.6 2.6L16.2 9"/></svg></span><span class="card-no">04</span></span>
-    <h2><span class="t-en">Validate</span><span class="t-ru">Проверка</span></h2>
-    <ul class="step-list"><li><span class="t-en">User tests</span><span class="t-ru">Тесты с пользователями</span></li><li><span class="t-en">Iterations</span><span class="t-ru">Итерации</span></li><li><span class="t-en">Hand-off</span><span class="t-ru">Передача в разработку</span></li></ul>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Competitor analysis</span><span class="t-ru">Анализ конкурентов</span></b><small><span class="t-en">4–6 planning tools compared</span><span class="t-ru">Сравнение 4–6 инструментов</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">User flow</span><span class="t-ru">Сценарий</span></b><small><span class="t-en">Open position → booked person</span><span class="t-ru">Открытая позиция → бронь</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Sprint sketches</span><span class="t-ru">Скетчи со спринта</span></b><small><span class="t-en">2–3 directions of the timeline</span><span class="t-ru">2–3 направления таймлайна</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Before / after tests</span><span class="t-ru">До / после тестов</span></b><small><span class="t-en">One screen, two versions</span><span class="t-ru">Один экран, две версии</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-
-  <section class="cell cell--text cell--section" id="feature" data-slide="04">
-    <p class="kicker"><span class="sec-no">04</span><span class="t-en">Key feature</span><span class="t-ru">Главная фича</span></p>
-    <h2 class="sec-title"><span class="t-en">Resource planning</span><span class="t-ru">Ресурсное планирование</span></h2>
-  </section>
-  <section class="cell cell--text cell--intro cell--chips cell--wide"><ul class="icon-chips"><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="11" height="3.5" rx="1.5"/><rect x="7.5" y="10.5" width="13" height="3.5" rx="1.5"/><rect x="5" y="16" width="8" height="3.5" rx="1.5"/></svg></span><span class="t-en">Load at any scale</span><span class="t-ru">Загрузка в любом масштабе</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"/><circle cx="17" cy="12" r="3"/><path d="M10 12h4"/></svg></span><span class="t-en">Colour status</span><span class="t-ru">Цветовой статус</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h9M4 12h6M4 17.5h5"/><path d="m13 19 .6-2.8 5.6-5.6a1.6 1.6 0 0 1 2.2 2.2L15.8 18.4z"/></svg></span><span class="t-en">Priorities</span><span class="t-ru">Приоритеты</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="4.5" rx="1.6"/><rect x="3.5" y="10" width="17" height="4.5" rx="1.6"/><rect x="3.5" y="16" width="10" height="4.5" rx="1.6"/></svg></span><span class="t-en">Position status</span><span class="t-ru">Статусы позиций</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="3.2"/><path d="M3 19a5.5 5.5 0 0 1 11 0"/><path d="m15 12 2 2 4-4.5"/></svg></span><span class="t-en">Candidate matching</span><span class="t-ru">Подбор кандидатов</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8l4.5 4.5v12.5H6z"/><path d="M14 3.5V8h4.5M9 13h6M9 16.5h4"/></svg></span><span class="t-en">Project proposals</span><span class="t-ru">Предложения по проектам</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9.5" r="2.5"/><path d="M15.5 14.4a4.5 4.5 0 0 1 5.5 4.4"/></svg></span><span class="t-en">Generic and named</span><span class="t-ru">Дженерик и сотрудники</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5h17l-6.5 8v6l-4-2v-4z"/></svg></span><span class="t-en">Filters and granularity</span><span class="t-ru">Фильтры и гранулярность</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13.5 6 5h12l2.5 8.5V19a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z"/><path d="M3.5 13.5H8l1.5 2.5h5l1.5-2.5h4.5"/></svg></span><span class="t-en">Requests and booking</span><span class="t-ru">Заявки и бронь</span></li></ul></section>
-  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Load at a glance</span><span class="t-ru">Загрузка одним взглядом</span></b><small><span class="t-en">Planning screen with normal / over / under colours</span><span class="t-ru">Экран с цветами: норма / перегруз / недогруз</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose cell--feat">
-    <span class="feat-no">01</span>
-    <h3 class="prose-title"><span class="t-en">Colour first, numbers second</span><span class="t-ru">Сначала цвет, потом цифры</span></h3>
-    <p class="cell-small"><span class="t-en">The state of the company reads before a single number.</span><span class="t-ru">Состояние компании считывается раньше первой цифры.</span></p>
-  </section>
-  <section class="cell cell--text cell--intro cell--prose cell--feat">
-    <span class="feat-no">02</span>
-    <h3 class="prose-title"><span class="t-en">Conflicts fixed in place</span><span class="t-ru">Конфликты — на месте</span></h3>
-    <p class="cell-small"><span class="t-en">Two projects, one person: compare and rebalance without leaving.</span><span class="t-ru">Два проекта, один человек: сравнить и перераспределить, не уходя.</span></p>
-  </section>
-  <figure class="card card--media card--video card--still card--shot"><video src="assets/video/resolve-conflicts.webm" muted loop playsinline controls preload="metadata"></video><figcaption><span class="t-en">Resolving a conflict</span><span class="t-ru">Разрешение конфликта</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Positions and candidates</span><span class="t-ru">Позиции и кандидаты</span></b><small><span class="t-en">Open / proposed / booked / filled + matched shortlist</span><span class="t-ru">Открыта / предложена / забронирована / занята + шортлист</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose cell--feat">
-    <span class="feat-no">03</span>
-    <h3 class="prose-title"><span class="t-en">The shortlist comes to the role</span><span class="t-ru">Шортлист приходит к роли</span></h3>
-    <p class="cell-small"><span class="t-en">Matched by role and skills; manual choice kept.</span><span class="t-ru">Подбор по ролям и навыкам, ручной выбор остаётся.</span></p>
-  </section>
-  <section class="cell cell--text cell--intro cell--prose cell--feat">
-    <span class="feat-no">04</span>
-    <h3 class="prose-title"><span class="t-en">One person, every project</span><span class="t-ru">Один человек, все проекты</span></h3>
-    <p class="cell-small"><span class="t-en">Drill down: what they do and what a booking changes.</span><span class="t-ru">Детали: чем занят и что изменит бронь.</span></p>
-  </section>
-  <figure class="card card--media card--video card--still card--shot"><video src="assets/video/control-resource.webm" muted loop playsinline controls preload="metadata"></video><figcaption><span class="t-en">Controlling one person's load</span><span class="t-ru">Контроль загрузки одного человека</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <div class="card card--media card--still"><span class="ph"><span><b><span class="t-en">Proposals and requests</span><span class="t-ru">Предложения и заявки</span></b><small><span class="t-en">Proposal form + requests list with approve / book</span><span class="t-ru">Форма предложения + список заявок с одобрением / бронью</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <section class="cell cell--text cell--intro cell--prose cell--feat">
-    <span class="feat-no">05</span>
-    <h3 class="prose-title"><span class="t-en">Requests with a clear status</span><span class="t-ru">Заявки с понятным статусом</span></h3>
-    <p class="cell-small"><span class="t-en">Send, approve, reject, book — in one list.</span><span class="t-ru">Отправить, одобрить, отклонить, забронировать — в одном списке.</span></p>
-  </section>
-
-  <section class="cell cell--text cell--section" id="prototype" data-slide="↗">
-    <p class="kicker"><span class="sec-no">↗</span><span class="t-en">Interactive prototype</span><span class="t-ru">Интерактивный прототип</span></p>
-    <h2 class="sec-title"><span class="t-en">Try it yourself</span><span class="t-ru">Попробуйте сами</span></h2>
-  </section>
-
-  <section class="cell cell--text cell--intro cell--demo">
-    <div class="demo-head">
-      <p class="cell-small"><span class="t-en">Resolve an overload, drag bookings, staff a role.</span><span class="t-ru">Разрулите перегруз, подвигайте брони, подберите человека.</span></p>
-      <a class="card-link card-link--light" href="birdview-demo.html" target="_blank" rel="noopener"><span class="t-en">Open full screen</span><span class="t-ru">На весь экран</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-    </div>
-    <div class="demo-frame"><iframe src="birdview-demo.html?embed" title="Birdview resource planning, interactive prototype" loading="lazy"></iframe></div>
-  </section>
-
-  <section class="cell cell--text cell--section" id="refresh" data-slide="05">
-    <p class="kicker"><span class="sec-no">05</span><span class="t-en">Bonus · UI refresh</span><span class="t-ru">Бонус · обновление UI</span></p>
-    <h2 class="sec-title"><span class="t-en">A calmer product</span><span class="t-ru">Продукт спокойнее</span></h2>
-  </section>
-  <p class="cell cell--sub"><span class="t-en">What was wrong</span><span class="t-ru">Что было не так</span></p>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a1-load.jpg" alt="Loaded product → high cognitive load" loading="lazy"></span><figcaption><span class="t-en">Loaded product → high cognitive load</span><span class="t-ru">Перегруженный продукт → высокая когнитивная нагрузка</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a2-accents.jpg" alt="Too many accents → scattered attention" loading="lazy"></span><figcaption><span class="t-en">Too many accents → scattered attention</span><span class="t-ru">Много акцентов → рассеянное внимание</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a3-shapes.jpg" alt="Sharp shapes → formal, unfriendly" loading="lazy"></span><figcaption><span class="t-en">Sharp shapes → formal, unfriendly</span><span class="t-ru">Острые формы → формально и неприветливо</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a4-brand.jpg" alt="No brand colours → no recognition" loading="lazy"></span><figcaption><span class="t-en">No brand colours → no recognition</span><span class="t-ru">Нет бренд-цветов → нет узнаваемости</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <p class="cell cell--sub"><span class="t-en">What we changed</span><span class="t-ru">Что изменили</span></p>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a5-fonts.jpg" alt="Fonts: bold → medium" loading="lazy"></span><figcaption><span class="t-en">Fonts: bold → medium</span><span class="t-ru">Шрифты: bold → medium</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a6-icons.jpg" alt="Icons: sharp 1.6 → rounded 1.2" loading="lazy"></span><figcaption><span class="t-en">Icons: sharp 1.6 → rounded 1.2</span><span class="t-ru">Иконки: острые 1.6 → скруглённые 1.2</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a7-colors.jpg" alt="Brand + semantic colours, light and dark" loading="lazy"></span><figcaption><span class="t-en">Brand + semantic colours, light and dark</span><span class="t-ru">Бренд + семантика, светлая и тёмная</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/a8-coding.jpg" alt="One colour coding for every status" loading="lazy"></span><figcaption><span class="t-en">One colour coding for every status</span><span class="t-ru">Одно цветовое кодирование для всех статусов</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-
-  <section class="cell cell--text cell--section" id="system" data-slide="06">
-    <p class="kicker"><span class="sec-no">06</span><span class="t-en">Design system</span><span class="t-ru">Дизайн-система</span></p>
-    <h2 class="sec-title"><span class="t-en">Built from parts, not screens</span><span class="t-ru">Собрано из частей, а не экранов</span></h2>
-  </section>
-  <figure class="card card--media card--still card--shot"><span class="case-shot"><img src="assets/case-birdview/ds-cover.jpg" alt="Birdview design system cover" loading="lazy"></span><figcaption><span class="t-en">Birdview design system</span><span class="t-ru">Дизайн-система Birdview</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-  <section class="cell cell--text cell--intro cell--chips cell--half-chips"><ul class="icon-chips"><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.6-.9 1.2-1.8-.5-1.1.2-2.2 1.4-2.2h2.2a3.7 3.7 0 0 0 3.7-3.7C20.5 7.3 16.7 3.5 12 3.5z"/><circle cx="7.8" cy="11" r="1"/><circle cx="11" cy="7.5" r="1"/><circle cx="15.5" cy="8.5" r="1"/></svg></span><span class="t-en">Colours</span><span class="t-ru">Цвета</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5V5h14v1.5M12 5v14M9 19h6"/></svg></span><span class="t-en">Typography</span><span class="t-ru">Типографика</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.8 4.6 3.4 7.2 9 9-5.6 1.8-8.2 4.4-9 9-.8-4.6-3.4-7.2-9-9 5.6-1.8 8.2-4.4 9-9z"/></svg></span><span class="t-en">Icons</span><span class="t-ru">Иконки</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="4.5"/><rect x="12.5" y="12.5" width="8" height="8" rx="2"/><path d="m5 20 3-5 3 5z"/></svg></span><span class="t-en">Components</span><span class="t-ru">Компоненты</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M3.5 9h17M9.5 9v11.5"/></svg></span><span class="t-en">Layouts</span><span class="t-ru">Лейауты</span></li><li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 8l-9 4.5L3 8z"/><path d="m3 12 9 4.5 9-4.5M3 16l9 4.5 9-4.5"/></svg></span><span class="t-en">Dark mode</span><span class="t-ru">Тёмная тема</span></li></ul></section>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Load cell: anatomy</span><span class="t-ru">Ячейка: анатомия</span></b><small><span class="t-en">Hours, %, status colour</span><span class="t-ru">Часы, %, цвет статуса</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Load cell: states</span><span class="t-ru">Ячейка: состояния</span></b><small><span class="t-en">Normal, over, under, empty, hover</span><span class="t-ru">Норма, перегруз, недогруз, пусто, ховер</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">System feedback</span><span class="t-ru">Уведомления</span></b><small><span class="t-en">Info, success, warning, error</span><span class="t-ru">Инфо, успех, предупреждение, ошибка</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <div class="card card--tile card--still"><span class="ph"><span><b><span class="t-en">Message board</span><span class="t-ru">Комментарии</span></b><small><span class="t-en">Component + empty state</span><span class="t-ru">Компонент + пустое состояние</span></small></span></span><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></div>
-  <figure class="card card--cover card--still card--shot"><span class="case-media case-media--doc"><img src="assets/case-birdview-components.jpg" alt="Calendar component documentation" loading="lazy"></span><figcaption><span class="t-en">Calendar component and its states</span><span class="t-ru">Компонент календаря и его состояния</span></figcaption><span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span></figure>
-
-  <section class="cell cell--text cell--section" id="results" data-slide="07">
-    <p class="kicker"><span class="sec-no">07</span><span class="t-en">Results</span><span class="t-ru">Результаты</span></p>
-    <h2 class="sec-title"><span class="t-en">A feature became a sales argument</span><span class="t-ru">Фича стала аргументом продаж</span></h2>
-  </section>
-  <article class="card card--standout">
-    <span class="card-no"><span class="t-en">Headline result</span><span class="t-ru">Главный результат</span></span>
-    <b class="standout-value" data-count="100">100%</b>
-    <p class="lead"><span class="t-en">of new clients use the module</span><span class="t-ru">новых клиентов используют модуль</span></p>
-    <span class="foil" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span>
-  </article>
-  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">12%</b><p class="cell-small"><span class="t-en">enabled it in the feature lab</span><span class="t-ru">включили на этапе feature lab</span></p></div>
-  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">4%</b><p class="cell-small"><span class="t-en">adoption across paid accounts</span><span class="t-ru">adoption среди платных аккаунтов</span></p></div>
-  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">10%</b><p class="cell-small"><span class="t-en">feature retention</span><span class="t-ru">retention фичи</span></p></div>
-  <div class="cell cell--text cell--intro cell--metric"><b class="metric-value">1.67 → 2.78%</b><p class="cell-small"><span class="t-en">sales-assisted → paid</span><span class="t-ru">sales-assisted → платящие</span></p></div>
-
-  <section class="cell cell--text cell--section" id="learnings" data-slide="08">
-    <p class="kicker"><span class="sec-no">08</span><span class="t-en">Reflection</span><span class="t-ru">Выводы</span></p>
-    <h2 class="sec-title"><span class="t-en">What I learned</span><span class="t-ru">Что я вынесла</span></h2>
-  </section>
-  <section class="cell cell--text cell--intro cell--prose cell--todo">
-    <h3 class="prose-title"><span class="t-en">What worked</span><span class="t-ru">Что сработало</span></h3>
-    <p class="cell-small"><span class="t-en">One or two lines.</span><span class="t-ru">Одна-две строки.</span></p>
-  </section>
-  <section class="cell cell--text cell--intro cell--prose cell--todo">
-    <h3 class="prose-title"><span class="t-en">What I would change</span><span class="t-ru">Что сделала бы иначе</span></h3>
-    <p class="cell-small"><span class="t-en">One or two lines.</span><span class="t-ru">Одна-две строки.</span></p>
-  </section>
-
-  <section class="cell cell--text cell--intro cell--prose cell--wide cell--actions">
-    <div class="action-row">
-      <a class="card-link card-link--light" href="#prototype"><span class="t-en">Try the prototype</span><span class="t-ru">Попробовать прототип</span></a>
-      <a class="card-link card-link--light" href="https://www.figma.com/design/RYyFgZM48P8RdCz3SBcHcw/Maria?node-id=0-1" target="_blank" rel="noopener"><span class="t-en">Mockups in Figma</span><span class="t-ru">Макеты в Figma</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-      <a class="card-link card-link--light" href="https://www.figma.com/design/dwIZDLfWIurSX5CYNiNWYq/DS-Birdview" target="_blank" rel="noopener"><span class="t-en">Design system in Figma</span><span class="t-ru">Дизайн-система в Figma</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-      <a class="card-link card-link--light" href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-    </div>
-  </section>
-
-  <section class="cell cell--text cell--lead cell--cta">
-    <h2 class="sec-title"><span class="t-en">Have a complex product<br>to make simple?</span><span class="t-ru">Есть сложный продукт,<br>который нужно упростить?</span></h2>
-    <a class="lead-btn" href="https://t.me/mariademn" target="_blank" rel="noopener">
-      <span class="lb-halo" aria-hidden="true"></span>
-      <span class="lb-blob" aria-hidden="true"><span class="lb-body"><span class="lb-silver"></span><span class="lb-pearl"></span></span></span>
-      <span class="lb-rim" aria-hidden="true"></span>
-      <svg class="lb-svg" aria-hidden="true" focusable="false">
-        <defs>
-          <clipPath id="lb-clip" clipPathUnits="userSpaceOnUse"><path class="lb-path"/></clipPath>
-          <radialGradient id="lb-glint" gradientUnits="userSpaceOnUse" r="90"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#BEDCFF" stop-opacity=".95"/><stop offset=".6" stop-color="#FFAAD7" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-        </defs>
-        <path class="lb-path lb-edge"/>
-        <path class="lb-path lb-glint" stroke="url(#lb-glint)"/>
-      </svg>
-      <span class="lb-sparks" aria-hidden="true"></span>
-      <span class="lead-btn-label"><span class="t-en">Let's talk</span><span class="t-ru">Давайте обсудим</span></span>
-      <span class="lead-btn-icon" aria-hidden="true"><span class="ico ico-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><span class="ico ico-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></span>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="Maria Demenko, home">
+      <svg viewBox="4.5 13.5 50.5 28" aria-hidden="true"><path d="M8 38V24M8 26c0-6 4-9 8-9s8 3 8 9v12M24 26c0-6 4-9 8-9s8 3 8 9v12" fill="none" stroke="#F2EFEA" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="35.5" r="4.6" fill="#E9D8DF"/></svg>
     </a>
+    <nav class="pill" aria-label="Main">
+      <a href="index.html#work" aria-current="page"><span class="t-en">Work</span><span class="t-ru">Работы</span></a>
+      <a href="about.html"><span class="t-en">About</span><span class="t-ru">Обо мне</span></a>
+      <a class="nav-cv" href="assets/maria-demenko-cv.pdf" target="_blank" rel="noopener">CV<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    </nav>
+    <div class="pill" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en">EN</button>
+      <button type="button" data-set-lang="ru">RU</button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="cs">
+
+  <section class="hero cs-hero" data-enter aria-labelledby="cs-title">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-top">
+        <a class="cs-back mono rise" style="--d:0" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span class="t-en">All work</span><span class="t-ru">Все работы</span></a>
+        <p class="mono rise" style="--d:1"><span class="t-en">Case study · Birdview PSA · B2B SaaS · 2023 — 2024</span><span class="t-ru">Кейс · Birdview PSA · B2B SaaS · 2023 — 2024</span></p>
+      </div>
+      <div class="cs-hero-main">
+        <h1 id="cs-title"><span class="row rise" style="--d:1"><span class="t-en">Resource planning</span><span class="t-ru">Планирование ресурсов</span></span><span class="row row--in rise" style="--d:2"><span class="t-en">in Birdview</span><span class="t-ru">в Birdview</span></span></h1>
+        <p class="about-lead rise" style="--d:3"><span class="t-en">Who is busy, who is free, and how to fix it — on one screen.</span><span class="t-ru">Кто занят, кто свободен и как это исправить — на одном экране.</span></p>
+      </div>
+      <ul class="cs-meta rise" style="--d:4">
+        <li><span class="mono"><span class="t-en">Role</span><span class="t-ru">Роль</span></span><b><span class="t-en">Product designer</span><span class="t-ru">Продуктовый дизайнер</span></b></li>
+        <li><span class="mono"><span class="t-en">Period</span><span class="t-ru">Период</span></span><b>2023 — 2024</b></li>
+        <li><span class="mono"><span class="t-en">Team</span><span class="t-ru">Команда</span></span><b><span class="t-en">PM, engineers, QA</span><span class="t-ru">PM, разработка, QA</span></b></li>
+        <li><span class="mono"><span class="t-en">Platform</span><span class="t-ru">Платформа</span></span><b><span class="t-en">Web, B2B SaaS</span><span class="t-ru">Веб, B2B SaaS</span></b></li>
+        <li><span class="mono"><span class="t-en">Product</span><span class="t-ru">Продукт</span></span><a class="job-link" href="https://birdviewpsa.com" target="_blank" rel="noopener">birdviewpsa.com<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+      </ul>
+    </div>
   </section>
 
-  <section class="cell cell--text cell--contact" id="contact">
-    <h3><span class="t-en">Let's build together</span><span class="t-ru">Сделаем вместе</span></h3>
-    <ul class="contact-list">
-      <li><button type="button" class="c-row" data-copy="m.demenko11@gmail.com">
-        <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3.5 7 7.4 5.3a1.9 1.9 0 0 0 2.2 0L20.5 7"/></svg></span>
-        <span class="c-txt"><span class="c-name"><span class="t-en">Email · click to copy</span><span class="t-ru">Почта · нажмите, чтобы скопировать</span></span><span class="c-val" data-copy-label>m.demenko11@gmail.com</span></span>
-        <span class="c-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6a2.5 2.5 0 0 0-2.5-2.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></svg></span>
-      </button></li>
-      <li><a class="c-row" href="https://t.me/mariademn" target="_blank" rel="noopener">
-        <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m21.5 3.5-19 7.3 6.6 2.5 2.5 6.7 3.4-4.4 4.6 3.4z"/><path d="m9.1 13.3 8.4-6.3"/></svg></span>
-        <span class="c-txt"><span class="c-name">Telegram</span><span class="c-val">@mariademn</span></span>
-        <span class="c-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-      </a></li>
-      <li><a class="c-row" href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener">
-        <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V16M8 7.6v.1M11.5 16v-3.2a2.3 2.3 0 0 1 4.6 0V16M11.5 10.5V16"/></svg></span>
-        <span class="c-txt"><span class="c-name">LinkedIn</span><span class="c-val">Maria Demenko</span></span>
-        <span class="c-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-      </a></li>
-    </ul>
+  <section class="cs-sec cs-cover" aria-label="Resource planning screen">
+    <div class="wrap"><div class="case-screen"><img src="assets/case-birdview-planning.jpg" alt="Resource planning screen in Birdview"></div></div>
+  </section>
+
+  <section class="cs-sec" id="overview" aria-labelledby="overview-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="overview-title"><span class="t-en">The case in one minute</span><span class="t-ru">Кейс за минуту</span></h2>
+        <p class="mono">01 · <span class="t-en">Overview</span><span class="t-ru">Коротко</span></p>
+      </div>
+      <ul class="cs-grid4"><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg></span><p class="mono"><span class="t-en">Product</span><span class="t-ru">Продукт</span></p><p class="cs-brief-line"><span class="t-en">Birdview PSA: projects, people and finances in one place</span><span class="t-ru">Birdview PSA: проекты, люди и финансы в одном месте</span></p></li><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 19.5H3z"/><path d="M12 10v4.5M12 17.2v.1"/></svg></span><p class="mono"><span class="t-en">Problem</span><span class="t-ru">Проблема</span></p><p class="cs-brief-line"><span class="t-en">Overload and idle time were invisible</span><span class="t-ru">Перегруз и простои было не видно</span></p></li><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5z"/><path d="M13.5 7l3 3"/></svg></span><p class="mono"><span class="t-en">My part</span><span class="t-ru">Моя роль</span></p><p class="cs-brief-line"><span class="t-en">The module end to end, research to components</span><span class="t-ru">Модуль целиком, от исследования до компонентов</span></p></li><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17 9 11.5l3.5 3.5L20.5 7"/><path d="M15 7h5.5v5.5"/></svg></span><p class="mono"><span class="t-en">Impact</span><span class="t-ru">Результат</span></p><p class="cs-brief-line"><span class="t-en">Sales-assisted conversion 1.67% → 2.78%</span><span class="t-ru">Конверсия sales-assisted 1.67% → 2.78%</span></p></li></ul>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="context" aria-labelledby="context-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="context-title"><span class="t-en">Why the module was needed</span><span class="t-ru">Зачем понадобился модуль</span></h2>
+        <p class="mono">02 · <span class="t-en">Context and goal</span><span class="t-ru">Контекст и цель</span></p>
+      </div>
+      <p class="intro-copy cs-quote"><span class="t-en">Give managers control over resources at every level — from one specialist to the whole project.</span><span class="t-ru">Дать менеджерам контроль над ресурсами на всех уровнях — от одного специалиста до всего проекта.</span></p>
+      <ul class="cs-grid4 cs-personas"><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/></svg></span><p class="mono"><span class="t-en">Resource manager</span><span class="t-ru">Ресурсный менеджер</span></p><p class="cs-brief-line"><span class="t-en">Balances people across projects</span><span class="t-ru">Распределяет людей по проектам</span></p></li><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg></span><p class="mono"><span class="t-en">Project manager</span><span class="t-ru">Проектный менеджер</span></p><p class="cs-brief-line"><span class="t-en">Needs the right roles in time</span><span class="t-ru">Нужны нужные роли вовремя</span></p></li><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg></span><p class="mono"><span class="t-en">Leadership</span><span class="t-ru">Руководство</span></p><p class="cs-brief-line"><span class="t-en">Wants capacity at a glance</span><span class="t-ru">Хочет видеть ёмкость сразу</span></p></li><li class="cs-brief"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span><p class="mono"><span class="t-en">Specialist</span><span class="t-ru">Специалист</span></p><p class="cs-brief-line"><span class="t-en">Sees own load and bookings</span><span class="t-ru">Видит свою загрузку и брони</span></p></li></ul>
+      <div class="cs-split">
+        <div class="cs-ph cs-ph--wide"><span class="cs-ph-in"><b><span class="t-en">Before: how planning looked</span><span class="t-ru">До: как выглядело планирование</span></b><small class="mono"><span class="t-en">The old Resources screen or the team spreadsheet</span><span class="t-ru">Старый экран Resources или таблица команды</span></small></span></div>
+        <div class="cs-feat-text"><span class="mono">!</span><h3><span class="t-en">What was broken</span><span class="t-ru">Что было не так</span></h3><p><span class="t-en">One line: double bookings, idle people, late staffing — and the cost.</span><span class="t-ru">Одна строка: двойные брони, простои, поздний стаффинг — и чего это стоило.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="process" aria-labelledby="process-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="process-title"><span class="t-en">From research to release</span><span class="t-ru">От исследования до релиза</span></h2>
+        <p class="mono">03 · <span class="t-en">Design process</span><span class="t-ru">Процесс</span></p>
+      </div>
+      <ol class="cs-steps"><li class="cs-step"><span class="cs-step-top"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span><span class="mono">01</span></span><h3><span class="t-en">Discover</span><span class="t-ru">Исследование</span></h3><ul class="cs-step-list"><li><span class="t-en">Audience and needs</span><span class="t-ru">Аудитория и потребности</span></li><li><span class="t-en">Competitors</span><span class="t-ru">Конкуренты</span></li><li><span class="t-en">Market trends</span><span class="t-ru">Тренды рынка</span></li></ul></li><li class="cs-step"><span class="cs-step-top"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/></svg></span><span class="mono">02</span></span><h3><span class="t-en">Define</span><span class="t-ru">Постановка</span></h3><ul class="cs-step-list"><li><span class="t-en">Requirements with PM</span><span class="t-ru">Требования с PM</span></li><li><span class="t-en">User flows</span><span class="t-ru">Сценарии</span></li><li><span class="t-en">Design sprints</span><span class="t-ru">Дизайн-спринты</span></li></ul></li><li class="cs-step"><span class="cs-step-top"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 8l-9 4.5L3 8z"/><path d="m3 12 9 4.5 9-4.5M3 16l9 4.5 9-4.5"/></svg></span><span class="mono">03</span></span><h3><span class="t-en">Design</span><span class="t-ru">Проектирование</span></h3><ul class="cs-step-list"><li><span class="t-en">Concept</span><span class="t-ru">Концепция</span></li><li><span class="t-en">Mockups</span><span class="t-ru">Макеты</span></li><li><span class="t-en">Prototype</span><span class="t-ru">Прототип</span></li></ul></li><li class="cs-step"><span class="cs-step-top"><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8 12.3 2.6 2.6L16.2 9"/></svg></span><span class="mono">04</span></span><h3><span class="t-en">Validate</span><span class="t-ru">Проверка</span></h3><ul class="cs-step-list"><li><span class="t-en">User tests</span><span class="t-ru">Тесты с пользователями</span></li><li><span class="t-en">Iterations</span><span class="t-ru">Итерации</span></li><li><span class="t-en">Hand-off</span><span class="t-ru">Передача в разработку</span></li></ul></li></ol>
+      <div class="cs-tiles"><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">Competitor analysis</span><span class="t-ru">Анализ конкурентов</span></b><small class="mono"><span class="t-en">4–6 planning tools compared</span><span class="t-ru">Сравнение 4–6 инструментов</span></small></span></div><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">User flow</span><span class="t-ru">Сценарий</span></b><small class="mono"><span class="t-en">Open position → booked person</span><span class="t-ru">Открытая позиция → бронь</span></small></span></div><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">Sprint sketches</span><span class="t-ru">Скетчи со спринта</span></b><small class="mono"><span class="t-en">2–3 directions of the timeline</span><span class="t-ru">2–3 направления таймлайна</span></small></span></div><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">Before / after tests</span><span class="t-ru">До / после тестов</span></b><small class="mono"><span class="t-en">One screen, two versions</span><span class="t-ru">Один экран, две версии</span></small></span></div></div>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="feature" aria-labelledby="feature-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="feature-title"><span class="t-en">Resource planning</span><span class="t-ru">Ресурсное планирование</span></h2>
+        <p class="mono">04 · <span class="t-en">Key feature</span><span class="t-ru">Главная фича</span></p>
+      </div>
+      <ul class="cs-chips"><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="11" height="3.5" rx="1.5"/><rect x="7.5" y="10.5" width="13" height="3.5" rx="1.5"/><rect x="5" y="16" width="8" height="3.5" rx="1.5"/></svg></span><span class="t-en">Load at any scale</span><span class="t-ru">Загрузка в любом масштабе</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"/><circle cx="17" cy="12" r="3"/><path d="M10 12h4"/></svg></span><span class="t-en">Colour status</span><span class="t-ru">Цветовой статус</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h9M4 12h6M4 17.5h5"/><path d="m13 19 .6-2.8 5.6-5.6a1.6 1.6 0 0 1 2.2 2.2L15.8 18.4z"/></svg></span><span class="t-en">Priorities</span><span class="t-ru">Приоритеты</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="4.5" rx="1.6"/><rect x="3.5" y="10" width="17" height="4.5" rx="1.6"/><rect x="3.5" y="16" width="10" height="4.5" rx="1.6"/></svg></span><span class="t-en">Position status</span><span class="t-ru">Статусы позиций</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="3.2"/><path d="M3 19a5.5 5.5 0 0 1 11 0"/><path d="m15 12 2 2 4-4.5"/></svg></span><span class="t-en">Candidate matching</span><span class="t-ru">Подбор кандидатов</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8l4.5 4.5v12.5H6z"/><path d="M14 3.5V8h4.5M9 13h6M9 16.5h4"/></svg></span><span class="t-en">Project proposals</span><span class="t-ru">Предложения по проектам</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9.5" r="2.5"/><path d="M15.5 14.4a4.5 4.5 0 0 1 5.5 4.4"/></svg></span><span class="t-en">Generic and named</span><span class="t-ru">Дженерик и сотрудники</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5h17l-6.5 8v6l-4-2v-4z"/></svg></span><span class="t-en">Filters and granularity</span><span class="t-ru">Фильтры и гранулярность</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13.5 6 5h12l2.5 8.5V19a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z"/><path d="M3.5 13.5H8l1.5 2.5h5l1.5-2.5h4.5"/></svg></span><span class="t-en">Requests and booking</span><span class="t-ru">Заявки и бронь</span></li></ul>
+      <div class="cs-feats"><div class="cs-feat-row"><div class="cs-ph cs-media"><span class="cs-ph-in"><b><span class="t-en">Load at a glance</span><span class="t-ru">Загрузка одним взглядом</span></b><small class="mono"><span class="t-en">Planning screen with normal / over / under colours</span><span class="t-ru">Экран с цветами: норма / перегруз / недогруз</span></small></span></div><div class="cs-feat-text"><span class="mono">01</span><h3><span class="t-en">Colour first, numbers second</span><span class="t-ru">Сначала цвет, потом цифры</span></h3><p><span class="t-en">The state of the company reads before a single number.</span><span class="t-ru">Состояние компании считывается раньше первой цифры.</span></p></div></div><div class="cs-feat-row cs-feat-row--flip"><div class="cs-feat-text"><span class="mono">02</span><h3><span class="t-en">Conflicts fixed in place</span><span class="t-ru">Конфликты — на месте</span></h3><p><span class="t-en">Two projects, one person: compare and rebalance without leaving.</span><span class="t-ru">Два проекта, один человек: сравнить и перераспределить, не уходя.</span></p></div><figure class="cs-media"><video src="assets/video/resolve-conflicts.webm" muted loop playsinline controls preload="metadata"></video><figcaption class="mono"><span class="t-en">Resolving a conflict</span><span class="t-ru">Разрешение конфликта</span></figcaption></figure></div><div class="cs-feat-row"><div class="cs-ph cs-media"><span class="cs-ph-in"><b><span class="t-en">Positions and candidates</span><span class="t-ru">Позиции и кандидаты</span></b><small class="mono"><span class="t-en">Open / proposed / booked / filled + matched shortlist</span><span class="t-ru">Открыта / предложена / забронирована / занята + шортлист</span></small></span></div><div class="cs-feat-text"><span class="mono">03</span><h3><span class="t-en">The shortlist comes to the role</span><span class="t-ru">Шортлист приходит к роли</span></h3><p><span class="t-en">Matched by role and skills; manual choice kept.</span><span class="t-ru">Подбор по ролям и навыкам, ручной выбор остаётся.</span></p></div></div><div class="cs-feat-row cs-feat-row--flip"><div class="cs-feat-text"><span class="mono">04</span><h3><span class="t-en">One person, every project</span><span class="t-ru">Один человек, все проекты</span></h3><p><span class="t-en">Drill down: what they do and what a booking changes.</span><span class="t-ru">Детали: чем занят и что изменит бронь.</span></p></div><figure class="cs-media"><video src="assets/video/control-resource.webm" muted loop playsinline controls preload="metadata"></video><figcaption class="mono"><span class="t-en">Controlling one person's load</span><span class="t-ru">Контроль загрузки одного человека</span></figcaption></figure></div><div class="cs-feat-row"><div class="cs-ph cs-media"><span class="cs-ph-in"><b><span class="t-en">Proposals and requests</span><span class="t-ru">Предложения и заявки</span></b><small class="mono"><span class="t-en">Proposal form + requests list with approve / book</span><span class="t-ru">Форма предложения + список заявок с одобрением / бронью</span></small></span></div><div class="cs-feat-text"><span class="mono">05</span><h3><span class="t-en">Requests with a clear status</span><span class="t-ru">Заявки с понятным статусом</span></h3><p><span class="t-en">Send, approve, reject, book — in one list.</span><span class="t-ru">Отправить, одобрить, отклонить, забронировать — в одном списке.</span></p></div></div></div>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="prototype" aria-labelledby="prototype-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="prototype-title"><span class="t-en">Try it yourself</span><span class="t-ru">Попробуйте сами</span></h2>
+        <p class="mono">↗ · <span class="t-en">Interactive prototype</span><span class="t-ru">Интерактивный прототип</span></p>
+      </div>
+      <div class="cs-demo-head">
+        <p class="about-lead"><span class="t-en">Resolve an overload, drag bookings, staff a role.</span><span class="t-ru">Разрулите перегруз, подвигайте брони, подберите человека.</span></p>
+        <a class="btn btn--primary" href="birdview-demo.html" target="_blank" rel="noopener"><span class="t-en lbl"><span class="roll" data-text="Open full screen">Open full screen</span></span><span class="t-ru lbl"><span class="roll" data-text="На весь экран">На весь экран</span></span><span class="btn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+      </div>
+      <div class="cs-demo"><iframe src="birdview-demo.html?embed" title="Birdview resource planning, interactive prototype" loading="lazy"></iframe></div>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="refresh" aria-labelledby="refresh-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="refresh-title"><span class="t-en">A calmer product</span><span class="t-ru">Продукт спокойнее</span></h2>
+        <p class="mono">05 · <span class="t-en">Bonus · UI refresh</span><span class="t-ru">Бонус · обновление UI</span></p>
+      </div>
+      <p class="cs-sub mono"><span class="t-en">What was wrong</span><span class="t-ru">Что было не так</span></p>
+      <div class="cs-shots"><figure class="cs-shot"><img src="assets/case-birdview/a1-load.jpg" alt="Loaded product → high cognitive load" loading="lazy"><figcaption class="mono"><span class="t-en">Loaded product → high cognitive load</span><span class="t-ru">Перегруженный продукт → высокая когнитивная нагрузка</span></figcaption></figure><figure class="cs-shot"><img src="assets/case-birdview/a2-accents.jpg" alt="Too many accents → scattered attention" loading="lazy"><figcaption class="mono"><span class="t-en">Too many accents → scattered attention</span><span class="t-ru">Много акцентов → рассеянное внимание</span></figcaption></figure><figure class="cs-shot"><img src="assets/case-birdview/a3-shapes.jpg" alt="Sharp shapes → formal, unfriendly" loading="lazy"><figcaption class="mono"><span class="t-en">Sharp shapes → formal, unfriendly</span><span class="t-ru">Острые формы → формально и неприветливо</span></figcaption></figure><figure class="cs-shot"><img src="assets/case-birdview/a4-brand.jpg" alt="No brand colours → no recognition" loading="lazy"><figcaption class="mono"><span class="t-en">No brand colours → no recognition</span><span class="t-ru">Нет бренд-цветов → нет узнаваемости</span></figcaption></figure></div>
+      <p class="cs-sub mono"><span class="t-en">What we changed</span><span class="t-ru">Что изменили</span></p>
+      <div class="cs-shots"><figure class="cs-shot"><img src="assets/case-birdview/a5-fonts.jpg" alt="Fonts: bold → medium" loading="lazy"><figcaption class="mono"><span class="t-en">Fonts: bold → medium</span><span class="t-ru">Шрифты: bold → medium</span></figcaption></figure><figure class="cs-shot"><img src="assets/case-birdview/a6-icons.jpg" alt="Icons: sharp 1.6 → rounded 1.2" loading="lazy"><figcaption class="mono"><span class="t-en">Icons: sharp 1.6 → rounded 1.2</span><span class="t-ru">Иконки: острые 1.6 → скруглённые 1.2</span></figcaption></figure><figure class="cs-shot"><img src="assets/case-birdview/a7-colors.jpg" alt="Brand + semantic colours, light and dark" loading="lazy"><figcaption class="mono"><span class="t-en">Brand + semantic colours, light and dark</span><span class="t-ru">Бренд + семантика, светлая и тёмная</span></figcaption></figure><figure class="cs-shot"><img src="assets/case-birdview/a8-coding.jpg" alt="One colour coding for every status" loading="lazy"><figcaption class="mono"><span class="t-en">One colour coding for every status</span><span class="t-ru">Одно цветовое кодирование для всех статусов</span></figcaption></figure></div>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="system" aria-labelledby="system-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="system-title"><span class="t-en">Built from parts, not screens</span><span class="t-ru">Собрано из частей, а не экранов</span></h2>
+        <p class="mono">06 · <span class="t-en">Design system</span><span class="t-ru">Дизайн-система</span></p>
+      </div>
+      <div class="cs-split cs-split--ds"><figure class="cs-shot"><img src="assets/case-birdview/ds-cover.jpg" alt="Birdview design system cover" loading="lazy"><figcaption class="mono"><span class="t-en">Birdview design system</span><span class="t-ru">Дизайн-система Birdview</span></figcaption></figure><div><ul class="cs-chips"><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.6-.9 1.2-1.8-.5-1.1.2-2.2 1.4-2.2h2.2a3.7 3.7 0 0 0 3.7-3.7C20.5 7.3 16.7 3.5 12 3.5z"/><circle cx="7.8" cy="11" r="1"/><circle cx="11" cy="7.5" r="1"/><circle cx="15.5" cy="8.5" r="1"/></svg></span><span class="t-en">Colours</span><span class="t-ru">Цвета</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5V5h14v1.5M12 5v14M9 19h6"/></svg></span><span class="t-en">Typography</span><span class="t-ru">Типографика</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.8 4.6 3.4 7.2 9 9-5.6 1.8-8.2 4.4-9 9-.8-4.6-3.4-7.2-9-9 5.6-1.8 8.2-4.4 9-9z"/></svg></span><span class="t-en">Icons</span><span class="t-ru">Иконки</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="4.5"/><rect x="12.5" y="12.5" width="8" height="8" rx="2"/><path d="m5 20 3-5 3 5z"/></svg></span><span class="t-en">Components</span><span class="t-ru">Компоненты</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M3.5 9h17M9.5 9v11.5"/></svg></span><span class="t-en">Layouts</span><span class="t-ru">Лейауты</span></li><li><span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 8l-9 4.5L3 8z"/><path d="m3 12 9 4.5 9-4.5M3 16l9 4.5 9-4.5"/></svg></span><span class="t-en">Dark mode</span><span class="t-ru">Тёмная тема</span></li></ul></div></div>
+      <div class="cs-tiles"><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">Load cell: anatomy</span><span class="t-ru">Ячейка: анатомия</span></b><small class="mono"><span class="t-en">Hours, %, status colour</span><span class="t-ru">Часы, %, цвет статуса</span></small></span></div><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">Load cell: states</span><span class="t-ru">Ячейка: состояния</span></b><small class="mono"><span class="t-en">Normal, over, under, empty, hover</span><span class="t-ru">Норма, перегруз, недогруз, пусто, ховер</span></small></span></div><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">System feedback</span><span class="t-ru">Уведомления</span></b><small class="mono"><span class="t-en">Info, success, warning, error</span><span class="t-ru">Инфо, успех, предупреждение, ошибка</span></small></span></div><div class="cs-ph"><span class="cs-ph-in"><b><span class="t-en">Message board</span><span class="t-ru">Комментарии</span></b><small class="mono"><span class="t-en">Component + empty state</span><span class="t-ru">Компонент + пустое состояние</span></small></span></div></div>
+      <figure class="cs-shot cs-shot--wide"><img src="assets/case-birdview-components.jpg" alt="Calendar component documentation" loading="lazy"><figcaption class="mono"><span class="t-en">Calendar component and its states</span><span class="t-ru">Компонент календаря и его состояния</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="results" aria-labelledby="results-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="results-title"><span class="t-en">A feature became a sales argument</span><span class="t-ru">Фича стала аргументом продаж</span></h2>
+        <p class="mono">07 · <span class="t-en">Results</span><span class="t-ru">Результаты</span></p>
+      </div>
+      <div class="cs-results">
+        <div class="cs-standout"><b>100%</b><p><span class="t-en">of new clients use the module</span><span class="t-ru">новых клиентов используют модуль</span></p></div>
+        <ul class="cs-metrics"><li><b>12%</b><p><span class="t-en">enabled it in the feature lab</span><span class="t-ru">включили на этапе feature lab</span></p></li><li><b>4%</b><p><span class="t-en">adoption across paid accounts</span><span class="t-ru">adoption среди платных аккаунтов</span></p></li><li><b>10%</b><p><span class="t-en">feature retention</span><span class="t-ru">retention фичи</span></p></li><li><b>1.67 → 2.78%</b><p><span class="t-en">sales-assisted → paid</span><span class="t-ru">sales-assisted → платящие</span></p></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-sec" id="learnings" aria-labelledby="learnings-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="learnings-title"><span class="t-en">What I learned</span><span class="t-ru">Что я вынесла</span></h2>
+        <p class="mono">08 · <span class="t-en">Reflection</span><span class="t-ru">Выводы</span></p>
+      </div>
+      <div class="cs-learn">
+        <div class="cs-feat-text"><h3><span class="t-en">What worked</span><span class="t-ru">Что сработало</span></h3><p><span class="t-en">One or two lines.</span><span class="t-ru">Одна-две строки.</span></p></div>
+        <div class="cs-feat-text"><h3><span class="t-en">What I would change</span><span class="t-ru">Что сделала бы иначе</span></h3><p><span class="t-en">One or two lines.</span><span class="t-ru">Одна-две строки.</span></p></div>
+      </div>
+      <div class="case-actions cs-actions"><a class="btn btn--ghost" href="#prototype"><span class="t-en lbl"><span class="roll" data-text="Try the prototype">Try the prototype</span></span><span class="t-ru lbl"><span class="roll" data-text="Попробовать прототип">Попробовать прототип</span></span></a><a class="btn btn--ghost" href="https://www.figma.com/design/RYyFgZM48P8RdCz3SBcHcw/Maria?node-id=0-1" target="_blank" rel="noopener"><span class="t-en lbl"><span class="roll" data-text="Mockups in Figma">Mockups in Figma</span></span><span class="t-ru lbl"><span class="roll" data-text="Макеты в Figma">Макеты в Figma</span></span></a><a class="btn btn--ghost" href="https://www.figma.com/design/dwIZDLfWIurSX5CYNiNWYq/DS-Birdview" target="_blank" rel="noopener"><span class="t-en lbl"><span class="roll" data-text="Design system in Figma">Design system in Figma</span></span><span class="t-ru lbl"><span class="roll" data-text="Дизайн-система в Figma">Дизайн-система в Figma</span></span></a><a class="btn btn--ghost" href="https://birdviewpsa.com" target="_blank" rel="noopener"><span class="lbl"><span class="roll" data-text="birdviewpsa.com">birdviewpsa.com</span></span></a></div>
+    </div>
+  </section>
+
+  <section class="about-cta" aria-labelledby="cta-title">
+    <div class="cta-glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="mono"><span class="t-en">Next</span><span class="t-ru">Дальше</span></p>
+      <h2 id="cta-title"><span class="t-en">Have a complex product<br>to make simple?</span><span class="t-ru">Есть сложный продукт,<br>который нужно упростить?</span></h2>
+      <div class="hero-actions">
+        <a class="btn btn--primary" href="https://t.me/mariademn" target="_blank" rel="noopener"><span class="run" aria-hidden="true"></span><span class="btn-ic"><svg viewBox="0.76 0.75 22.5 22.5" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></span><span class="t-en lbl"><span class="roll" data-text="Let’s talk">Let’s talk</span></span><span class="t-ru lbl"><span class="roll" data-text="Давайте поговорим">Давайте поговорим</span></span></a>
+        <ul class="socials socials--hero"><li><a href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-0.78 -1.25 26.5 26.5" fill="currentColor" aria-hidden="true"><path d="M6.94 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z"/></svg></a></li><li><a href="mailto:m.demenko11@gmail.com" aria-label="Email m.demenko11@gmail.com"><svg viewBox="0.13 0.13 23.75 23.75" fill="currentColor" fill-rule="evenodd" aria-hidden="true"><path d="M2.5 7A2.5 2.5 0 0 1 5 4.5h14A2.5 2.5 0 0 1 21.5 7v10a2.5 2.5 0 0 1-2.5 2.5H5A2.5 2.5 0 0 1 2.5 17V7zm3.06.1a.9.9 0 0 0-.12 1.27l5.9 4.6a1 1 0 0 0 1.32 0l5.9-4.6a.9.9 0 0 0-1.15-1.39L12 11.2 6.7 6.98a.9.9 0 0 0-1.14.12z"/></svg></a></li></ul>
+      </div>
+    </div>
   </section>
 
 </main>
 
-<footer class="foot">
-  <span class="foot-left">© 2026 Maria Demenko</span>
-  <button type="button" class="dont-press"><span class="t-en">Don't press</span><span class="t-ru">Не нажимать</span></button>
+<footer class="foot" id="contact">
+  <div class="foot-name" aria-hidden="true"><span>Maria Demenko</span></div>
+  <div class="wrap">
+    <p class="mono">© 2026 Maria Demenko</p>
+    <ul class="socials">
+      <li><a href="mailto:m.demenko11@gmail.com" aria-label="Email m.demenko11@gmail.com"><svg viewBox="0.13 0.13 23.75 23.75" fill="currentColor" fill-rule="evenodd" aria-hidden="true"><path d="M2.5 7A2.5 2.5 0 0 1 5 4.5h14A2.5 2.5 0 0 1 21.5 7v10a2.5 2.5 0 0 1-2.5 2.5H5A2.5 2.5 0 0 1 2.5 17V7zm3.06.1a.9.9 0 0 0-.12 1.27l5.9 4.6a1 1 0 0 0 1.32 0l5.9-4.6a.9.9 0 0 0-1.15-1.39L12 11.2 6.7 6.98a.9.9 0 0 0-1.14.12z"/></svg></a></li>
+      <li><a href="https://t.me/mariademn" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0.76 0.75 22.5 22.5" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></a></li>
+      <li><a href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-0.78 -1.25 26.5 26.5" fill="currentColor" aria-hidden="true"><path d="M6.94 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z"/></svg></a></li>
+    </ul>
+  </div>
 </footer>
 
-<script src="assets/grid.js?v=28"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<script type="module" src="assets/glyph3d.js?v=15"></script>
+<script>
+  // language, the hero's entrance, and copying the email
+  (function(){
+    var root = document.documentElement, btns = document.querySelectorAll('[data-set-lang]');
+    function set(l){ root.setAttribute('data-lang', l); root.lang = l; btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.setLang === l)); }); try{ localStorage.setItem('md-lang', l); }catch(e){} }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ set(b.dataset.setLang); }); });
+    set(root.getAttribute('data-lang') || 'en');
+    requestAnimationFrame(function(){ document.querySelectorAll('[data-enter]').forEach(function(s){ s.classList.add('is-in'); }); });
+    document.querySelectorAll('[data-copy]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var label = b.querySelector('[data-copy-label]'), was = label.textContent;
+        (navigator.clipboard ? navigator.clipboard.writeText(b.dataset.copy) : Promise.reject()).then(function(){
+          label.textContent = root.getAttribute('data-lang') === 'ru' ? 'Скопировано' : 'Copied'; setTimeout(function(){ label.textContent = was; }, 1600);
+        }).catch(function(){});
+      });
+    });
+  })();
+</script>
+<script src="assets/signal-bg.js?v=9" defer></script>
+<script src="assets/signal-ui.js?v=5" defer></script>
 </body>
 </html>
