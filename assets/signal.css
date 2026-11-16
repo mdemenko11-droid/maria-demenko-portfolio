@@ -263,13 +263,16 @@ main > section#work{min-height:0; display:block; padding-top:clamp(56px, 9vh, 96
 }
 /* ---------- About page (about-signal.html) ---------- */
 .about-hero .wrap{grid-template-rows:auto 1fr;}
-.about-grid{display:grid; grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); gap:clamp(32px, 5vw, 96px); align-items:center;}
+.about-grid{display:grid; grid-template-columns:minmax(0, 6fr) minmax(0, 6fr); gap:clamp(32px, 5vw, 96px); align-items:center;}
 .about-hero h1{font-size:clamp(48px, 9vw, 168px); mix-blend-mode:normal; color:rgba(243,234,238,.9);}
 .about-lead{max-width:40ch; margin:clamp(20px, 3vw, 36px) 0 clamp(28px, 4vw, 44px); font-size:clamp(17px, 1.4vw, 21px); color:var(--mute);}
 .about-text .hero-actions{justify-content:flex-start;}
-/* the portrait: the cut-out photo alone, no frame or glow; it fades into the ground at the bottom */
-.portrait{position:relative; margin:0; justify-self:end; align-self:center; width:min(100%, 560px, calc((100svh - 220px)));}
-.portrait img{width:100%; height:auto; -webkit-mask:linear-gradient(#000 70%, transparent); mask:linear-gradient(#000 70%, transparent);}
+/* the portrait: the cut-out photo inside a glass square like the hero spark (three.js, signal.js); photo and glass
+   move together. Until the 3D scene is ready (or without WebGL) the flat photo stands in its place. */
+.portrait{position:relative; margin:0; justify-self:end; align-self:center; width:min(100%, 640px, calc(100svh - 230px));}
+.portrait .slab{display:block; width:100%; aspect-ratio:1; height:auto;}
+.portrait-fallback{position:absolute; left:8%; top:8%; width:84%; height:auto; -webkit-mask:linear-gradient(#000 76%, transparent 97%); mask:linear-gradient(#000 76%, transparent 97%); transition:opacity .4s ease;}
+.portrait.is-3d .portrait-fallback{opacity:0; visibility:hidden;}
 
 main > section.about-intro, main > section#experience, main > section.about-cta{min-height:0; display:block; padding:clamp(72px, 12vh, 140px) 0 0;}
 .intro-grid{display:grid; grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); gap:clamp(32px, 5vw, 96px); align-items:start;}

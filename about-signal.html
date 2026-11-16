@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/signal.css?v=96">
+<link rel="stylesheet" href="assets/signal.css?v=99">
 <script>document.documentElement.classList.add('js'); try{ var l = localStorage.getItem('md-lang'); if (l) document.documentElement.setAttribute('data-lang', l); }catch(e){}</script>
 </head>
 <body>
@@ -60,7 +60,8 @@
           </div>
         </div>
         <figure class="portrait rise" style="--d:2">
-          <img src="assets/photo-hero.webp" alt="Maria Demenko" width="872" height="872">
+          <canvas class="slab" data-glass="slab" role="img" aria-label="Maria Demenko"></canvas>
+          <img class="portrait-fallback" src="assets/photo-hero.webp" alt="" width="872" height="872">
         </figure>
       </div>
     </div>
@@ -188,6 +189,8 @@
   })();
 </script>
 <script src="assets/signal-bg.js?v=9" defer></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
 <script src="assets/signal-ui.js?v=1" defer></script>
+<script type="module" src="assets/signal.js?v=58"></script>
 </body>
 </html>

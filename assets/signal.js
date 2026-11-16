@@ -4,6 +4,7 @@
    from a studio of light strips (silver, white, ice blue, a faint rose) baked into the environment. */
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -158,7 +159,7 @@ function frame(t){
    Crystal, after the reference's glass bolt: thick clear blocks with nearly sharp edges. Edges and side walls stay
    bright (fresnel-weighted opacity), the faces read as dark clear glass, a warm peach-amber glow sits inside, and
    fine glitter specks float in the volume. */
-function crystal(glowAt = [.15, -.45], glowSize = 2){
+function crystal(glowAt = [.15, -.45], glowSize = 2, face = .35, glowK = .6, edge = 1, rim = .75){   // edge: opacity at the grazing sides; rim: their white light   // face: how much the flat faces cloud; glowK: inner warm light
   const m = new THREE.MeshPhysicalMaterial({
     color:0xffffff, metalness:1, roughness:.03, clearcoat:1, clearcoatRoughness:.01, envMapIntensity:3,
     transparent:true, depthWrite:false, side:THREE.DoubleSide,
@@ -171,8 +172,8 @@ function crystal(glowAt = [.15, -.45], glowSize = 2){
         float fr = pow(1.0 - abs(dot(normalize(vViewPosition), normalize(normal))), 1.2);
         vec2 d = vLocal.xy - vec2(${glowAt[0].toFixed(2)}, ${glowAt[1].toFixed(2)});
         float glow = exp(-dot(d, d) * ${glowSize.toFixed(2)});
-        gl_FragColor.rgb += vec3(1.0, 0.62, 0.4) * glow * 0.6 + vec3(1.0, 0.97, 0.98) * pow(fr, 2.2) * 0.75;
-        gl_FragColor.a *= clamp(mix(0.35, 1.0, fr) + glow * 0.45, 0.0, 1.0);`);
+        gl_FragColor.rgb += vec3(1.0, 0.62, 0.4) * glow * ${glowK.toFixed(2)} + vec3(1.0, 0.97, 0.98) * pow(fr, 2.2) * ${rim.toFixed(2)};
+        gl_FragColor.a *= clamp(mix(${face.toFixed(2)}, ${edge.toFixed(2)}, fr) + glow * ${(glowK * .75).toFixed(2)}, 0.0, 1.0);`);
   };
   return m;
 }
@@ -185,6 +186,23 @@ function glitter(outlines, depth, count = 220, holes = []){
   while (pts.length < count * 3){ const x = x0 + Math.random() * (x1 - x0), y = y0 + Math.random() * (y1 - y0); if (outlines.some(o => inside(x, y, o)) && !holes.some(o => inside(x, y, o))) pts.push(x, y, Math.random() * depth); }
   const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
   return new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size:.032, transparent:true, opacity:.9, depthWrite:false}));
+}
+// glitter with fixed places: a seeded random and a minimum gap between specks, so the scatter is the same on every
+// visit and evenly spread (no clumps, no bare patches)
+function glitterFixed(outlines, depth, count, holes = [], seed = 1, gap = .08, size = .032, opacity = .9){
+  let a = seed >>> 0; const rnd = () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const inside = (x, y, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++){ const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
+  const all = outlines.flat(), xs = all.map(p => p[0]), ys = all.map(p => p[1]);
+  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  const pts = [], placed = [];
+  for (let tries = 0; placed.length < count && tries < count * 400; tries++){
+    const x = x0 + rnd() * (x1 - x0), y = y0 + rnd() * (y1 - y0);
+    if (!outlines.some(o => inside(x, y, o)) || holes.some(o => inside(x, y, o))) continue;
+    if (placed.some(([px, py]) => Math.hypot(px - x, py - y) < gap)) continue;
+    placed.push([x, y]); pts.push(x, y, rnd() * depth);
+  }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+  return new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size, transparent:true, opacity, depthWrite:false}));
 }
 const block = (poly, depth, bevel = .05) => { const s = new THREE.Shape(); s.moveTo(...poly[0]); poly.slice(1).forEach(p => s.lineTo(...p)); s.closePath();
   return new THREE.ExtrudeGeometry(s, {depth, bevelEnabled:true, bevelThickness:bevel, bevelSize:bevel, bevelSegments:4, curveSegments:32}); };
@@ -322,12 +340,40 @@ function lens(){
 }
 // a capsule pill, like the buttons, lying at a slant
 function pill(){ return wrapTilt(new THREE.Mesh(new THREE.CapsuleGeometry(.5, 1.5, 16, 64), crystal([0, -.3], 1)), .3, 0, .9); }
+// a thick rounded square of crystal with the About portrait inside it: the photo is a plane at mid-depth,
+// so it turns and sways with the square
+function slab(){
+  const sq = rounded(2, 2, .3, 16), D = .38, g = new THREE.Group();
+  const shape = new THREE.Shape(sq.map(p => new THREE.Vector2(...p)));
+  // rounder, smoother edges: a deep bevel with many steps, vertices welded so the shading flows round it without bands
+  let geo = new THREE.ExtrudeGeometry(shape, {depth:D, bevelEnabled:true, bevelThickness:.14, bevelSize:.12, bevelSegments:24, curveSegments:96});
+  geo.deleteAttribute('uv'); geo.deleteAttribute('normal'); geo = mergeVertices(geo, 1e-4); geo.computeVertexNormals();
+  // the star's glass, with clearer, glassier sides: lighter where they turn away, a crisper white rim, a touch of iridescence
+  const gm = crystal([.1, -.2], 2.4, .3, .5, .55, 1.1); gm.iridescence = .5; gm.iridescenceIOR = 1.4; gm.clearcoatRoughness = 0;
+  const glass = new THREE.Mesh(geo, gm); glass.renderOrder = 2;
+  // specks as in the home star: the same glitter, scattered through the whole glass, only the face and neck kept clear
+  const face = Array.from({length:32}, (_, i) => [Math.cos(i / 32 * Math.PI * 2) * .36, .14 + Math.sin(i / 32 * Math.PI * 2) * .54]);
+  const specks = glitter([rounded(1.8, 1.8, .24)], D, 220, [face]); specks.renderOrder = 6;
+  g.add(glass, specks);
+  centered(g);
+  const front = D / 2 + .14;
+  // the photo, as it is (no tone or exposure from the glass scene), its shoulders fading out before the bottom edge
+  const tex = new THREE.TextureLoader().load('assets/photo-hero.webp', () => document.querySelectorAll('.portrait').forEach(f => f.classList.add('is-3d')));
+  tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  const pm = new THREE.MeshBasicMaterial({map:tex, transparent:true, depthWrite:false, side:THREE.DoubleSide, toneMapped:false});
+  pm.onBeforeCompile = sh => { sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n  diffuseColor.a *= smoothstep(0.04, 0.24, vMapUv.y);'); };
+  const photo = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 1.8), pm);
+  photo.position.set(0, -.06, 0); photo.renderOrder = 5;   // set inside the glass (mid-depth), drawn last so it stays clear
+  g.add(photo);
+
+  return g;
+}
 const heroPick = new URLSearchParams(location.search).get('hero');
 const heroBuilders = {cube, knotc:knotC, blob, ribbon, lens, pill, m45:() => initials(null, true), md:() => initials(), mdturn:() => initials('turn'), boltm:boltM, m:mark, bolt, spark:heroSpark, ring, folder, cursor, layers, gem};
 
-const builders = {mark:heroBuilders[heroPick] || heroSpark, spark, tiles, knot};
+const builders = {mark:heroBuilders[heroPick] || heroSpark, slab, spark, tiles, knot};
 document.querySelectorAll('canvas[data-glass]').forEach(c => {
   const kind = c.dataset.glass;
-  mount(c, builders[kind], kind === 'mark' ? {follow:true, fill:.5, spin:.22, sway:(heroPick !== 'm' && heroPick !== 'ring' && heroPick !== 'gem') ? .28 : .55} : {fill:.82, spin:.35});
+  mount(c, builders[kind], kind === 'slab' ? {follow:true, fill:.96, spin:.18, sway:.2} : kind === 'mark' ? {follow:true, fill:.5, spin:.22, sway:(heroPick !== 'm' && heroPick !== 'ring' && heroPick !== 'gem') ? .28 : .55} : {fill:.82, spin:.35});
 });
 requestAnimationFrame(frame);
