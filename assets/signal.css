@@ -499,16 +499,11 @@ main > section.cs-cover{padding-top:0;}
   html[data-lang="ru"] .cs-feat-text h3, html[data-lang="ru"] .cs-step h3, html[data-lang="ru"] .job-name{font-size:min(26px, 6.6vw);}
 }
 
-/* the hidden word: one letter from each line of the home headline (E·A·S·E) is lit in the accent orange; the lines stay where they are */
+/* the hidden word: one letter from each line of the home headline (E·A·S·E), split like light through the hero prism:
+   the letter stays white and red, yellow and blue copies peek out on either side of it, the way the words do inside the star */
 .hero h1 .key, .cs-standout b{
-  /* the colours of the button's running light (violet, sky blue, a pale ice highlight, rose) in one smooth flow, mixed in
-     OKLCH so the blends stay clean and bright with no muddy grey between hues; it drifts slowly back and forth */
-  color:transparent;
-  background:linear-gradient(in oklch 105deg, #8F78FF 0%, #6FA8FF 22%, #BFE1FF 36%, #FF7AC0 58%, #B58CFF 80%, #8F78FF 100%) 0% 50% / 220% 100%;
-  -webkit-background-clip:text; background-clip:text;
-  animation:chrome-drift 12s ease-in-out infinite alternate;}
-@keyframes chrome-drift{to{background-position:100% 50%;}}
-@media (prefers-reduced-motion:reduce){ .hero h1 .key, .cs-standout b{animation:none; background-position:30% 50%;} }   /* a vivid orange accent */
+  color:#F6F4F8;
+  text-shadow:-.05em 0 0 rgba(255, 52, 64, .9), -.025em 0 0 rgba(255, 214, 64, .85), .05em 0 0 rgba(64, 92, 255, .95), .025em 0 0 rgba(96, 220, 255, .7);}
 
 /* the very narrowest phones: four menu items and the language switch leave no room for the logo; Home does its job */
 @media (max-width:360px){ .nav .logo{display:none;} }
