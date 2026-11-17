@@ -12,12 +12,18 @@
 <meta property="og:description" content="Complex software, simple screens. 7 years in B2B SaaS, retail and delivery.">
 <meta property="og:image" content="https://mdemenko11-droid.github.io/maria-demenko-portfolio/assets/og-home.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0B0809">
+<meta name="theme-color" content="#09090B">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/signal.css?v=104">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Unbounded:wght@500..800&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/signal.css?v=151">
+<!-- three.js fetched alongside the page, not only after signal.js asks for it (the import map has to come before any module is fetched) -->
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/geometries/RoundedBoxGeometry.js" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/utils/BufferGeometryUtils.js" crossorigin>
+<link rel="modulepreload" href="assets/signal.js?v=79">
 <script>document.documentElement.classList.add('js'); try{ var l = localStorage.getItem('md-lang'); if (l) document.documentElement.setAttribute('data-lang', l); }catch(e){}</script>
 </head>
 <body>
@@ -27,11 +33,10 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="index.html" aria-label="Maria Demenko, home">
-      <svg viewBox="4.5 13.5 50.5 28" aria-hidden="true"><path d="M8 38V24M8 26c0-6 4-9 8-9s8 3 8 9v12M24 26c0-6 4-9 8-9s8 3 8 9v12" fill="none" stroke="#F2EFEA" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="35.5" r="4.6" fill="#E9D8DF"/></svg>
-    </a>
+    <a class="logo" href="index.html" aria-label="Maria Demenko, home"><span class="logo-mark" aria-hidden="true">M<i>.</i></span></a>
     <nav class="pill" aria-label="Main">
-      <a href="#work" aria-current="page"><span class="t-en">Work</span><span class="t-ru">Работы</span></a>
+      <a href="index.html" aria-current="page"><span class="t-en">Home</span><span class="t-ru">Главная</span></a>
+      <a href="#work"><span class="t-en">Work</span><span class="t-ru">Работы</span></a>
       <a href="about.html"><span class="t-en">About</span><span class="t-ru">Обо мне</span></a>
       <a class="nav-cv" href="assets/maria-demenko-cv.pdf" target="_blank" rel="noopener">CV<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
     </nav>
@@ -49,15 +54,15 @@
     <div class="stage" aria-hidden="true"><canvas data-glass="mark"></canvas></div>
     <div class="wrap">
       <div class="hero-top">
-        <p class="mono rise" style="--d:0">Maria Demenko — <span class="t-en">AI engineer · Product designer</span><span class="t-ru">AI-инженер · Продуктовый дизайнер</span></p>
-        <p class="mono rise" style="--d:1"><span class="t-en">Minsk → Warsaw · Open to work</span><span class="t-ru">Минск → Варшава · Открыта к работе</span></p>
+        <p class="mono rise" style="--d:0"><span class="t-en">Maria Demenko — AI engineer · Product designer</span><span class="t-ru">Мария Деменко — AI-инженер · Продуктовый дизайнер</span></p>
+        <p class="mono rise" style="--d:1"><span class="t-en">Minsk → Warsaw · Open to work</span><span class="t-ru">Минск → Варшава · Рассматриваю предложения</span></p>
       </div>
-      <h1 id="hero-title"><span class="row rise" style="--d:1"><span class="t-en">Complex software,</span><span class="t-ru">Сложный софт —</span></span><span class="row row--in rise" style="--d:2"><span class="t-en">simple screens</span><span class="t-ru">простые экраны</span></span></h1>
+      <h1 id="hero-title"><span class="row rise" style="--d:1"><span class="t-en">Compl<span class="key">e</span>x softw<span class="key">a</span>re,</span><span class="t-ru">Сложные продукты —</span></span><span class="row row--in rise" style="--d:2"><span class="t-en"><span class="key">s</span>imple scr<span class="key">e</span>ens</span><span class="t-ru">простые интерфейсы</span></span></h1>
       <div class="hero-bottom">
-        <p class="hero-copy rise" style="--d:3"><span class="t-en"><b>7 years</b> designing B2B SaaS, retail and delivery products. My resource-planning module is used by <b>every new Birdview client.</b></span><span class="t-ru"><b>7 лет</b> проектирую B2B SaaS, ритейл и доставку. Мой модуль ресурсного планирования использует <b>каждый новый клиент Birdview.</b></span></p>
+        <p class="hero-copy rise" style="--d:3"><span class="t-en">From researching the problem<br>to launch and reviewing the results</span><span class="t-ru">От исследования задачи<br>до запуска и анализа результатов</span></p>
         <div class="hero-actions rise" style="--d:4">
           
-          <a class="btn btn--primary" href="https://t.me/mariademn" target="_blank" rel="noopener"><span class="run" aria-hidden="true"></span><span class="btn-ic"><svg viewBox="0.76 0.75 22.5 22.5" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></span><span class="t-en lbl"><span class="roll" data-text="Let’s talk">Let’s talk</span></span><span class="t-ru lbl"><span class="roll" data-text="Давайте поговорим">Давайте поговорим</span></span></a>
+          <a class="btn btn--primary" href="https://t.me/mariademn" target="_blank" rel="noopener"><span class="run" aria-hidden="true"></span><span class="btn-ic"><svg viewBox="0.76 0.75 22.5 22.5" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></span><span class="t-en lbl"><span class="roll" data-text="Let’s talk">Let’s talk</span></span><span class="t-ru lbl"><span class="roll" data-text="Связаться">Связаться</span></span></a>
           <ul class="socials socials--hero"><li><a href="https://www.linkedin.com/in/maria-demenko-129083176" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-0.78 -1.25 26.5 26.5" fill="currentColor" aria-hidden="true"><path d="M6.94 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z"/></svg></a></li><li><a href="mailto:m.demenko11@gmail.com" aria-label="Email m.demenko11@gmail.com"><svg viewBox="0.13 0.13 23.75 23.75" fill="currentColor" fill-rule="evenodd" aria-hidden="true"><path d="M2.5 7A2.5 2.5 0 0 1 5 4.5h14A2.5 2.5 0 0 1 21.5 7v10a2.5 2.5 0 0 1-2.5 2.5H5A2.5 2.5 0 0 1 2.5 17V7zm3.06.1a.9.9 0 0 0-.12 1.27l5.9 4.6a1 1 0 0 0 1.32 0l5.9-4.6a.9.9 0 0 0-1.15-1.39L12 11.2 6.7 6.98a.9.9 0 0 0-1.14.12z"/></svg></a></li></ul>
         </div>
       </div>
@@ -156,9 +161,9 @@
 </main>
 
 <footer class="foot" id="contact">
-  <div class="foot-name" aria-hidden="true"><span>Maria Demenko</span></div>
+  <div class="foot-name" aria-hidden="true"><span class="t-en">Maria Demenko</span><span class="t-ru">Мария Деменко</span></div>
   <div class="wrap">
-    <p class="mono">© 2026 Maria Demenko</p>
+    <p class="mono">© 2026 <span class="t-en">Maria Demenko</span><span class="t-ru">Мария Деменко</span></p>
     <ul class="socials">
       <li><a href="mailto:m.demenko11@gmail.com" aria-label="Email m.demenko11@gmail.com"><svg viewBox="0.13 0.13 23.75 23.75" fill="currentColor" fill-rule="evenodd" aria-hidden="true"><path d="M2.5 7A2.5 2.5 0 0 1 5 4.5h14A2.5 2.5 0 0 1 21.5 7v10a2.5 2.5 0 0 1-2.5 2.5H5A2.5 2.5 0 0 1 2.5 17V7zm3.06.1a.9.9 0 0 0-.12 1.27l5.9 4.6a1 1 0 0 0 1.32 0l5.9-4.6a.9.9 0 0 0-1.15-1.39L12 11.2 6.7 6.98a.9.9 0 0 0-1.14.12z"/></svg></a></li>
       <li><a href="https://t.me/mariademn" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0.76 0.75 22.5 22.5" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></a></li>
@@ -185,9 +190,8 @@
     });
   })();
 </script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
-<script src="assets/signal-bg.js?v=9" defer></script>
-<script src="assets/signal-ui.js?v=5" defer></script>
-<script type="module" src="assets/signal.js?v=61"></script>
+<script src="assets/signal-bg.js?v=12" defer></script>
+<script src="assets/signal-ui.js?v=14" defer></script>
+<script type="module" src="assets/signal.js?v=79"></script>
 </body>
 </html>

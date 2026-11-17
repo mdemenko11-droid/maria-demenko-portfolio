@@ -23,11 +23,11 @@ function studio(){
     const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({color, side:THREE.DoubleSide}));
     m.position.set(x, y, z); m.rotation.y = ry || 0; m.lookAt(0, 0, 0); s.add(m);
   };
-  strip(new THREE.Color(4.2, 3.4, 3.6), 2.2, 14, -6, 0, 3);    // warm pearl, left
-  strip(new THREE.Color(2.6, 1.5, 2), 2.2, 14, 6, 1, 2);       // dusky rose, right
+  strip(new THREE.Color(5, 5, 5), 1.6, 14, -6, 0, 3);          // hard white, left (the bright faces)
+  strip(new THREE.Color(3.8, 2.2, 3.0), 1.4, 14, 6, 1, 2);     // soft rose, right
   strip(new THREE.Color(3, 3, 3), 12, 1.2, 0, 6, 1);          // white bar above
-  strip(new THREE.Color(2.4, .6, 1.2), 1.4, 10, 2, -2, -6);   // rose, behind
-  strip(new THREE.Color(1.6, 1.6, 1.6), 8, 1, 0, -6, 2);      // soft floor bounce
+  strip(new THREE.Color(1.2, 1.9, 4.0), 1.4, 10, 2, -2, -6);   // cool blue, behind
+  strip(new THREE.Color(1.3, 1.3, 1.35), 8, 1, 0, -6, 2);      // grey bounce from below
   return s;
 }
 const pmrem = new THREE.PMREMGenerator(renderer);
@@ -123,6 +123,7 @@ function mount(canvas, build, opts = {}){
     camera.updateProjectionMatrix();
   };
   new ResizeObserver(v.size).observe(canvas); v.size();
+  renderer.compile(scene, camera);   // build the glass and glitter shaders now, so the first frame shows them whole
   new IntersectionObserver(([en]) => { v.visible = en.isIntersecting; }).observe(canvas);
   views.push(v);
   return v;
@@ -144,10 +145,18 @@ function frame(t){
     if (!v.visible || !v.w) return;
     v.cur.x += (v.aim.x - v.cur.x) * .06; v.cur.y += (v.aim.y - v.cur.y) * .06;
     const spin = v.opts.spin || .25;
-    v.pivot.rotation.y = Math.sin(s * spin + v.seed) * (v.opts.sway || .55) + v.cur.x * .35;
+    // the logo easter egg: one fast full turn, easing out (see md:twirl below)
+    let twirl = 0;
+    if (v.twirlAt != null){ const k = Math.min(1, (t - v.twirlAt) / 1400); twirl = (1 - Math.pow(1 - k, 3)) * Math.PI * 2; if (k >= 1) v.twirlAt = null; }
+    v.pivot.rotation.y = Math.sin(s * spin + v.seed) * (v.opts.sway || .55) + v.cur.x * .35 + twirl;
     v.pivot.rotation.x = Math.cos(s * spin * .8 + v.seed) * .18 + v.cur.y * .2;
     v.pivot.position.y = Math.sin(s * .9 + v.seed) * .05;
     if (v.w > maxW || v.h > maxH){ maxW = Math.max(maxW, v.w); maxH = Math.max(maxH, v.h); renderer.setSize(maxW, maxH, false); }
+    if (v.opts.prism){
+      const dpr = renderer.getPixelRatio(); prismU.uRes.value.set(v.w * dpr, v.h * dpr);
+      const c = new THREE.Vector3(); v.pivot.getWorldPosition(c); c.project(v.camera);
+      prismU.uCenter.value.set(c.x * .5 + .5, c.y * .5 + .5);
+    }
     renderer.setViewport(0, 0, v.w, v.h);
     renderer.render(v.scene, v.camera);
     const src = renderer.domElement;
@@ -160,21 +169,55 @@ function frame(t){
    Crystal, after the reference's glass bolt: thick clear blocks with nearly sharp edges. Edges and side walls stay
    bright (fresnel-weighted opacity), the faces read as dark clear glass, a warm peach-amber glow sits inside, and
    fine glitter specks float in the volume. */
-function crystal(glowAt = [.15, -.45], glowSize = 2, face = .35, glowK = .6, edge = 1, rim = .75){   // edge: opacity at the grazing sides; rim: their white light   // face: how much the flat faces cloud; glowK: inner warm light
+// the hero prism: the headline is drawn into a texture (see prismText below) and the star's glass samples it, turned
+// upside down, magnified and split into red, green and blue at slightly different scales, so the words behind the glass
+// read refracted and fringed with colour the way they do through a real prism
+const prismU = {tText:{value:null}, uRes:{value:new THREE.Vector2(1, 1)}, uCenter:{value:new THREE.Vector2(.5, .5)}};
+function crystal(glowAt = [.15, -.45], glowSize = 2, face = .35, glowK = .6, edge = 1, rim = .75, prism = false){   // edge: opacity at the grazing sides; rim: their white light   // face: how much the flat faces cloud; glowK: inner warm light
   const m = new THREE.MeshPhysicalMaterial({
     color:0xffffff, metalness:1, roughness:.03, clearcoat:1, clearcoatRoughness:.01, envMapIntensity:3,
+    iridescence:.7, iridescenceIOR:1.5, iridescenceThicknessRange:[200, 1000],   // a clear prism sheen
     transparent:true, depthWrite:false, side:THREE.DoubleSide,
   });
+  // every crystal compiles its own program (three.js would otherwise share the first one, its source text being the same)
+  m.customProgramCacheKey = () => 'crystal' + [glowAt, glowSize, face, glowK, edge, rim, prism].join('|');
   m.onBeforeCompile = s => {
+    if (prism) Object.assign(s.uniforms, prismU);
     s.vertexShader = s.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vLocal;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvLocal = position;');
-    s.fragmentShader = s.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vLocal;')
+    s.fragmentShader = s.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vLocal;\nvec3 spectrum(float t){ return clamp(abs(mod(t * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0); }' + (prism ? '\nuniform sampler2D tText; uniform vec2 uRes; uniform vec2 uCenter;' : ''))
       .replace('#include <opaque_fragment>', `#include <opaque_fragment>
         float fr = pow(1.0 - abs(dot(normalize(vViewPosition), normalize(normal))), 1.2);
         vec2 d = vLocal.xy - vec2(${glowAt[0].toFixed(2)}, ${glowAt[1].toFixed(2)});
         float glow = exp(-dot(d, d) * ${glowSize.toFixed(2)});
-        gl_FragColor.rgb += vec3(1.0, 0.62, 0.4) * glow * ${glowK.toFixed(2)} + vec3(1.0, 0.97, 0.98) * pow(fr, 2.2) * ${rim.toFixed(2)};
-        gl_FragColor.a *= clamp(mix(${face.toFixed(2)}, ${edge.toFixed(2)}, fr) + glow * ${(glowK * .75).toFixed(2)}, 0.0, 1.0);`);
+        // prism light: a clear, nearly colourless body with a cool inner glow, and the full spectrum split along the
+        // rims and edges (red, orange, yellow, green, blue, violet), the bands shifting with the angle and the place
+        float band = fr * 2.4 + vLocal.x * 0.35 - vLocal.y * 0.25;
+        vec3 rainbow = spectrum(band);
+        vec3 rimLight = mix(vec3(1.0), mix(vec3(1.0), rainbow, 0.8), smoothstep(0.15, 0.6, fr));   // white light breaking into the spectrum at the rims
+        // light and thin, like neon in glass: the body stays dark and clear, the spectrum gathers into fine bright
+        // lines right at the rims (a steep fresnel), with a soft halo just inside them
+        gl_FragColor.rgb += vec3(0.82, 0.86, 1.0) * glow * ${glowK.toFixed(2)} * 0.25
+          + rimLight * (pow(fr, 4.0) * 2.6 + pow(fr, 1.8) * 0.35) * ${rim.toFixed(2)};
+        gl_FragColor.a *= clamp(mix(${(face * .45).toFixed(2)}, ${edge.toFixed(2)}, pow(fr, 2.0)) + glow * ${(glowK * .3).toFixed(2)}, 0.0, 1.0);
+        ${prism ? `
+        // refraction: look back at the headline through the glass, flipped and magnified about the prism's centre, with
+        // each colour channel bent by a slightly different amount (dispersion), and bent harder towards the rims
+        vec2 suv = gl_FragCoord.xy / uRes;
+        vec2 rel = suv - uCenter;
+        vec2 bend = normalize(normal).xy * (0.025 + 0.035 * fr);   // every slope of the cut bends the view, the rims the most
+        // upright and magnified like the words seen through the reference prism; the lower part of the glass shows them
+        // again upside down (the light bounced off the bottom face). Each colour is scaled a little apart, so the letters
+        // split into red, yellow and blue fringes
+        float low = smoothstep(-0.05, -0.07, rel.y);
+        vec2 q = mix(rel, vec2(rel.x, -rel.y - 0.13), low);
+        float tr = texture2D(tText, uCenter + q * 0.70 - bend).r;
+        float tg = texture2D(tText, uCenter + q * 0.765 - bend * 1.6).g;
+        float tb = texture2D(tText, uCenter + q * 0.83 - bend * 2.2).b;
+        vec3 refr = vec3(tr, tg, tb);
+        float body = 1.0 - smoothstep(0.55, 0.95, fr);
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.012) + refr * 1.05 + gl_FragColor.rgb * 0.35, body);
+        gl_FragColor.a = max(gl_FragColor.a, 0.94 * body);` : ''}`);
   };
   return m;
 }
@@ -192,7 +235,7 @@ function twinkle(points){
       .replace('#include <begin_vertex>', '#include <begin_vertex>\n  vTw = .5 + .5 * sin(uTime * speed + phase);')
       .replace('gl_PointSize = size;', 'gl_PointSize = size * mix(.55, 1.35, vTw);');
     sh.fragmentShader = 'varying float vTw;\n' + sh.fragmentShader
-      .replace('vec4 diffuseColor = vec4( diffuse, opacity );', 'vec4 diffuseColor = vec4( mix(vec3(1.0, .82, .72), diffuse, vTw), opacity * mix(.18, 1.0, vTw * vTw) );');
+      .replace('vec4 diffuseColor = vec4( diffuse, opacity );', 'vec4 diffuseColor = vec4( mix(vec3(.9, .92, 1.0), diffuse, vTw), opacity * mix(.18, 1.0, vTw * vTw) );');
   };
   return points;
 }
@@ -204,7 +247,7 @@ function glitter(outlines, depth, count = 220, holes = [], size = .032){
   const pts = [];
   while (pts.length < count * 3){ const x = x0 + Math.random() * (x1 - x0), y = y0 + Math.random() * (y1 - y0); if (outlines.some(o => inside(x, y, o)) && !holes.some(o => inside(x, y, o))) pts.push(x, y, Math.random() * depth); }
   const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  return twinkle(new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size, transparent:true, opacity:.9, depthWrite:false})));
+  return twinkle(new THREE.Points(geo, new THREE.PointsMaterial({color:0xffffff, size, transparent:true, opacity:.9, depthWrite:false})));
 }
 // glitter with fixed places: a seeded random and a minimum gap between specks, so the scatter is the same on every
 // visit and evenly spread (no clumps, no bare patches)
@@ -221,7 +264,7 @@ function glitterFixed(outlines, depth, count, holes = [], seed = 1, gap = .08, s
     placed.push([x, y]); pts.push(x, y, rnd() * depth);
   }
   const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  return twinkle(new THREE.Points(geo, new THREE.PointsMaterial({color:0xfff4ea, size, transparent:true, opacity, depthWrite:false})));
+  return twinkle(new THREE.Points(geo, new THREE.PointsMaterial({color:0xffffff, size, transparent:true, opacity, depthWrite:false})));
 }
 const block = (poly, depth, bevel = .05) => { const s = new THREE.Shape(); s.moveTo(...poly[0]); poly.slice(1).forEach(p => s.lineTo(...p)); s.closePath();
   return new THREE.ExtrudeGeometry(s, {depth, bevelEnabled:true, bevelThickness:bevel, bevelSize:bevel, bevelSegments:4, curveSegments:32}); };
@@ -237,10 +280,17 @@ function bolt(){
 }
 // the four-point spark
 function heroSpark(){
+  // a thick clear star: a deep body with a wide, rounded bevel (many segments) so the rims curve smoothly and catch the
+  // studio light like polished glass; glitter floats through the whole depth
   const r = 1.25, k = .2, s = new THREE.Shape();
   s.moveTo(0, r); s.quadraticCurveTo(k, k, r, 0); s.quadraticCurveTo(k, -k, 0, -r); s.quadraticCurveTo(-k, -k, -r, 0); s.quadraticCurveTo(-k, k, 0, r);
-  const g = new THREE.Group(), D = .45, poly = s.getPoints(48).map(p => [p.x, p.y]);
-  g.add(new THREE.Mesh(new THREE.ExtrudeGeometry(s, {depth:D, bevelEnabled:true, bevelThickness:.05, bevelSize:.05, bevelSegments:4, curveSegments:48}), crystal([.1, -.2], 2.4)), glitter([poly], D));
+  const g = new THREE.Group(), D = .5, bt = .14, poly = s.getPoints(48).map(p => [p.x, p.y]);
+  const geo = new THREE.ExtrudeGeometry(s, {depth:D, bevelEnabled:true, bevelThickness:bt, bevelSize:.06, bevelSegments:12, curveSegments:96});
+  geo.deleteAttribute('normal'); geo.deleteAttribute('uv');
+  const smooth = mergeVertices(geo, 1e-4); smooth.computeVertexNormals();   // one smooth skin over faces and bevel
+  const sp = glitter([poly.map(([x, y]) => [x * .92, y * .92])], D + bt, 240); sp.position.z = -bt * .5;
+  sp.renderOrder = 3;   // the specks sit over the refracted words, inside the glass
+  g.add(new THREE.Mesh(smooth, crystal([.1, -.2], 2.4, .35, .6, 1, .75, true)), sp);
   return centered(g);
 }
 // a thick ring
@@ -393,6 +443,50 @@ const heroBuilders = {cube, knotc:knotC, blob, ribbon, lens, pill, m45:() => ini
 const builders = {mark:heroBuilders[heroPick] || heroSpark, slab, spark, tiles, knot};
 document.querySelectorAll('canvas[data-glass]').forEach(c => {
   const kind = c.dataset.glass;
-  mount(c, builders[kind], kind === 'slab' ? {follow:true, fill:.96, spin:.18, sway:.2} : kind === 'mark' ? {follow:true, fill:.5, spin:.22, sway:(heroPick !== 'm' && heroPick !== 'ring' && heroPick !== 'gem') ? .28 : .55} : {fill:.82, spin:.35});
+  mount(c, builders[kind], kind === 'slab' ? {follow:true, fill:.96, spin:.18, sway:.2} : kind === 'mark' ? {prism:true, follow:true, fill:.5, spin:.22, sway:(heroPick !== 'm' && heroPick !== 'ring' && heroPick !== 'gem') ? .28 : .55} : {fill:.82, spin:.35});
 });
 requestAnimationFrame(frame);
+// the logo easter egg asks the hero mark for one full turn
+addEventListener('md:twirl', () => views.forEach(v => { if (v.opts.follow) v.twirlAt = performance.now(); }));
+
+// prismText: draws the hero headline, word piece by word piece, into a canvas the size of the stage, at the same place,
+// size and letter-spacing as the HTML, so the prism can refract the real words behind it. Redrawn on resize and language.
+(() => {
+  const stage = document.querySelector('canvas[data-glass="mark"]'), h1 = document.querySelector('.hero h1');
+  if (!stage || !h1 || !views.some(v => v.opts.prism)) return;   // only while a view asks for the prism
+  const cv = document.createElement('canvas'), ctx = cv.getContext('2d');
+  const draw = () => {
+    // measured as the page will rest, not mid-entrance: the stage's own scale and each row's rise are left out,
+    // so the words can be drawn the moment the fonts are in, without waiting for the hero to settle
+    const host = stage.offsetParent, H = host ? host.getBoundingClientRect() : {left:0, top:0};
+    const R = {left:H.left + stage.offsetLeft, top:H.top + stage.offsetTop, width:stage.offsetWidth, height:stage.offsetHeight};
+    const dpr = renderer.getPixelRatio();
+    if (!R.width) return;
+    cv.width = Math.round(R.width * dpr); cv.height = Math.round(R.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, R.width, R.height);
+    const cs = getComputedStyle(h1), fs = parseFloat(cs.fontSize);
+    ctx.font = `800 ${fs}px ${cs.fontFamily}`; ctx.fontStretch = 'expanded'; ctx.letterSpacing = cs.letterSpacing;
+    ctx.fillStyle = '#f3f1f6'; ctx.textBaseline = 'middle';
+    const walk = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()){
+      if (!n.parentElement.offsetParent) continue;                 // the other language is hidden
+      const text = n.textContent; let i = 0;
+      for (const piece of text.split(/(\s+)/)){
+        if (piece && !/^\s+$/.test(piece)){
+          const r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + piece.length);
+          const b = r.getBoundingClientRect(), row = n.parentElement.closest('.rise');
+          const dy = row ? new DOMMatrixReadOnly(getComputedStyle(row).transform).m42 : 0;
+          ctx.fillText(piece.toUpperCase(), b.left - R.left, b.top - dy - R.top + b.height / 2);
+        }
+        i += piece.length;
+      }
+    }
+    // a fresh texture each time: the GPU copy of the old one keeps its old size and cannot take a resized canvas
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+    if (prismU.tText.value) prismU.tText.value.dispose(); prismU.tText.value = tex;
+  };
+  const later = () => setTimeout(draw, 60);
+  draw(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(draw);   // at once, and again when the real fonts are in
+  addEventListener('resize', later);
+  document.querySelectorAll('[data-set-lang]').forEach(b => b.addEventListener('click', later));
+})();

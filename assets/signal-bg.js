@@ -29,8 +29,8 @@ void main(){
   vec2 c1 = vec2(a * (.12 + .10 * sin(T * 1.3)),        .78 + .12 * cos(T)       - drift);
   vec2 c2 = vec2(a * (.88 + .08 * cos(T * 1.1)),        .22 + .14 * sin(T * .9)  + drift);
   vec2 c3 = vec2(a * (.55 + .30 * sin(T * .7 + 2.)),   -.05 + .08 * sin(T * 1.5));
-  vec3 silver = vec3(1., .86, .9), ice = vec3(.62, .38, .48);
-  vec3 col = vec3(.026, .018, .02);
+  vec3 silver = vec3(.7, .66, .95), ice = vec3(.9, .5, .78);   // soft violet and rose pools of light
+  vec3 col = vec3(.02, .02, .024);
   col += silver * pool(p, c1, .55) * .06;
   col += ice    * pool(p, c2, .60) * .06;
   col += mix(silver, ice, .5 + .5 * sin(T * 2.)) * pool(p, c3, .45) * .04;
